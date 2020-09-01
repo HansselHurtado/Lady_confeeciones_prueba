@@ -1,0 +1,105 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    scroll-behavior: smooth;
+}
+
+.w-80 {
+    width: 80%;
+}
+.w-60 {
+    width: 60%;
+}
+.w-65 {
+    width: 70%;
+}
+.w-100 {
+    width: 100%;
+}
+.colores {
+    color: #ffffff;
+}
+.alto {
+    height: 100px;
+}
+.archivos_svg {
+    height: 40px;
+    width: 40px;
+}
+.boder_radius{
+    border-radius: 10px;
+    border: 1px solid #DADADA;
+}
+.tamano_input_color {
+    width: 150px;
+}
+.container_principal {
+    background: #ffffff ;
+    border-radius: 15px;
+    padding-left: 54px;
+    padding-bottom: 30px;
+    margin-top:120px ;
+    
+}
+
+.show {
+    display:block;
+}
+.hiden {
+    display: none;
+}
+
+button {
+    background: #2727B8 !important;
+}
+.color_a{
+    background: #2727B8 !important;
+}
+.table thead th,tr{
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+h4 {
+    color: #2727B8 !important;
+    
+}
+.fixed {
+    position: fixed;
+    top: 0;
+    left:0;
+    right:0;
+    width: 100%;
+    background: linear-gradient(to left top, #3552A2, #09173E);
+    z-index: 100;
+}
+/* animacion */
+@keyframes animacion {
+    from { opacity: 0.1}
+    to { opacity: 1}
+  }
+  
+  /* The element to apply the animation to */
+  .animacion {
+    animation-name: animacion;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+@media (max-width: 768px) {
+    .w-md-80 {
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .w-md-50 {
+        width: 50% !important;
+    }
+}
+
+  
