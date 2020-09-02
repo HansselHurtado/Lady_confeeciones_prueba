@@ -135,4 +135,9 @@ class Diseno_cuello_controller extends Controller
             return true;
         }
     }
+    public function diseno_cuello(){
+        $diseno_cuello = Diseno_cuello::all();
+        return view('cuellos.diseno_cuellos',compact('diseno_cuello'));
+    }
+
 }

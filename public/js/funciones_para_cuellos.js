@@ -797,7 +797,7 @@ function validar_aviso(variable,cuello_combinacion_id){
             if(variable === 0){
                 $('#aviso_linea_figura').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
             }else{
-                $('#aviso_figura_linea_table').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
+                $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
             }  
           break;
         case 'cuello_figurascuello_lineas':
@@ -838,7 +838,7 @@ function pintar_clases(cuello_combinacion_id){
             $("#tabla_diseno_letra_linea_figura").addClass('show') 
             break;
         case 8:
-            $("#material_fondo_linea_figura").prop('disabled', true)
+            $("#material_fondo_figura_linea").prop('disabled', true)
             $("#color_fondo_linea_figura").prop('disabled', true)
             $('#aviso_linea_figura').html("")  
             $('#aviso_linea_figura_table').html("")  

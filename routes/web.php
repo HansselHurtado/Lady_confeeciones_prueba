@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::get('/crear-cuello','Diseno_cuello_controller@cuello')->name('crear_cuello');
+Route::get('/crear-cuello/diseno-cuellos','Diseno_cuello_controller@diseno_cuello')->name('diseno_cuello');
