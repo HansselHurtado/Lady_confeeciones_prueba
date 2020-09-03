@@ -135,9 +135,24 @@ class Diseno_cuello_controller extends Controller
             return true;
         }
     }
-    public function diseno_cuello(){
-        $diseno_cuello = Diseno_cuello::all();
-        return view('cuellos.diseno_cuellos',compact('diseno_cuello'));
+    public function diseno_cuello(){      
+        $diseno_cuellos = Diseno_cuello::join('modelo_cuellos','diseno_cuellos.id_modelo_cuello','modelo_cuellos.id_modelo_cuello')
+                                        ->join('valor_modelos','diseno_cuellos.id_valor_modelo','valor_modelos.id_valor_modelo')
+                                        ->join('material_cuellos','diseno_cuellos.id_material_cuello','material_cuellos.id_material_cuello')
+                                        ->select('diseno_cuellos.id_diseno_cuello','diseno_cuellos.nombre_diseno','diseno_cuellos.id_modelo_cuello',
+                                                'modelo_cuellos.id_modelo_cuello','modelo_cuellos.nombre_modelo as nombre_modelo','valor_modelos.id_valor_modelo','valor_modelos.valor_modelo as valor',
+                                                'material_cuellos.nombre_material as material')
+                                        ->orderBy('id_diseno_cuello','desc')->get();
+        return view('cuellos.diseno_cuellos',compact('diseno_cuellos'));
     }
 
+    public function detalle_cuello($diseno_cuello){
+        return Diseno_cuello::join('modelo_cuellos','diseno_cuellos.id_modelo_cuello','modelo_cuellos.id_modelo_cuello')
+                            ->join('valor_modelos','diseno_cuellos.id_valor_modelo','valor_modelos.id_valor_modelo')
+                            ->join('material_cuellos','diseno_cuellos.id_material_cuello','material_cuellos.id_material_cuello')
+                            ->select('diseno_cuellos.id_diseno_cuello','diseno_cuellos.nombre_diseno',
+                                    'modelo_cuellos.nombre_modelo as nombre_modelo','valor_modelos.valor_modelo as valor',
+                                    'material_cuellos.nombre_material as material')
+                            ->where('id_diseno_cuello',$diseno_cuello)->first();
+    }
 }

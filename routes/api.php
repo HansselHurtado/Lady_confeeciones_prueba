@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::post('crear-cuello/cuello','Diseno_cuello_controller@crear_cuello');
+Route::get('cuello/detalles/{id_diseno}','Diseno_cuello_controller@detalle_cuello');

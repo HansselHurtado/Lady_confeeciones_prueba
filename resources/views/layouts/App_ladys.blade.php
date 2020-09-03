@@ -9,14 +9,14 @@
     <title>Ladys Confecciones</title>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="{!! asset('https://code.jquery.com/jquery-3.3.1.min.js') !!}"></script>
+    <script src="{!! asset('https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js') !!}" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="{!! asset('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js') !!}" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href=" {!! asset('https://fonts.googleapis.com/css?family=Nunito ') !!}" rel="stylesheet">
+    <link rel="stylesheet" href=" {!! asset('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css') !!}">
     
 
     <!-- Styles -->
@@ -99,6 +99,7 @@
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     </form>
                     
+                    
 
                     <!-- Right Side Of Navbar -->
                     {{-- <ul class="navbar-nav ml-auto">
@@ -122,13 +123,13 @@
                 </div>
             </div>
         </nav>
-
-        <main class="container">
-            @yield('content')
-        </main>
         <div class="w-100">
             @yield('content_solicitud')
         </div>
+        <main class="container">
+            @yield('content')
+        </main>
+        
         <div class="w-100 px-4">
             @yield('content_diseno')
         </div>
@@ -210,5 +211,7 @@
     <script src="{!! asset('https://unpkg.com/sweetalert/dist/sweetalert.min.js') !!}"></script>
 
     @yield('scripts')
+    @include('cuellos/modal_cuellos/modal_detalle_cuello')  
+
 </body>
 </html>

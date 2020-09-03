@@ -1,5 +1,51 @@
 @extends('layouts.App_ladys')
+<style>
+    .container_cuello {
+        width: 22%;
+        height: max-content;
+        margin-right: 10px;
+        margin-bottom: 20px;
+    }
+    .item_cuello {
+        height: 260px;
+    }
+    .item_description {
+        height: max-content;
+    }
+    h2{
+        vertical-align: center;
+    }
+    .content_category {
+        width: 20%;
+        height: max-content;
+        margin-left: 20px
+    }
+    .content_cuellos {
+        width: 75%;
+    }
+    li {
+        list-style: none;
+    }
 
+    li a {
+        text-decoration: none;
+    }
+    .nav_solicitud {
+        width: 40%;
+    }
+    .color {
+        background-color: #27326d;
+    }
+</style>
+@section('content_solicitud')
+    <div class="solicitud w-100 d-flex justify-content-end p-2">
+        <nav class="nav_solicitud d-flex justify-content-around mr-3">
+            <li><a href="" class="text-white text-uppercase">solicitud</a></li>
+            <li><a href="" class="text-white text-uppercase">solicitud de pedido</a></li>
+            <li><a href="" class="text-white text-uppercase">generar</a></li>
+        </nav>
+    </div>
+@endsection
 @section('content')
     <div class=" container bg-white container_principal">
 

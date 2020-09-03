@@ -6,6 +6,16 @@
 html {
     scroll-behavior: smooth;
 }
+.nav_solicitud {
+    width: 40%;
+}
+.modal-lg-ancho {
+    max-width: 80% !important;
+}
+
+.color {
+    background: #27326d;
+}
 .w-60 {
     width: 60%;
 }
