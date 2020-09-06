@@ -97,23 +97,23 @@
                 
             </div>
             <div class="row my-4">
-                <button id="mostrar_formulario" class="btn btn-primary" >Continuar</button>
+                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary" >Continuar</button>
             </div>
         </div>
 
         {{-- incluimos formularios de cuellos --}}
-        @include('cuellos/formularios/lineas')
-        @include('cuellos/formularios/letras')
-        @include('cuellos/formularios/figuras')
         @include('cuellos/formularios/liso')
-        
-        {{--incluimos formularios de cuellos combinaciones --}}
         @include('cuellos/formularios/combinaciones/letras_figura')
         @include('cuellos/formularios/combinaciones/letras_figuras_lineas')
         @include('cuellos/formularios/combinaciones/letras_lineas')
-        @include('cuellos/formularios/combinaciones/figuras_lineas')      
-        
+        @include('cuellos/formularios/combinaciones/figuras_lineas')  
+        @include('cuellos/formularios/lineas')
+        @include('cuellos/formularios/letras')
+        @include('cuellos/formularios/figuras')
+          
     </div>        
+    @include('cuellos/modal_cuellos/modal_crear_cuello')  
+
         
 @endsection
 

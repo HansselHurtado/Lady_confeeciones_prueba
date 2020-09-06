@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class=" row my-3 mx-4">
-                <button class="btn btn-primary" onclick="tabla_cuello_letra();"> Agregar</button>
+                <a class="btn btn-primary color_a"  href="#tabla_diseno_letra" onclick="tabla_cuello_letra();"> Agregar</a>
             </div>
         </div>
         <div class="d-flex w-50 flex-column px-3">

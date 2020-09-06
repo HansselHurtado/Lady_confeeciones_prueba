@@ -211,7 +211,6 @@
     <script src="{!! asset('https://unpkg.com/sweetalert/dist/sweetalert.min.js') !!}"></script>
 
     @yield('scripts')
-    @include('cuellos/modal_cuellos/modal_detalle_cuello')  
 
 </body>
 </html>

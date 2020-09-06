@@ -34,7 +34,7 @@
                 </div> 
                 <div class="row  mx-0">
                     <div class="form-group">
-                        <label for="grosor_linea">Grosor de linea</label>
+                        <label for="grosor_linea">Grosor de linea (cm)</label>
                         <input class="form-control tamano_input_color" type="number" name="" id="grosor_linea">
                     </div> 
                     <div class="form-group mx-3">

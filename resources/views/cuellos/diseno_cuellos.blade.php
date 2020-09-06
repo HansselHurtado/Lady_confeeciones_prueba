@@ -100,6 +100,7 @@
             </div>
         </div>
     </div>
+    @include('cuellos/modal_cuellos/modal_detalle_cuello')  
     
 @endsection
 @section('scripts')

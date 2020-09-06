@@ -1,10 +1,10 @@
-<!-- Modal registrar personal -->
-<div class="portfolio-modal modal fade" id="Modal_detalle_cuello" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg-ancho" role="document">
+<!-- Modal aviso -->
+<div class="portfolio-modal modal fade modal_aviso"  tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <button class="close color" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true"><i class="fas fa-times"></i></span>
-            </button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             <div class="modal-body text-center">
                 <section class="page-section" id="contact">
                     <div class="container">
@@ -22,13 +22,13 @@
                                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
                                 <div class="control-group mx-4">
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                        <label> Diseño de cuello: <strong id="nombre_diseno"></strong></label>
+                                        <label> Los fondos de cuello tienen un alto maximo de 10 cm</label>
                                         <p class="help-block text-danger"></p>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                        <label>Tiene un fondo <strong id="fondo_cuello"></strong></label>
+                                        <label>Por favor si tiene algunas especificciones, dejarlo en la descripción</label>
                                         <p class="help-block text-danger"></p>
                                     </div>
                                 </div>
@@ -52,5 +52,3 @@
         </div>
     </div>
 </div>
-
-

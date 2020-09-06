@@ -1,4 +1,5 @@
 <!-- Formulario de diseño con  cuello_figuras cuello_lineas-->
+
 <div id="formulario_cuello_figurascuello_lineas" class="row show w-65 hiden animacion">
     <h4 class="my-5">Detalles del Diseño con figuras y lineas</h4>
     <div class="boder_radius">

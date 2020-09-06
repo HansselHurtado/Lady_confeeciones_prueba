@@ -30,8 +30,13 @@ class Diseno_cuello_controller extends Controller
             $cuello->color_fondo_diseno = $request->obj_color_fondo;
             $valor = Valor_modelo::where('id_modelo_cuello', $request->obj_cuello_id)->where('id_material_cuello',$request->obj_material_fondo)->first();
             $cuello->id_valor_modelo = $valor->id_valor_modelo;
+            if($request->hasFile('obj_imagen_diseno')){                
+                $file = $request->file('obj_imagen_diseno');               
+                $name = time().$file->getClientOriginalName();
+                $cuello->imagen_inicial = $name;
+                $file->move(public_path().'/img/fondo_cuello', $name);                
+            } 
             $cuello->save();
-
             switch ($request->obj_cuello_id) {
                 case 2:
                     for($i=0; $i<count($request->obj_datos_linea); $i++) { 
