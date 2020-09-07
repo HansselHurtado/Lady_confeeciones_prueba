@@ -82,11 +82,13 @@
             <tbody id="tbody_figura">
                 
             </tbody>
-            
         </table>
         <div class=" row my-3 mx-1">                    
+            <button class="btn btn-primary" data-toggle="modal" data-target="#Modal_mostrar_diseno_hecho" class="btn btn-primary">Crear Diseño</button>
+        </div>
+        {{-- <div class=" row my-3 mx-1">                    
             <button class="btn btn-primary" onclick="tabla_cuello_mandar_datos();">Guardar</button>
-        </div> 
+        </div>  --}}
         <div id="aviso_figura_table" class="row my-2"></div>
 
     

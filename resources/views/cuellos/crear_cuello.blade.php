@@ -113,8 +113,6 @@
           
     </div>        
     @include('cuellos/modal_cuellos/modal_crear_cuello')  
-
-        
 @endsection
 
 @section('scripts')

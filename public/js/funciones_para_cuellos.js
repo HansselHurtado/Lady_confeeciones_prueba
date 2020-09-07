@@ -1,3 +1,4 @@
+
 //deschequear los tipos de modelo que no sean liso
 $('input:checkbox[name=cuello_liso]').click(function(){
     $('.combinacion').each(function(){
@@ -52,9 +53,9 @@ var objeto_cuello = {
     obj_datos_figura:[],
     obj_datos_letra:[],
     obj_datos_linea:[],
+    tallas:[],
 }
 
-// *************************** cuello figura ***********************************************************
 let figura = 0
 let fondo_cuello_cm = 10
 let contador_alto = 0
@@ -72,6 +73,74 @@ let aviso = ''
 let aviso_table = ''
 let aviso_alto = ''
 let fondo = ''
+let talla_eliminar_id = 1
+let sma_cantidades = 0
+const precio_total = 1200
+let total = 0
+// ****************************** tallas ****************************************************************************
+function pintar_tabla_tallas(array){
+    let total_cantiades = 0
+    total = 0
+    $("#tbody_tallas").html('')
+    if(array.length > 0){
+        array.forEach(element => {
+            total_cantiades = precio_total * element.cantidad_tallas
+            total = total + total_cantiades
+            $("#tbody_tallas").append(`
+            <tr>
+                <th>${element.talla_seleccionada_nombre}</th>
+                <th>${element.cantidad_tallas}</th>
+                <th>${total_cantiades}</th>
+                <th class="text-center "><img class="eliminar_talla" src="img/layouts/cancelar.svg" data-id="${element.talla_eliminar_id}" width="20px;" height="20px;" alt=""></th>            
+            </tr>
+            `
+            );
+       });
+    }   
+    
+}
+
+function agregar_tallas(){
+    var talla_seleccionada = $( "#talla_seleccionada option:selected" ).val()      
+    var talla_seleccionada_nombre = $( "#talla_seleccionada option:selected" ).text()  
+    var cantidad_tallas = $("#cantidad_tallas").val()
+    var objeto_cuello_tallas_data = {
+        talla_eliminar_id,
+        talla_seleccionada_nombre,
+        cantidad_tallas,    
+    }
+    if(talla_seleccionada !== "" && cantidad_tallas > 0 ){
+        $('#tabla_tallas').removeClass('hiden')
+        $('#tabla_tallas').addClass('show')       
+        objeto_cuello.tallas.push(objeto_cuello_tallas_data)
+        pintar_tabla_tallas(objeto_cuello.tallas)
+        talla_eliminar_id++
+        sma_cantidades = sma_cantidades + parseInt(cantidad_tallas)
+        $("#cantidad_tallas").val("") 
+        $("#suma_cantidades").text(sma_cantidades) 
+        $("#suma_valor_total").text(total) 
+        // $("#suma_valor_total").text() 
+    }
+    $('.tallas').click(function(){
+        if($(this).val() === "1"){
+            $('#imagen_punos_fajas').removeClass('hiden')
+            $('#imagen_punos_fajas').addClass('show')
+        }else{
+            $('#imagen_punos_fajas').addClass('hiden')
+        }
+    }) 
+    console.log(objeto_cuello);
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_talla', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar_talla(objeto_cuello.tallas,id)  
+            pintar_tabla_tallas(objeto_cuello.tallas)
+        } )   
+    })
+}
+
+// *************************** cuello figura ***********************************************************
+
 // agregar tabla cuello figura
 function tabla_cuello_figura(){
     id_tbody = $('#tbody_figura').attr('id')
@@ -238,8 +307,24 @@ function validate_form(material_fondo_figura, color_fondo_figura, material_figur
     return true
 }
 
+function eliminar_talla(array, id){
+    array.forEach(talla => {
+       if(talla.talla_eliminar_id === id){
+           let index = array.indexOf(talla)
+           if(index !== -1){
+                console.log(fondo_cuello_cm)
+                sma_cantidades = sma_cantidades - parseInt(talla.cantidad_tallas)
+                total = total - precio_total * parseInt(talla.cantidad_tallas)
+                $("#suma_cantidades").text(sma_cantidades) 
+                $("#suma_valor_total").text(total) 
+                array.splice(index,1)
+           }
+       }
+    });
+    console.log(objeto_cuello)
+}
+
 function eliminar(array, id){
-    console.log("soy el id de funcion de eliminar",id)
     array.forEach(figura => {
        if(figura.figura_eliminar_id === id){
            let index = array.indexOf(figura)
