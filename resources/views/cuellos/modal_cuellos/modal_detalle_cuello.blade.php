@@ -2,8 +2,8 @@
 <div class="portfolio-modal modal fade" id="Modal_detalle_cuello" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
     <div class="modal-dialog modal-lg-ancho" role="document">
         <div class="modal-content">
-            <button class="close color" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true"><i class="fas fa-times"></i></span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
             </button>
             <div class="modal-body text-center">
                 <div class="row">
@@ -16,8 +16,8 @@
                             <h4>Cuello modelo <strong id="nombre_modelo"></strong> exclusivo para los colegios y trabajos</h4>
                         </div>
                         <div class="text-left">
-                            <span>modelo <strong>Figura</strong></span>
-                            <h4 class="text-danger"><strong>$227.000</strong></h4>
+                            <span>modelo <strong id="modelo_detalle"></strong></span>
+                            <h4 class="text-danger"><strong id="precio_cuello_detalle"></strong></h4>
                         </div>
                         <div class="border border-medium d-flex p-3 rounded">
                             <div class="mr-3">
@@ -33,7 +33,7 @@
                                 <div class="d-flex col-5 align-items-center">
                                     <label for="" class="m-0 mr-2">Talla</label>
                                     <select class="form-control w-100" name="" id="talla_seleccionada" required>
-                                        <option value="" selected disabled>Escoger Material</option>
+                                        <option value="" selected disabled>Tallas</option>
                                         <option >12</option>                                
                                         <option >14</option>                                
                                         <option >16</option>                                
@@ -103,12 +103,14 @@
                                 <div class="">                    
                                     <label for="imagen_diseño">Cantidad de Puños</label>
                                     <input class="form-control tamano_input_color mx-2" type="number" name="" id="" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required> 
-                                </div>  
-                                                         
-                            </div>  
+                                </div>                                                         
+                            </div> 
+                            <div>
+                                
+                            </div>
                         </div>
                         <div class="p-3 row">
-                            <button class="btn btn-primary p-3 w-60">Añadir al carrito</button>
+                            <a class="btn btn-primary p-3 w-60 color_a" href="{{route('diseno_cuello')}}">Añadir al carrito</a>
                         </div>
                     </div>
                 </div>

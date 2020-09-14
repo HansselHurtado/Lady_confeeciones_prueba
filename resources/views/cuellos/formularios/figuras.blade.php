@@ -3,6 +3,15 @@
 <div id="formulario_cuello_figuras" class="container my-5 hiden animacion">
     <div class="row">
         <h4 class="my-5">Detalles del Diseño con figuras</h4>
+        <div class="d-flex p-0 justify-content-center align-items-center w-60">
+            <div class="mr-3">
+                <img src="{{ asset('/icons/almohada.svg') }}" alt="" width="30px">
+            </div>
+            <div class="text-left">
+                <span class="text-success"><strong>Recuerde</strong></span>
+                <p>El alto maximo de un cuello es de 10 cm</p>
+            </div>
+        </div>
     </div>
 
     <div class="boder_radius row">
@@ -67,30 +76,44 @@
         </div>      
         
     </div>
-    <div id="tabla_diseno_figura" class="my-3 w-60 hiden animacion">
-        <h4> Resumen del diseño</h4>
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+    <div class="table-users my-3 w-60 hiden animacion mr-tabla" id="tabla_diseno_figura" >
+        <div class="header color_a">Resumen del diseño</div>
+        
+        <table cellspacing="0">
             <thead>
-                <tr>    
-                    <th>Orden</th>
-                    <th>Material</th>
-                    <th>Color</th>
-                    <th>Alto</th>
-                    <th>Ancho</th>
+           
+                <tr class="color_thead">
+                    <th class="class-th-color">Orden</th>
+                    <th class="class-th-color">Material</th>
+                    <th class="class-th-color">Color</th>
+                    <th class="class-th-color">Alto</th>
+                    <th class="class-th-color">Ancho</th>
+                    <th class="class-th-color">Opción</th>
                 </tr>
             </thead>
+            <tfoot>
+                <tr class="color_thead">
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color">Total</th>
+                    <th class="class-th-color">$4.500</th>
+                </tr>
+            </tfoot>
             <tbody id="tbody_figura">
                 
             </tbody>
         </table>
+        
+     </div>
+     <div class="hiden animacion" id="crear_diseno_figura">
         <div class=" row my-3 mx-1">                    
             <button class="btn btn-primary" data-toggle="modal" data-target="#Modal_mostrar_diseno_hecho" class="btn btn-primary">Crear Diseño</button>
         </div>
-        {{-- <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" onclick="tabla_cuello_mandar_datos();">Guardar</button>
-        </div>  --}}
         <div id="aviso_figura_table" class="row my-2"></div>
 
-    
     </div>
+    
 </div>

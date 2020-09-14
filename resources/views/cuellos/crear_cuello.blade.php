@@ -68,7 +68,7 @@
                 <div class="d-flex w-50 flex-column p-3 w-md-80">
                     <div>
                         <label for="imagen_diseño">Imagen del diseño</label>
-                        <input class="w-100" type="file" name="" id="imagen_diseno">
+                        <input class="w-100 " type="file" name="imagen_diseno" id="imagen_diseno">
                     </div>
                     <div class="my-4">                             
                         <label for="">Tipo de cuello</label>
@@ -83,7 +83,7 @@
                             </div>
                             <div class="d-flex align-items-center">
                                 <label for="cuello_figura_id" class="m-0">Figuras</label>
-                                <input class="ml-1 combinacion" type="checkbox" name="cuello_figuras" value="4  " id="cuello_figura_id">
+                                <input class="ml-1 combinacion" type="checkbox" name="cuello_figuras" value="4" id="cuello_figura_id">
                             </div>
                             <div class="d-flex align-items-center">
                                 <label for="cuello_lineas_id" class="m-0">Lineas</label>
@@ -97,7 +97,7 @@
                 
             </div>
             <div class="row my-4">
-                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary" >Continuar</button>
+                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary eliminar_fondo imagen" >Continuar</button>
             </div>
         </div>
 

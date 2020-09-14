@@ -33,7 +33,9 @@
                         <div class="form-group">
                             <label for="ancho_combinacion_figura_8">Ancho de figura</label>
                             <input class="form-control tamano_input_color" type="number" name="" id="ancho_combinacion_figura_8">
-                        </div>   
+                        </div>  
+                        <span id="aviso_linea_figura_alto"></span>                            
+
                         <div class=" row my-3 mx-2">
                             <a class="btn btn-primary color_a" href="#tabla_diseno_linea_figura" id="agregar_combinacion_figura_2"> Agregar figura</a>
                         </div> 
@@ -83,8 +85,8 @@
                         <input class="form-control tamano_input_color" type="color" name="" id="color_combinacion_linea_8">
                     </div>    
                     <div class="form-group ">
-                        <label for="grosor_combinacion_linea_8">Grosor de linea</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="grosor_combinacion_linea_8">
+                        <label for="alto_combinacion_linea_8">Alto de linea</label>
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_8">
                     </div>  
                     <div id="aviso_linea_figura" class="row my-2"></div>                   
                 </div>                                     
@@ -95,25 +97,42 @@
             </div> 
         </div>            
     </div> 
-    <div id="tabla_diseno_linea_figura" class="my-3 w-100 hiden animacion">
-        <h4> Resumen del diseño</h4>
-        <table class="table table-bordered w-100" id="dataTable" width="100%" cellspacing="0">
+    
+    <div class="table-users my-3 w-60 hiden animacion mr-tabla" id="tabla_diseno_linea_figura" >
+        <div class="header color_a">Resumen del diseño</div>
+        
+        <table cellspacing="0">
             <thead>
-                <tr class="text-center">   
-                    <th>Orden</th>
-                    <th>Material</th>
-                    <th>Color</th>
-                    <th class="w-50">Alto / Grosor</th>
-                    <th class="w-75">Ancho</th>
+           
+                <tr class="color_thead">
+                    <th class="class-th-color">Orden</th>
+                    <th class="class-th-color">Material</th>
+                    <th class="class-th-color">Color</th>
+                    <th class="class-th-color">Alto</th>
+                    <th class="class-th-color">Ancho</th>
+                    <th class="class-th-color">Opción</th>
                 </tr>
             </thead>
+            <tfoot>
+                <tr class="color_thead">
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color">Total</th>
+                    <th class="class-th-color">$4.500</th>
+                </tr>
+            </tfoot>
             <tbody id="tbody_linea_figura">
                 
             </tbody>
         </table>
+        
+     </div>
+     <div class="hiden animacion" id="crear_diseno_figura_linea">
         <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" onclick="tabla_cuello_mandar_datos();">Guardar</button>
-        </div>                
+            <button class="btn btn-primary" data-toggle="modal" data-target="#Modal_mostrar_diseno_hecho" class="btn btn-primary">Crear Diseño</button>
+        </div>
     </div>
     <div id="aviso_linea_figura_table" class="row my-2"></div>
 </div>

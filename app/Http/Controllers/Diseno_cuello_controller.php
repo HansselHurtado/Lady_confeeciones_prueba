@@ -20,7 +20,12 @@ class Diseno_cuello_controller extends Controller
     }
 
     public function crear_cuello(Request $request){
-        if($request->ajax()){
+
+
+        if($request->ajax()){   
+
+            // return $request->obj_imagen_diseno;
+
             $cuello = new Diseno_cuello();
             $cuello->id_modelo_cuello = $request->obj_cuello_id;
             $cuello->nombre_diseno = $request->obj_nombre_cuello;
@@ -42,7 +47,7 @@ class Diseno_cuello_controller extends Controller
                     for($i=0; $i<count($request->obj_datos_linea); $i++) { 
                         $cuello_linea = new Lineas();
                         $cuello_linea->color_linea = $request->obj_datos_linea[$i]["color_linea"];
-                        $cuello_linea->grosor = $request->obj_datos_linea[$i]["grosor_linea"];
+                        $cuello_linea->grosor = $request->obj_datos_linea[$i]["alto_linea"];
                         $cuello_linea->id_diseno_cuello = $cuello->id_diseno_cuello;
                         $cuello_linea->id_material_cuello = $request->obj_datos_linea[$i]["material_linea"];
                         $cuello_linea->save();
@@ -159,5 +164,5 @@ class Diseno_cuello_controller extends Controller
                                     'modelo_cuellos.nombre_modelo as nombre_modelo','valor_modelos.valor_modelo as valor',
                                     'material_cuellos.nombre_material as material')
                             ->where('id_diseno_cuello',$diseno_cuello)->first();
-    }
+    }   
 }

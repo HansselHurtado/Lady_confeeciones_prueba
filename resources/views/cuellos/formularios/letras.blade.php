@@ -1,14 +1,23 @@
 <!-- Formulario de diseño con letras-->
 <div id="formulario_cuello_letras" class="container my-5 hiden animacion ">
-    <div class="row">
+    <div class="row justify-content-between">
         <h4 class="my-5">Detalles del Diseño con letras</h4>
+        <div class="d-flex p-0 justify-content-center align-items-center w-60">
+            <div class="mr-3">
+                <img src="{{ asset('/icons/almohada.svg') }}" alt="" width="30px">
+            </div>
+            <div class="text-left">
+                <span class="text-success"><strong>Recuerde</strong></span>
+                <p>El alto maximo de un cuello es de 10 cm</p>
+            </div>
+        </div>
     </div>
     <div class="boder_radius row">
         <div class="d-flex w-50 flex-column px-3">
             <div class="p-3">
                 <div class="form-group">
                     <label for="">Material de fondo</label>
-                    <select class="form-control" name="material_fondo_letra" id="material_fondo_letra">
+                    <select class="form-control" name="" id="material_fondo_letra">
                         <option value="" selected disabled>Escoger Material</option>
                         @foreach ($materiales as $material)                            
                             <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
@@ -17,7 +26,7 @@
                 </div>
                 <div class="form-group">
                     <label for="material_letra">Material de letra</label>
-                    <select class="form-control" name="material_letra" id="material_letra">
+                    <select class="form-control" name="" id="material_letra">
                         <option value="" selected disabled>Escoger Material</option>
                         @foreach ($materiales as $material)                            
                             <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
@@ -26,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label for="contenido_letra">Contenido del texto</label>
-                    <input class="form-control" type="text" name="texto_letra" id="contenido_letra">
+                    <input class="form-control" type="text" name="" id="contenido_letra">
                 </div>
             </div>
             <div class=" row my-3 mx-4">
@@ -37,12 +46,12 @@
             <div class="p-3">
                 <div class="form-group">
                     <label for="color_fondo_letra">Color de fondo</label>
-                    <input class="form-control tamano_input_color" type="color" name="color_fondo_letra" id="color_fondo_letra">
+                    <input class="form-control tamano_input_color" type="color" name="" id="color_fondo_letra">
                 </div> 
                 <div class="row  mx-0">
                     <div class="form-group">
                         <label for="id_tipo_fuente__letra">Tipo de fuente</label>
-                        <select class="form-control" name="tipo_fuente__letra" id="tipo_fuente__letra">
+                        <select class="form-control" name="" id="tipo_fuente__letra">
                             <option value="" selected disabled>Escoge una fuente </option>
                             <option value="" >Arial</option>
                             <option value="" >Negrita</option>
@@ -52,13 +61,15 @@
                 </div>
                 <div class="row  mx-0">
                     <div class="form-group">
-                        <label for="tamano_fuente_letra">Tamaño de fuente</label>
-                        <input class="form-control tamano_input_color" type="number" name="tamano_fuente_letra" id="tamano_fuente_letra">
+                        <label for="tamano_fuente_letra">Alto de texto</label>
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_letra">
                     </div> 
                     <div class="form-group mx-3">
                         <label for="color_letra">Color de letra</label>
-                        <input class="form-control tamano_input_color" type="color" name="color_letra" id="color_letra">
-                    </div>   
+                        <input class="form-control tamano_input_color" type="color" name="" id="color_letra">
+                    </div> 
+                    <span id="aviso_letra_alto"></span>                            
+
                 </div> 
                 <div id="aviso_letra" class="row my-2">
     
@@ -66,25 +77,46 @@
             </div>
         </div>
     </div>
-    <div id="tabla_diseno_letra" class="my-3 w-60 hiden animacion">
-        <h4> Resumen del diseño</h4>
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    
+    
+    <div class="table-users my-3 w-60 hiden animacion mr-tabla" id="tabla_diseno_letra" >
+        <div class="header color_a">Resumen del diseño</div>
+        
+        <table cellspacing="0">
             <thead>
-                <tr>    
-                    <th>Orden</th>
-                    <th>Material</th>
-                    <th>Color</th>
-                    <th>Tamaño</th>
-                    <th>Tipo de fuente</th>
-                    <th>Contenido</th>
+           
+                <tr class="color_thead">
+                    <th class="class-th-color">Orden</th>
+                    <th class="class-th-color">Material</th>
+                    <th class="class-th-color">Alto</th>
+                    <th class="class-th-color">Color</th>
+                    <th class="class-th-color">Tipo de fuente</th>
+                    <th class="class-th-color">Contenido</th>
+                    <th class="class-th-color">Opción</th>
                 </tr>
             </thead>
+            <tfoot>
+                <tr class="color_thead">
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color"></th>
+                    <th class="class-th-color">Total</th>
+                    <th class="class-th-color">$4.500</th>
+                </tr>
+            </tfoot>
             <tbody id="tbody_letra">
                 
             </tbody>
         </table>
+        
+     </div>
+     <div class="hiden animacion" id="crear_diseno_letra">
         <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" onclick="tabla_cuello_mandar_datos();">Guardar</button>    
-        </div> 
+            <button class="btn btn-primary" data-toggle="modal" data-target="#Modal_mostrar_diseno_hecho" class="btn btn-primary">Crear Diseño</button>
+        </div>
+        <div id="aviso_letra_table" class="row my-2"></div>
+
     </div>
 </div>

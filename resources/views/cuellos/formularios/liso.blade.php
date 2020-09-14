@@ -1,9 +1,17 @@
 
-
 <!-- Formulario de diseño con liso-->
 <div id="formulario_cuello_liso" class="container my-5 hiden animacion">
     <div class="row">
         <h4 class="my-5">Detalles del Diseño con liso</h4>
+        <div class="d-flex p-0 justify-content-center align-items-center w-60">
+            <div class="mr-3">
+                <img src="{{ asset('/icons/almohada.svg') }}" alt="" width="30px">
+            </div>
+            <div class="text-left">
+                <span class="text-success"><strong>Recuerde</strong></span>
+                <p>El alto maximo de un cuello es de 10 cm</p>
+            </div>
+        </div>
     </div>
     <div class="boder_radius row">
         <div class="d-flex w-50 flex-column px-3">
@@ -31,8 +39,7 @@
     <div id="aviso_liso" class="row my-2">
 
     </div> 
-    <div class=" row my-3">
-        <button class="btn btn-primary" onclick="tabla_cuello_liso_mandar_datos()"> Crear Diseño</button>
+    <div class=" row my-3 mx-1">                    
+        <button class="btn btn-primary liso" data-toggle="modal"  class="btn btn-primary" onclick="cuello_liso()">Crear Diseño</button>
     </div>
-
 </div>

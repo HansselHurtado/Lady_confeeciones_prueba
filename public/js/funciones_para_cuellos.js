@@ -33,10 +33,11 @@ $('#mostrar_formulario').click(function(){
         $('#aviso').html("<strong  class='text-danger animacion'> Debe introducir un nombre </strong>")  
     }else {
         console.log(nameForm)
-        $(".modal_aviso").attr('id','modal_mostrar_formulario')
+        // $(".modal_aviso").attr('id','modal_mostrar_formulario')
         $('#aviso').html("")  
         $(`#formulario_${nameForm}`).removeClass('hiden');
         $(`#formulario_${nameForm}`).addClass('show');
+        fondo_cuello_cm = 10
     }
     combinacion(nameForm)
 })
@@ -60,6 +61,8 @@ let figura = 0
 let fondo_cuello_cm = 10
 let contador_alto = 0
 let figura_eliminar_id = 1
+let letra_eliminar_id = 1
+let linea_eliminar_id = 1
 let id_tbody = ''
 let id_table = ''
 let id_material_fondo = ''
@@ -119,13 +122,17 @@ function agregar_tallas(){
         $("#cantidad_tallas").val("") 
         $("#suma_cantidades").text(sma_cantidades) 
         $("#suma_valor_total").text(total) 
-        // $("#suma_valor_total").text() 
     }
     $('.tallas').click(function(){
         if($(this).val() === "1"){
+            $('#imagen_punos_puno').removeClass('hiden')
+            $('#imagen_punos_puno').addClass('show')
+        }else if($(this).val() === "2"){
+            $('#imagen_punos_puno').addClass('hiden')
+        }else if($(this).val() === "3"){
             $('#imagen_punos_fajas').removeClass('hiden')
             $('#imagen_punos_fajas').addClass('show')
-        }else{
+        }else if($(this).val() === "4"){
             $('#imagen_punos_fajas').addClass('hiden')
         }
     }) 
@@ -139,7 +146,36 @@ function agregar_tallas(){
     })
 }
 
+// Añdiendo imagen de fondo 
+$(document).ready(function() {
+    $('.imagen').click(function(){
+        /*let data = new FormData();
+var files = $('#imagen_diseno')[0].files[0]
+        data.append('file', files);
+        console.log("soy la imagen",files)
+        console.log("soy la imagen form",data)*/
+        // objeto_cuello.obj_imagen_diseno = data
+    })
+})
+
 // *************************** cuello figura ***********************************************************
+
+function showimagefondo(){
+    console.log("soy imag");
+    let img_diseno =  document.getElementById('imagen_diseno')
+    console.log(img_diseno);
+    $('#show_img').html("")
+    if(img_diseno.files && img_diseno.files[0]){
+        var reader = new FileReader()
+        reader.onload = function(e){
+            $("#show_img").append(`
+                <img width="500px;" height="500px;" src="${e.target.result}"></img>
+            `)
+        }
+        reader.readAsDataURL(img_diseno.files[0]);
+        // objeto_cuello.obj_imagen_diseno = img_diseno.files[0]
+    }
+}
 
 // agregar tabla cuello figura
 function tabla_cuello_figura(){
@@ -148,6 +184,7 @@ function tabla_cuello_figura(){
     id_material_fondo = $( "#material_fondo_figura").attr('id')      
     id_material = $( "#material_figura" ).attr('id')
     id_color_fondo = $("#color_fondo_figura").attr('id')
+    id_crear_diseno =  $("#crear_diseno_figura").attr('id')
 
     var material_fondo_figura = $( "#material_fondo_figura option:selected" ).val()      
     var material_fondo_figura_noombre = $( "#material_fondo_figura option:selected" ).text()      
@@ -157,9 +194,6 @@ function tabla_cuello_figura(){
     var descripcion_cuello = $("#descripcion_cuello").val()
     var imagen_diseno = $("#imagen_diseno").val()
 
-    // var formData = new FormData();
-    // formData.append('photo', $imagen_diseno[0].files[0]);
-    // console.log(formData)
 
     id_color = $("#color_figura").attr('id')
     id_alto = $("#alto_figura").attr('id')
@@ -179,10 +213,6 @@ function tabla_cuello_figura(){
     if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
         $('#aviso_figura_alto').html("")
         $('#aviso_figura_table').html("")  
-
-        if(alto_figura.length >=3 ){
-
-        }
         if(!validar_alto_cm(alto_figura)){
             $('#aviso_figura').html("")  
             $('#aviso_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
@@ -194,22 +224,27 @@ function tabla_cuello_figura(){
                 ancho_figura,
                 color_figura,
                 imagen_diseno_figura,
+                cuello_figura_id,
             }
             if(!validate_form(material_fondo_figura, color_fondo_figura, material_figura, alto_figura, ancho_figura, color_figura)){
                 if(figura === 0){
+                    // validacion_alert()
                     $('#aviso_figura').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
                 }else{
                     $('#aviso_figura_table').html("<strong  class='text-danger animacion'> Algunos Campos no están completos</strong>")
                 }
-            }else{                         
-                if(figura === 0){  
+            }else{    
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
+
+                if(figura === 0){ 
+                    vaciar_objeto()
                     fondo = `<tr>
-                                <th>fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_figura_noombre}</th>
-                                <th style="width: 20px;height: 10px; background: ${color_fondo_figura}"></th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_figura}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>    
                                 <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>            
+                                <th class="text-center "><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt="" title="eliminar fondo"> </th>            
                             </tr>`
                     figura++
                     dejar_valores_in_true()
@@ -218,7 +253,7 @@ function tabla_cuello_figura(){
                     objeto_cuello.obj_cuello_id = cuello_figura_id
                     objeto_cuello.obj_nombre_cuello = nombre_cuello
                     objeto_cuello.obj_descripcion_cuello = descripcion_cuello
-                    objeto_cuello.obj_imagen_diseno = imagen_diseno
+                    // objeto_cuello.obj_imagen_diseno = imagen_diseno
                     objeto_cuello.obj_material_fondo = material_fondo_figura
                     objeto_cuello.obj_color_fondo = color_fondo_figura
                 }
@@ -229,7 +264,8 @@ function tabla_cuello_figura(){
             }   
         }
     }else{
-        $('#aviso_figura_table').html("")  
+        $('#aviso_figura_table').html("") 
+        // validacion_alert()
         $('#aviso_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
     }
     
@@ -264,6 +300,9 @@ function dejar_valores_in_false(){
     $("#" + id_tbody).html("")
     $("#" + id_table).removeClass('show')
     $("#" + id_table).addClass('hiden')    
+
+    $("#" + id_crear_diseno).removeClass('show')
+    $("#" + id_crear_diseno).addClass('hiden') 
 }
 
 function dejar_valores_in_true(){    
@@ -272,24 +311,24 @@ function dejar_valores_in_true(){
     $("#" + id_material).prop('disabled', true)
     $("#" + aviso).html("")    
     $("#" + id_table).removeClass('hiden')
-    $("#" + id_table).addClass('show')    
+    $("#" + id_table).addClass('show')   
+    
+    $("#" + id_crear_diseno).removeClass('hiden')
+    $("#" + id_crear_diseno).addClass('show')    
 }
 
 function dejar_campos_vacioss(){
     $("#" + id_alto).val("")    
     $("#" + id_color).val("")    
-    $("#" + id_ancho).val("")    
     $("#" + aviso).html("")    
     $("#" + aviso_alto).html("")    
     $("#" + aviso_table).html("")  
 }
 
-function validar_alto_cm(alto_figura){
-    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
-    if(fondo_cuello_cm >= 1){
+function validar_alto_cm(alto){
+    if((fondo_cuello_cm - alto ) >= 1){
         return true
     }
-    fondo_cuello_cm = fondo_cuello_cm + parseFloat(alto_figura)
     return false
 }
 
@@ -325,15 +364,65 @@ function eliminar_talla(array, id){
 }
 
 function eliminar(array, id){
-    array.forEach(figura => {
-       if(figura.figura_eliminar_id === id){
-           let index = array.indexOf(figura)
+    array.forEach(eliminar => {
+        let index = array.indexOf(eliminar)
+        if(eliminar.figura_eliminar_id === id && eliminar.cuello_figura_id === "4"){
            if(index !== -1){
-                fondo_cuello_cm = fondo_cuello_cm + parseFloat( figura.alto_figura)
+                fondo_cuello_cm = fondo_cuello_cm + parseFloat( eliminar.alto_figura)
                 console.log(fondo_cuello_cm)
                 array.splice(index,1)
            }
-       }
+        }
+        if(eliminar.eliminar_combinacion === id && eliminar.cuello_combinacion_id === "5"){
+            if(index !== -1){
+                fondo_cuello_cm = fondo_cuello_cm + parseFloat( eliminar.alto_figura)
+                console.log(fondo_cuello_cm)
+                array.splice(index,1)
+            }
+        }
+        if(eliminar.eliminar_combinacion === id && eliminar.cuello_combinacion_id === "letra"){
+            if(index !== -1){
+                fondo_cuello_cm = fondo_cuello_cm + parseFloat( eliminar.alto_letra)
+                console.log(fondo_cuello_cm)
+                array.splice(index,1)
+            }
+        }
+        if(eliminar.eliminar_combinacion === id && eliminar.cuello_combinacion_id === "figura"){
+            if(index !== -1){
+                fondo_cuello_cm = fondo_cuello_cm + parseFloat( eliminar.alto_figura)
+                console.log(fondo_cuello_cm)
+                array.splice(index,1)
+            }
+        }
+        if(eliminar.eliminar_combinacion === id && eliminar.cuello_combinacion_id === "linea2"){
+            if(index !== -1){
+                fondo_cuello_cm = fondo_cuello_cm + parseFloat( eliminar.alto_linea)
+                console.log(fondo_cuello_cm)
+                array.splice(index,1)
+            }
+        }
+        if(eliminar.eliminar_combinacion === id && eliminar.cuello_combinacion_id === "linea"){
+            if(index !== -1){
+                fondo_cuello_cm = fondo_cuello_cm + parseFloat( eliminar.alto_linea)
+                console.log(fondo_cuello_cm)
+                array.splice(index,1)
+            }
+        }
+        if(eliminar.letra_eliminar_id === id && eliminar.cuello_letra_id === "3"){
+            if(index !== -1){
+                fondo_cuello_cm = fondo_cuello_cm + parseFloat( eliminar.alto_letra)
+                console.log(fondo_cuello_cm)
+                array.splice(index,1)
+            }
+        }
+        if(eliminar.linea_eliminar_id === id && eliminar.cuello_linea_id === "2"){
+            if(index !== -1){
+                fondo_cuello_cm = fondo_cuello_cm + parseFloat( eliminar.alto_linea)
+                console.log(fondo_cuello_cm)
+                array.splice(index,1)
+            }
+        }
+
     });
 }
 
@@ -345,25 +434,242 @@ function pintar_tr(array,id_tbody,material_noombre){
     })
     if(array.length > 0){
         array.forEach(element =>{
-            $("#" + id_tbody).append(`
-                <tr>
-                    <th>figura</th>
-                    <th>${material_noombre}</th>
-                    <th style="width: 20px;height: 5px; background: ${element.color_figura}"></th>
-                    <th>${element.alto_figura} cm</th>
-                    <th>${element.ancho_figura} cm</th>
-                    <th class="text-center "  ><img class="eliminar_figura" src="img/layouts/cancelar.svg" data-id="${element.figura_eliminar_id}" width="20px;" height="20px;" alt=""></th>            
-                </tr>
-            `
-            );
+            if(element.cuello_linea_id === "2"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th class=""><img src="icons/linea.svg" alt="" width="30px"> linea</th>
+                        <th>${material_noombre}</th>
+                        <th>${element.alto_linea} cm</th>
+                        <th > <div style="width: 50px;height: 50px;border-style: double; background: ${element.color_linea}" class="rounded-circle mx-auto">  </div></th>
+                        <th class="text-center "  ><img class="eliminar_figura"  src="icons/basura.svg" data-id="${element.linea_eliminar_id}" width="30px;" height="30px;" alt="" title="eliminar"></th>            
+                    </tr>
+                    `
+                );
+            }
+            if(element.cuello_letra_id === "3"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/texto.svg" alt="" width="30px"> Letra</th>
+                        <th>${material_noombre}</th>
+                        <th>${element.alto_letra} cm</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_letra}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.tipo_fuente__letra}</th>
+                        <th>${element.contenido_letra}</th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.letra_eliminar_id}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }
+            if(element.cuello_figura_id === "4"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_figura} cm</th>
+                        <th>${element.ancho_figura} cm</th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg"  data-id="${element.figura_eliminar_id}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }
+            if(element.cuello_combinacion_id === "5"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"</div>></th>
+                        <th>${element.alto_figura} cm</th>
+                        <th>${element.ancho_figura} cm</th>
+                        <th>---</th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }
+            if(element.cuello_combinacion_id === "letra"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/texto.svg" alt="" width="30px">letra</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_letra}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_letra} cm</th>
+                        <th>${element.tipo_fuente__letra}</th>
+                        <th>${element.contenido_letra} </th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }
+            
+        })
+    }
+}
+
+// pintar combinaciones 
+function pintar_tr_combinacion(array,array2,id_tbody,material_noombre){
+    $("#" + id_tbody).html('')
+    $("#" + id_tbody).append(fondo)
+    $(document).ready(function(){
+        $('#fondo_cuello_cm').text(fondo_cuello_cm + ' cm')
+    })
+    if(array.length > 0){
+        array.forEach(element =>{
+            if(element.cuello_combinacion_id === "linea"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/linea.svg" alt="" width="30px">linea</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_linea}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_linea} cm</th>
+                        <th>---</th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            } 
+            if(element.cuello_combinacion_id === "letra"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/texto.svg" alt="" width="30px">letra</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_letra}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_letra} cm</th>
+                        <th>${element.tipo_fuente__letra}</th>
+                        <th>${element.contenido_letra} </th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }            
+        })
+    }
+    if(array2.length > 0){
+        array2.forEach(element =>{
+            if(element.cuello_combinacion_id === "5"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_figura} cm</th>
+                        <th>${element.ancho_figura} cm</th>
+                        <th>---</th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }
+            if(element.cuello_combinacion_id === "figura"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_figura} cm</th>
+                        <th>${element.ancho_figura} cm</th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }
+            if(element.cuello_combinacion_id === "linea2"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/linea.svg" alt="" width="30px">linea</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_linea}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_linea} cm</th>
+                        <th>---</th>
+                        <th>---</th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }              
+        })
+    }
+}
+
+function pintar_tr_combinacion_letra_figura_linea(array,array2,array3,id_tbody,material_noombre){
+    console.log("estoy en letra cobinacion 3 hila");
+    console.log(id_tbody);
+    $("#" + id_tbody).html('')
+    $("#" + id_tbody).append(fondo)
+    $(document).ready(function(){
+        $('#fondo_cuello_cm').text(fondo_cuello_cm + ' cm')
+    })
+    if(array.length > 0){
+        array.forEach(element =>{             
+            if(element.cuello_combinacion_id === "letra"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/texto.svg" alt="" width="30px">letra</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_letra}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_letra} cm</th>
+                        <th>${element.tipo_fuente__letra}</th>
+                        <th>${element.contenido_letra} </th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }            
+        })
+    }
+    if(array2.length > 0){
+        array2.forEach(element =>{
+            if(element.cuello_combinacion_id === "linea2"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/linea.svg" alt="" width="30px">linea</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_linea}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_linea} cm</th>
+                        <th>---</th>
+                        <th>---</th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }             
+        })
+    }
+    if(array3.length > 0){
+        array3.forEach(element =>{            
+            if(element.cuello_combinacion_id === "5"){
+                $("#" + id_tbody).append(`
+                    <tr>
+                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th>${material_noombre}</th>
+                        <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"></div></th>
+                        <th>${element.alto_figura} cm</th>
+                        <th>${element.ancho_figura} cm</th>
+                        <th>---</th>
+                        <th class="text-center "  ><img class="eliminar_figura" src="icons/basura.svg" data-id="${element.eliminar_combinacion}" width="30px;" height="30px;" alt=""></th>            
+                    </tr>
+                    `
+                );
+            }     
         })
     }
 }
 
 
+
+
+function vaciar_objeto(){
+    objeto_cuello.obj_datos_figura = []
+    objeto_cuello.obj_datos_letra = []
+    objeto_cuello.obj_datos_linea = []
+    objeto_cuello.tallas = []
+}
+
+
 // *****************************cuello liso*********************************************************
 
-function tabla_cuello_liso_mandar_datos(){
+function cuello_liso(){
+    vaciar_objeto()
     var nombre_cuello = $("#nombre_cuello").val()
     var descripcion_cuello = $("#descripcion_cuello").val()
     var imagen_diseno = $("#imagen_diseno").val()
@@ -372,43 +678,18 @@ function tabla_cuello_liso_mandar_datos(){
     var color_fondo_liso = $("#color_fondo_liso").val()
 
     if(material_fondo_liso === ""){
-        $('#aviso_liso').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")     
+        $('#aviso_liso').html("<strong  class='text-danger animacion'>Por favor seleccione el material</strong>")     
     }else{
+        $(".liso").attr('data-target','#Modal_mostrar_diseno_hecho')
+        $('#aviso_liso').text("")
         objeto_cuello.obj_cuello_id = cuello_liso_id
         objeto_cuello.obj_nombre_cuello = nombre_cuello
         objeto_cuello.obj_descripcion_cuello = descripcion_cuello
         objeto_cuello.obj_imagen_diseno = imagen_diseno
         objeto_cuello.obj_material_fondo = material_fondo_liso
         objeto_cuello.obj_color_fondo = color_fondo_liso
-        $.ajax({
-            url: "http://127.0.0.1:8000/api/crear-cuello/cuello",
-            data: objeto_cuello,
-            dataType: "json",
-            method: "POST",
-            success: function (e) {
-                if(e){
-                    swal({
-                        title: "Correcto",
-                        text: "se guardo correctamente",
-                        icon: "success",
-                        button: "Aceptar!",
-                      })
-                      .then((value) => {
-                        window.location.href = "http://127.0.0.1:8000/crear-cuello/diseno-cuellos";
-                    });
-                }
-            },
-            statusCode: {
-                404: function() {
-                   alert('Error, no funciona');
-                }
-            },
-            error:function(x,xs,xt){
-                window.open(JSON.stringify(x));
-            }
-        });
     }
-   
+    console.log(objeto_cuello); 
 }
 
 //********************************cuello letra*******************************************************************
@@ -416,76 +697,118 @@ function tabla_cuello_liso_mandar_datos(){
 let letra = 0;
 
 function tabla_cuello_letra(){
+
+    id_tbody = $('#tbody_letra').attr('id')
+    id_table = $('#tabla_diseno_letra').attr('id')
+    id_material_fondo = $( "#material_fondo_letra").attr('id')      
+    id_material = $( "#material_letra" ).attr('id')
+    id_color_fondo = $("#color_fondo_letra").attr('id')
+    id_crear_diseno =  $("#crear_diseno_letra").attr('id')
+
+
     var material_fondo_letra = $( "#material_fondo_letra option:selected" ).val()      
     var material_fondo_letra_noombre = $( "#material_fondo_letra option:selected" ).text()      
     var color_fondo_letra = $("#color_fondo_letra").val()
-    
-    var material_letra = parseInt($( "#material_letra option:selected" ).val())     
-    var material_letra_nombre = $( "#material_letra option:selected" ).text()      
-    var tipo_fuente__letra = $( "#tipo_fuente__letra option:selected" ).text()      
-    var contenido_letra = $("#contenido_letra").val()
-    var tamano_fuente_letra = $("#tamano_fuente_letra").val()
-    var color_letra = $("#color_letra").val()
-    
     var cuello_letra_id = $("#cuello_letra_id").val()
     var nombre_cuello = $("#nombre_cuello").val()
     var descripcion_cuello = $("#descripcion_cuello").val()
     var imagen_diseno = $("#imagen_diseno").val()
-
-
-    var objeto_cuello_letra_data = {
-        material_letra,
-        tipo_fuente__letra,
-        contenido_letra,
-        color_letra,
-        tamano_fuente_letra,
-    }
     
-    if(!validate_form(material_fondo_letra, color_fondo_letra, material_letra, tipo_fuente__letra, contenido_letra, tamano_fuente_letra)){
-        $('#aviso_letra').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
-    }else{
-        if(letra === 0){           
-            $("#tbody_letra").append(`<tr>
-                <th>fondo</th>
-                <th>${material_fondo_letra_noombre}</th>
-                <th style="width: 20px;height: 10px; background: ${color_fondo_letra}"></th>
-                <th>---</th>
-                <th>---</th>
-                <th>---</th>
-                <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-            </tr>`); 
-            letra++;
-            $("#material_fondo_letra").prop('disabled', true)
-            $("#color_fondo_letra").prop('disabled', true)
-            $('#aviso_letra').html("")  
-            $("#tabla_diseno_letra").removeClass('hiden')
-            $("#tabla_diseno_letra").addClass('show')
-        }       
-        if(letra === 1){
-            objeto_cuello.obj_cuello_id = cuello_letra_id
-            objeto_cuello.obj_nombre_cuello = nombre_cuello
-            objeto_cuello.obj_descripcion_cuello = descripcion_cuello
-            objeto_cuello.obj_imagen_diseno = imagen_diseno
-            objeto_cuello.obj_material_fondo = material_fondo_letra
-            objeto_cuello.obj_color_fondo = color_fondo_letra
-        }
-        $("#tbody_letra").append(`
-            <tr>
-                <th>letra</th>
-                <th>${material_letra_nombre}</th>
-                <th style="width: 20px;height: 5px; background: ${color_letra}"></th>
-                <th>${tamano_fuente_letra}</th>
-                <th>${tipo_fuente__letra}</th>
-                <th>${contenido_letra}</th>
-                <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-            </tr>`
-        );
-        $( "#material_letra selected" ).text("")  
-        $("#contenido_letra").val("")
-        $('#aviso_letra').html("")  
+    id_color = $("#color_letra").attr('id')
+    id_alto = $("#alto_letra").attr('id')
+    id_ancho = $("#ancho_letra").attr('id')
+    aviso_alto = $('#aviso_letra_alto').attr('id')
+    aviso_table = $('#aviso_letra_table').attr('id')
+    aviso = $('#aviso_letra').attr('id')
 
-        objeto_cuello.obj_datos_letra.push(objeto_cuello_letra_data)
-    }   
+    var material_letra = parseInt($( "#material_letra option:selected" ).val())     
+    var material_letra_nombre = $( "#material_letra option:selected" ).text()      
+    var tipo_fuente__letra = $( "#tipo_fuente__letra option:selected" ).text()      
+    var contenido_letra = $("#contenido_letra").val()
+    var alto_letra = $("#alto_letra").val()
+    var color_letra = $("#color_letra").val()
+
+
+    
+    if  (alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
+        $('#aviso_letra_alto').html("")
+        $('#aviso_letra_table').html("") 
+
+        if(!validar_alto_cm(alto_letra)){
+            $('#aviso_letra').html("")  
+            $('#aviso_letra_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+        }else{
+            var objeto_cuello_letra_data = {
+                cuello_letra_id,
+                letra_eliminar_id,
+                material_letra,
+                tipo_fuente__letra,
+                contenido_letra,
+                color_letra,
+                alto_letra,
+            }
+            console.log("soy contenido",contenido_letra);
+            if(isNaN(material_letra) || material_fondo_letra === "" ||  alto_letra === "" || tipo_fuente__letra === "Escoge una fuente " || contenido_letra === "" ){
+                if(letra === 0){
+                    $('#aviso_letra').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
+                }else{
+                    $('#aviso_letra_table').html("<strong  class='text-danger animacion'> Algunos Campos no están completos</strong>")
+                } 
+                console.log(fondo_cuello_cm);           
+            }else{
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
+
+                if(letra === 0){   
+                    vaciar_objeto()
+                    fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_letra_noombre}</th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra}" class="rounded-circle mx-auto"> </div></th>
+                                <th>---</th>
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>`                    
+                    letra++;
+                    dejar_valores_in_true()
+                }       
+                if(letra === 1){
+                    objeto_cuello.obj_cuello_id = cuello_letra_id
+                    objeto_cuello.obj_nombre_cuello = nombre_cuello
+                    objeto_cuello.obj_descripcion_cuello = descripcion_cuello
+                    objeto_cuello.obj_imagen_diseno = imagen_diseno
+                    objeto_cuello.obj_material_fondo = material_fondo_letra
+                    objeto_cuello.obj_color_fondo = color_fondo_letra
+                }
+                objeto_cuello.obj_datos_letra.push(objeto_cuello_letra_data)
+                pintar_tr( objeto_cuello.obj_datos_letra,id_tbody,material_letra_nombre)
+                dejar_campos_vacioss()
+                letra_eliminar_id++               
+            }
+        }
+    }else{
+        $('#aviso_letra_table').html("")  
+        $('#aviso_letra_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_letra,id)  
+            pintar_tr( objeto_cuello.obj_datos_letra,id_tbody,material_letra_nombre)
+        } )   
+    })
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_letra = []
+            letra = 0
+            fondo_cuello_cm = 10
+            dejar_valores_in_false()
+        })   
+    })
+       
     console.log(objeto_cuello)
 
 }
@@ -497,69 +820,115 @@ let linea = 0;
 let contador_linea = 1;
 
 function tabla_cuello_linea(){
-    var material_fondo_linea = $( "#material_fondo_linea option:selected" ).val()      
-    var material_fondo_linea_noombre = $( "#material_fondo_linea option:selected" ).text()      
-    var color_fondo_linea = $("#color_fondo_linea").val()
-    
-    var material_linea = parseInt($( "#material_linea option:selected" ).val())     
-    var material_linea_nombre = $( "#material_linea option:selected" ).text()      
-    var grosor_linea = $( "#grosor_linea" ).val()      
-    var color_linea = $("#color_linea").val()
-    
+
+    id_tbody = $('#tbody_linea').attr('id')
+    id_table = $('#tabla_diseno_linea').attr('id')
+    id_material_fondo = $( "#material_fondo_linea").attr('id')      
+    id_material = $( "#material_linea" ).attr('id')
+    id_color_fondo = $("#color_fondo_linea").attr('id')
+    id_crear_diseno =  $("#crear_diseno_linea").attr('id')
+    // $("#crear_diseno").removeClass('hiden')
+    // $("#crear_diseno").addClass('show') 
+
     var cuello_linea_id = $("#cuello_lineas_id").val()
     var nombre_cuello = $("#nombre_cuello").val()
     var descripcion_cuello = $("#descripcion_cuello").val()
     var imagen_diseno = $("#imagen_diseno").val()
+    var material_fondo_linea = $( "#material_fondo_linea option:selected" ).val()      
+    var material_fondo_linea_noombre = $( "#material_fondo_linea option:selected" ).text()      
+    var color_fondo_linea = $("#color_fondo_linea").val()
 
-    var objeto_cuello_linea_data = {
-        material_linea,
-        grosor_linea,
-        color_linea,
-    }
+
+    id_color = $("#color_linea").attr('id')
+    id_alto = $("#alto_linea").attr('id')
+    aviso_alto = $('#aviso_linea_alto').attr('id')
+    aviso_table = $('#aviso_linea_table').attr('id')
+    aviso = $('#aviso_linea').attr('id')
+
+    var material_linea = parseInt($( "#material_linea option:selected" ).val())     
+    var material_linea_nombre = $( "#material_linea option:selected" ).text()      
+    var alto_linea = $( "#alto_linea" ).val()      
+    var color_linea = $("#color_linea").val()
     
-    if( isNaN(material_linea) || material_fondo_linea === "" || grosor_linea === ""){
-        $('#aviso_linea').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")     
-    }else{
-        if(linea === 0){           
-            $("#tbody_linea").append(`<tr>
-                <th>fondo</th>
-                <th>${material_fondo_linea_noombre}</th>
-                <th style="width: 20px;height: 10px; background: ${color_fondo_linea}"></th>
-                <th>---</th>
-                <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-            </tr>`); 
-            linea++;
-            $("#material_fondo_linea").prop('disabled', true)
-            $("#material_linea").prop('disabled', true)
-            $("#color_fondo_linea").prop('disabled', true)
-            $('#aviso_linea').html("")  
-            $("#tabla_diseno_lineas").removeClass('hiden')
-            $("#tabla_diseno_lineas").addClass('show')
-        }       
-        if(linea === 1){
-            objeto_cuello.obj_cuello_id = cuello_linea_id
-            objeto_cuello.obj_nombre_cuello = nombre_cuello
-            objeto_cuello.obj_descripcion_cuello = descripcion_cuello
-            objeto_cuello.obj_imagen_diseno = imagen_diseno
-            objeto_cuello.obj_material_fondo = material_fondo_linea
-            objeto_cuello.obj_color_fondo = color_fondo_linea
-        }
-        $("#tbody_linea").append(`
-            <tr>
-                <th>linea ${contador_linea}</th>
-                <th>${material_linea_nombre}</th>
-                <th style="width: 20px;height: 5px; background: ${color_linea}"></th>
-                <th>${grosor_linea}</th>
-                <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-            </tr>`
-        );
-        $( "#material_linea selected" ).text("")  
-        $("#contenido_linea").val("")
-        $('#aviso_linea').html("")  
+    
 
-        objeto_cuello.obj_datos_linea.push(objeto_cuello_linea_data)
-        contador_linea++
-    }   
+    
+    if(alto_linea <= 10 && alto_linea >0){
+        $('#aviso_linea_alto').html("")
+        $('#aviso_linea_table').html("")
+
+        if(!validar_alto_cm(alto_linea)){
+            $('#aviso_linea').html("")  
+            $('#aviso_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+        }else{
+            var objeto_cuello_linea_data = {
+                cuello_linea_id,
+                linea_eliminar_id,
+                material_linea,
+                alto_linea,
+                color_linea,
+            }
+            if( isNaN(material_linea) || material_fondo_linea === "" || alto_linea === ""){
+                if(linea === 0){
+                    $('#aviso_linea').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
+                }else{
+                    $('#aviso_linea_table').html("<strong  class='text-danger animacion'> Algunos Campos no están completos</strong>")
+                } 
+            }else{
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
+                
+                if(linea === 0){   
+                    vaciar_objeto()
+                    fondo = `<tr>
+                                <th class=""><img src="icons/almohada.svg" alt="" width="30px"> fondo</th>
+                                <th>${material_fondo_linea_noombre}</th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th> <div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea}" class="rounded-circle mx-auto"> </div></th>             
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt="" title="eliminar fondo"></th>            
+                            </tr>` 
+                    linea++;
+                    dejar_valores_in_true()
+                }       
+                if(linea === 1){
+                    objeto_cuello.obj_cuello_id = cuello_linea_id
+                    objeto_cuello.obj_nombre_cuello = nombre_cuello
+                    objeto_cuello.obj_descripcion_cuello = descripcion_cuello
+                    objeto_cuello.obj_imagen_diseno = imagen_diseno
+                    objeto_cuello.obj_material_fondo = material_fondo_linea
+                    objeto_cuello.obj_color_fondo = color_fondo_linea
+                }
+                objeto_cuello.obj_datos_linea.push(objeto_cuello_linea_data)
+                pintar_tr( objeto_cuello.obj_datos_linea,id_tbody,material_linea_nombre)
+                dejar_campos_vacioss()
+                linea_eliminar_id++       
+            }
+            
+        }
+        
+    }else{
+        $('#aviso_linea_table').html("")  
+        $('#aviso_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_linea,id)  
+            pintar_tr( objeto_cuello.obj_datos_linea,id_tbody,material_linea_nombre)
+        } )   
+    })
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_linea = []
+            linea = 0
+            fondo_cuello_cm = 10
+            dejar_valores_in_false()
+        })   
+    })
+
+       
     console.log(objeto_cuello)
 }
 
@@ -570,7 +939,7 @@ let linea_figura = 0
 let letra_linea = 0
 let letra_linea_figura = 0
 
-let contador_figura_letra = 1
+let eliminar_combinacion = 1
 let contador_figura_linea = 1
 let contador_letra_linea = 1
 let contador_letra_linea_figura = 1
@@ -585,109 +954,244 @@ function combinacion(Noombre_combinacion){
             break;
         case 'cuello_figurascuello_lineas':
             cuello_figura_linea()          
-          break;
+            break;
         case 'cuello_letrascuello_figurascuello_lineas':
             cuello_letra_linea_figura()
-          break;
+            break;
     }
 }
 
 function cuello_letra_figura(){
+    var cuello_letra_figura_id = 5
+
+    id_table = $('#tabla_diseno_letra_figura').attr('id')
+    id_material_fondo = $( "#material_fondo_letra_figura").attr('id')      
+    id_material = $( "#material_combinacion_figura_53" ).attr('id')
+    id_material = $( "#material_combinacion_letra_53" ).attr('id')
+    id_color_fondo = $("#color_fondo_letra_figura").attr('id')
+    id_tbody = $('#tbody_letra_figura_combinacion').attr('id')    
+    id_crear_diseno =  $("#crear_diseno_letra_figura").attr('id')
+
     $('#agregar_combinacion_figura').click(function(){
+        
+        $('#aviso_letra_figura_alto').html("")
+        $('#aviso_letra_figura_table').html("")  
+        var cuello_combinacion_id = "5"
+
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_letra_figura_id = 5
         var material_fondo_letra_figura = parseInt($( "#material_fondo_letra_figura option:selected" ).val())     
         var material_fondo_letra_figura_nombre = $( "#material_fondo_letra_figura option:selected" ).text()      
         var color_fondo_letra_figura = $( "#color_fondo_letra_figura" ).val()      
-     
+        
+        id_color = $("#color_combinacion_figura_5").attr('id')
+        id_alto = $("#alto_combinacion_figura_5").attr('id')
+        id_ancho = $("#ancho_combinacion_figura_5").attr('id')
+        aviso_alto = $('#aviso_letra_figura_alto').attr('id')
+        aviso_table = $('#aviso_letra_figura_table').attr('id')
+        aviso = $('#aviso_letra_figura').attr('id')
+
         //figura
         var material_combinacion_figura_5 = parseInt($( "#material_combinacion_figura_5 option:selected" ).val())     
         var material_combinacion_figura_5_nombre = $( "#material_combinacion_figura_5 option:selected" ).text() 
-        var alto_combinacion_figura_5 = $("#alto_combinacion_figura_5").val()
-        var ancho_combinacion_figura_5 = $("#ancho_combinacion_figura_5").val()
-        var color_combinacion_figura_5 = $("#color_combinacion_figura_5").val()
+        var alto_figura = $("#alto_combinacion_figura_5").val()
+        var ancho_figura = $("#ancho_combinacion_figura_5").val()
+        var color_figura = $("#color_combinacion_figura_5").val()
         var imagen_diseno_combinacion_figura_5 = $("#imagen_diseno_combinacion_figura_5").val()
 
-        var objeto_cuello_combinacion_figura_data = {
-            //figura
-            material_combinacion_figura_5,
-            alto_combinacion_figura_5,
-            color_combinacion_figura_5,
-            ancho_combinacion_figura_5,
-            imagen_diseno_combinacion_figura_5,
-        }
-        console.log(letra_figura)
-        if(isNaN(material_fondo_letra_figura) || isNaN(material_combinacion_figura_5) || alto_combinacion_figura_5 === "" || alto_combinacion_figura_5 === "" || ancho_combinacion_figura_5 === ""){
-            validar_aviso(letra_figura,cuello_letra_figura_id)   
-        }else{
-            if(letra_figura === 0){           
-                pintar_fondo_combinacion(cuello_letra_figura_id,material_fondo_letra_figura_nombre,color_fondo_letra_figura)
-                
-                pintar_clases(cuello_letra_figura_id)
-                letra_figura++;
-            }       
-            if(letra_figura === 1){
-                ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_figura,color_fondo_letra_figura)
+        if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
+            $('#aviso_letra_figura_alto').html("")
+            $('#aviso_letra_figura_table').html("")  
+            if(!validar_alto_cm(alto_figura)){
+                $('#aviso_letra_figura').html("")  
+                $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            }else{
+                var objeto_cuello_combinacion_figura_data = {
+                    //figura
+                    eliminar_combinacion,
+                    cuello_combinacion_id,
+                    material_combinacion_figura_5,
+                    alto_figura,
+                    color_figura,
+                    ancho_figura,
+                    imagen_diseno_combinacion_figura_5,
+                }
+                if(isNaN(material_fondo_letra_figura) || isNaN(material_combinacion_figura_5) ||  alto_figura === "" || ancho_figura === ""){
+                    validar_aviso(letra_figura,cuello_letra_figura_id)   
+                }else{
+                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
+                    if(letra_figura === 0){     
+                        fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_letra_figura_nombre}</th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th>---</th>
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>`  
+
+                        letra_figura++;
+                    }  
+                    dejar_valores_in_true()
+                    $("#material_combinacion_figura_5").prop('disabled', true)
+
+                    if(letra_figura === 1){
+                        ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_figura,color_fondo_letra_figura)
+                    }
+                    objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
+                    pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_5_nombre)                    
+                    dejar_campos_vacios(cuello_letra_figura_id)
+                    eliminar_combinacion++
+                }
             }
-            pintar_combinacion_figura(cuello_letra_figura_id,contador_figura_letra,material_combinacion_figura_5_nombre,color_combinacion_figura_5,alto_combinacion_figura_5,ancho_combinacion_figura_5)
-            dejar_campos_vacios(cuello_letra_figura_id)
-            contador_figura_letra++
-            objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
+        }else{
+            $('#aviso_letra_figura_table').html("")  
+            $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_figura', function(){
+                let id = parseInt($(this).attr('data-id'))
+                eliminar(objeto_cuello.obj_datos_figura,id)  
+                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_5_nombre)
+            })   
+        })
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_fondo', function(){
+                objeto_cuello.obj_material_fondo = ""
+                objeto_cuello.obj_color_fondo = ""
+                objeto_cuello.obj_datos_figura = []
+                letra_figura = 0
+                fondo_cuello_cm = 10
+                dejar_valores_in_false()
+            })   
+        })
+
         console.log(objeto_cuello)
     })
 
-    $('#agregar_combinacion_letra').click(function(){
+    $('#agregar_combinacion_letra').click(function(){        
+        $('#aviso_letra_figura_alto').html("")
+        $('#aviso_letra_figura_table').html("")  
+        var cuello_combinacion_id = "letra"
+        
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_letra_figura_id = 5
         var material_fondo_letra_figura = parseInt($( "#material_fondo_letra_figura option:selected" ).val())     
         var material_fondo_letra_figura_nombre = $( "#material_fondo_letra_figura option:selected" ).text()      
         var color_fondo_letra_figura = $( "#color_fondo_letra_figura" ).val()      
         
+        id_color = $("#color_combinacion_letra_5").attr('id')
+        id_alto = $("#alto_letra").attr('id')
+        id_ancho = $("#ancho_letra").attr('id')
+        aviso_alto = $('#aviso_letra_alto').attr('id')
+        aviso_table = $('#aviso_letra_table').attr('id')
+        aviso = $('#aviso_letra').attr('id')
+
         //letra
-        var material_combinacion_letra_5 = parseInt($( "#material_combinacion_letra_5 option:selected" ).val())     
+        var material_letra = parseInt($( "#material_combinacion_letra_5 option:selected" ).val())     
         var material_combinacion_letra_5_nombre = $( "#material_combinacion_letra_5 option:selected" ).text() 
-        var tipo_fuente_combinacion_letra_5 = $( "#tipo_fuente_combinacion_letra_5 option:selected" ).text() 
-        var contenido_texto_combinacion_letra_5 = $("#contenido_texto_combinacion_letra_5").val()
-        var color_combinacion_letra_5 = $("#color_combinacion_letra_5").val()
-        var tamano_combinacion_letra_5 = $("#tamano_combinacion_letra_5").val()
+        var tipo_fuente__letra = $( "#tipo_fuente_combinacion_letra_5 option:selected" ).text() 
+        var contenido_letra = $("#contenido_texto_combinacion_letra_5").val()
+        var color_letra = $("#color_combinacion_letra_5").val()
+        var alto_letra = $("#alto_combinacion_letra_5").val()
         
-        var objeto_cuello_combinacion_letra_data = {
-            //letra
-            material_combinacion_letra_5,
-            tipo_fuente_combinacion_letra_5,
-            contenido_texto_combinacion_letra_5,
-            color_combinacion_letra_5,
-            tamano_combinacion_letra_5,
-        }
-                        
-        if(isNaN(material_fondo_letra_figura) || isNaN(material_combinacion_letra_5) || tipo_fuente_combinacion_letra_5 === "Escoger tipo de fuente" || contenido_texto_combinacion_letra_5 === "" || tamano_combinacion_letra_5 === ""){
-            validar_aviso(letra_figura,cuello_letra_figura_id)
+        if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
+            $('#aviso_letra_alto').html("")
+            $('#aviso_letra_figura_table').html("") 
+
+            if(!validar_alto_cm(alto_letra)){
+                $('#aviso_letra_figura').html("")  
+                $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            }else{
+                var objeto_cuello_combinacion_letra_data = {    
+                    //letra
+                    eliminar_combinacion,
+                    cuello_combinacion_id, 
+                    cuello_letra_figura_id,
+                    material_letra,
+                    tipo_fuente__letra,
+                    contenido_letra,
+                    color_letra,
+                    alto_letra,
+                }
+               
+                if(isNaN(material_fondo_letra_figura) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente" || contenido_letra === "" || alto_letra === ""){
+                    validar_aviso(letra_figura,cuello_letra_figura_id)
+                }else{
+                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
+
+                    if(letra_figura === 0){  
+                        fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_letra_figura_nombre}</th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th>---</th>
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>`  
+
+                        letra_figura++;
+                    }  
+                    dejar_valores_in_true()
+
+                    $("#alto_combinacion_letra_5").val("")
+                    $("#material_combinacion_letra_5").prop('disabled', true)
+
+                    if(letra_figura === 1){
+                        ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_figura,color_fondo_letra_figura)
+                    }
+                    objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
+                    pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_5_nombre)
+                    dejar_campos_vacios(cuello_letra_figura_id)
+                    eliminar_combinacion++
+                }
+            }           
         }else{
-            if(letra_figura === 0){    
-                pintar_fondo_combinacion(cuello_letra_figura_id,material_fondo_letra_figura_nombre,color_fondo_letra_figura)       
-                pintar_clases(cuello_letra_figura_id)
-                letra_figura++;
-            }       
-            if(letra_figura === 1){
-                ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_figura,color_fondo_letra_figura)
-            }
-            pintar_combinacion_letra(cuello_letra_figura_id,contador_figura_letra,material_combinacion_letra_5_nombre,color_combinacion_letra_5,tamano_combinacion_letra_5,tipo_fuente_combinacion_letra_5,contenido_texto_combinacion_letra_5)
-            dejar_campos_vacios(cuello_letra_figura_id)
-            contador_figura_letra++
-            objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
+            $('#aviso_letra_figura_table').html("")  
+            $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_figura', function(){
+                let id = parseInt($(this).attr('data-id'))
+                eliminar(objeto_cuello.obj_datos_letra,id)  
+                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_5_nombre)
+            })   
+        })
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_fondo', function(){
+                objeto_cuello.obj_material_fondo = ""
+                objeto_cuello.obj_color_fondo = ""
+                objeto_cuello.obj_datos_letra = []
+                letra_figura = 0
+                fondo_cuello_cm = 10
+                dejar_valores_in_false()
+            })   
+        })
         console.log(objeto_cuello)
     })
 }
 
 function cuello_figura_linea(){
+    var cuello_linea_figura_id = 5
+    
+    id_tbody = $('#tbody_linea_figura').attr('id')
+    id_table = $('#tabla_diseno_linea_figura').attr('id')
+    id_material_fondo = $( "#material_fondo_figura_linea").attr('id')      
+    id_material = $( "#material_combinacion_figura_53" ).attr('id')
+    id_material = $( "#material_combinacion_letra_53" ).attr('id')
+    id_color_fondo = $("#color_fondo_linea_figura").attr('id')
+    id_crear_diseno =  $("#crear_diseno_figura_linea").attr('id')
 
     $('#agregar_combinacion_figura_2').click(function(){
+
+        $('#aviso_linea_figura_alto').html("")
+        $('#aviso_linea_figura_table').html("")  
+        var cuello_combinacion_id = "figura"
+
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
@@ -695,43 +1199,102 @@ function cuello_figura_linea(){
         var material_fondo_linea_figura = parseInt($( "#material_fondo_figura_linea option:selected" ).val())     
         var material_fondo_linea_figura_nombre = $( "#material_fondo_figura_linea option:selected" ).text()      
         var color_fondo_linea_figura = $( "#color_fondo_linea_figura" ).val()      
-     
+    
+        id_color = $("#color_combinacion_figura_8").attr('id')
+        id_alto = $("#alto_combinacion_figura_8").attr('id')
+        id_ancho = $("#ancho_combinacion_figura_8").attr('id')
+        aviso_alto = $('#aviso_linea_figura_alto').attr('id')
+        aviso_table = $('#aviso_linea_figura_table').attr('id')
+        aviso = $('#aviso_linea_figura').attr('id')
+
         //figura
         var material_combinacion_figura_8 = parseInt($( "#material_combinacion_figura_8 option:selected" ).val())     
         var material_combinacion_figura_8_nombre = $( "#material_combinacion_figura_8 option:selected" ).text() 
-        var alto_combinacion_figura_8 = $("#alto_combinacion_figura_8").val()
-        var ancho_combinacion_figura_8 = $("#ancho_combinacion_figura_8").val()
-        var color_combinacion_figura_8 = $("#color_combinacion_figura_8").val()
+        var alto_figura = $("#alto_combinacion_figura_8").val()
+        var ancho_figura = $("#ancho_combinacion_figura_8").val()
+        var color_figura = $("#color_combinacion_figura_8").val()
         var imagen_diseno_combinacion_figura_8 = $("#imagen_diseno_combinacion_figura_8").val()
 
-        var objeto_cuello_combinacion_figura_data = {
-            //figura
-            material_combinacion_figura_8,
-            alto_combinacion_figura_8,
-            color_combinacion_figura_8,
-            ancho_combinacion_figura_8,
-            imagen_diseno_combinacion_figura_8,
-        }
-        if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_combinacion_figura_8 === "" || alto_combinacion_figura_8 === "" || ancho_combinacion_figura_8 === ""){
-            validar_aviso(linea_figura,cuello_linea_figura_id)   
-        }else{
-            if(linea_figura === 0){           
-                pintar_fondo_combinacion(cuello_linea_figura_id,material_fondo_linea_figura_nombre,color_fondo_linea_figura)
-                pintar_clases(cuello_linea_figura_id)
-                linea_figura++;
-            }       
-            if(linea_figura === 1){
-                ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+        
+        if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
+            $('#aviso_linea_figura_alto').html("")
+            $('#aviso_linea_figura_table').html("")
+            if(!validar_alto_cm(alto_figura)){
+                $('#aviso_linea_figura').html("")  
+                $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            }else{
+                var objeto_cuello_combinacion_figura_data = {
+                    //figura
+                    eliminar_combinacion,
+                    cuello_combinacion_id,
+                    material_combinacion_figura_8,
+                    alto_figura,
+                    color_figura,
+                    ancho_figura,
+                    imagen_diseno_combinacion_figura_8,
+                }
+                if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_figura === "" || ancho_figura === ""){
+                    validar_aviso(linea_figura,cuello_linea_figura_id)   
+                }else{
+                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
+                    if(linea_figura === 0){  
+                        fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_linea_figura_nombre}</th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>` 
+                        
+                        
+                        linea_figura++;
+                    }   
+                    dejar_valores_in_true()
+                    $("#material_combinacion_figura_8").prop('disabled', true)
+
+                    if(linea_figura === 1){
+                        ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+                    }
+                    objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
+                    pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)                  
+
+                    dejar_campos_vacios(cuello_linea_figura_id)
+                    eliminar_combinacion++
+                }
             }
-            pintar_combinacion_figura(cuello_linea_figura_id,contador_figura_linea,material_combinacion_figura_8_nombre,color_combinacion_figura_8,alto_combinacion_figura_8,ancho_combinacion_figura_8)
-            dejar_campos_vacios(cuello_linea_figura_id)
-            contador_figura_linea++
-            objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
+        }else{
+            $('#aviso_linea_figura_table').html("")  
+            $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_figura', function(){
+                let id = parseInt($(this).attr('data-id'))
+                eliminar(objeto_cuello.obj_datos_figura,id)  
+                pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)                  
+
+            })   
+        })
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_fondo', function(){
+                objeto_cuello.obj_material_fondo = ""
+                objeto_cuello.obj_color_fondo = ""
+                objeto_cuello.obj_datos_figura = []
+                linea_figura = 0
+                fondo_cuello_cm = 10
+                dejar_valores_in_false()
+            })   
+        })  
+        
         console.log(objeto_cuello)
     })
 
     $('#agregar_combinacion_linea_2').click(function(){
+        $('#aviso_linea_figura_alto').html("")
+        $('#aviso_linea_figura_table').html("")  
+
+        var cuello_combinacion_id = "linea"
+
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
@@ -740,86 +1303,222 @@ function cuello_figura_linea(){
         var material_fondo_linea_figura_nombre = $( "#material_fondo_figura_linea option:selected" ).text()      
         var color_fondo_linea_figura = $( "#color_fondo_linea_figura" ).val()      
      
-        //figura
-        var material_combinacion_linea_8 = parseInt($( "#material_combinacion_linea_8 option:selected" ).val())     
-        var material_combinacion_linea_8_nombre = $( "#material_combinacion_linea_8 option:selected" ).text() 
-        var color_combinacion_linea_8 = $("#color_combinacion_linea_8").val()
-        var grosor_combinacion_linea_8 = $("#grosor_combinacion_linea_8").val()
+        
+        id_color = $("#color_combinacion_linea_8").attr('id')
+        id_alto = $("#alto_combinacion_linea_8").attr('id')
+        aviso_alto = $('#aviso_linea_figura_alto').attr('id')
+        aviso_table = $('#aviso_linea_figura_table').attr('id')
+        aviso = $('#aviso_linea_figura').attr('id')
 
-        var objeto_cuello_combinacion_linea_data = {
-            //linea
-            material_combinacion_linea_8,
-            color_combinacion_linea_8,
-            grosor_combinacion_linea_8,
-        }
-        if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_linea_8) ||  grosor_combinacion_linea_8 === ""){
-            validar_aviso(linea_figura,cuello_linea_figura_id)   
-        }else{
-            if(linea_figura === 0){           
-                pintar_fondo_combinacion(cuello_linea_figura_id,material_fondo_linea_figura_nombre,color_fondo_linea_figura)
-                pintar_clases(cuello_linea_figura_id)
-                linea_figura++;
-            }       
-            if(linea_figura === 1){
-                ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+
+        //linea
+        var material_linea = parseInt($( "#material_combinacion_linea_8 option:selected" ).val())     
+        var material_combinacion_linea_8_nombre = $( "#material_combinacion_linea_8 option:selected" ).text() 
+        var color_linea = $("#color_combinacion_linea_8").val()
+        var alto_linea = $("#alto_combinacion_linea_8").val()
+
+       
+        if(alto_linea <= 10 && alto_linea >0){
+            $('#aviso_linea_figura_alto').html("")
+            $('#aviso_linea_figura_table').html("")
+
+            if(!validar_alto_cm(alto_linea)){
+                $('#aviso_linea_figura').html("")  
+                $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            }else{
+                var objeto_cuello_combinacion_linea_data = {
+                    //linea
+                    eliminar_combinacion,
+                    cuello_combinacion_id,
+                    material_linea,
+                    color_linea,
+                    alto_linea,
+                }
+
+                if(isNaN(material_fondo_linea_figura) || isNaN(material_linea) ||  alto_linea === ""){
+                    validar_aviso(linea_figura,cuello_linea_figura_id)   
+                }else{
+                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
+
+                    if(linea_figura === 0){   
+                        fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_linea_figura_nombre}</th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>`
+                        
+                        linea_figura++;
+                    }  
+                    dejar_valores_in_true()
+                    $("#material_combinacion_linea_8").prop('disabled', true)
+                    $("#alto_combinacion_linea_8").val("")
+                    if(linea_figura === 1){
+                        ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+                    }
+                    objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
+                    pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_8_nombre)
+                    dejar_campos_vacioss() 
+                    eliminar_combinacion++
+                }
             }
-            pintar_combinacion_linea(cuello_linea_figura_id,contador_figura_linea,material_combinacion_linea_8_nombre,color_combinacion_linea_8,grosor_combinacion_linea_8)
-            dejar_campos_vacios(cuello_linea_figura_id)
-            contador_figura_linea++
-            objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
+        }else{
+            $('#aviso_linea_figura_table').html("")  
+            $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_figura', function(){
+                let id = parseInt($(this).attr('data-id'))
+                eliminar(objeto_cuello.obj_datos_linea,id)  
+                pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_8_nombre)
+
+            } )   
+        })
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_fondo', function(){
+                objeto_cuello.obj_material_fondo = ""
+                objeto_cuello.obj_color_fondo = ""
+                objeto_cuello.obj_datos_linea = []
+                linea_figura = 0
+                fondo_cuello_cm = 10
+                dejar_valores_in_false()
+            })   
+        })
+    
+       
         console.log(objeto_cuello)
     })
 }          
 
 function cuello_letra_linea(){
+
+    var cuello_letra_linea_id = 6
+
+    id_table = $('#tabla_diseno_letra_linea').attr('id')
+    id_material_fondo = $( "#material_fondo_letra_linea").attr('id')      
+    id_material = $( "#material_combinacion_letra_63" ).attr('id')
+    id_material = $( "#material_combinacion_linea_63" ).attr('id')
+    id_color_fondo = $("#color_fondo_letra_linea").attr('id')
+    id_tbody = $('#tbody_linea_letra').attr('id')    
+    id_crear_diseno =  $("#crear_diseno_linea_letra").attr('id')
+
+
     $('#agregar_combinacion_letra_2').click(function(){
+
+        $('#aviso_letra_linea_alto').html("")
+        $('#aviso_letra_linea_table').html("")  
+        var cuello_combinacion_id = "letra"
+
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_letra_linea_id = 6
+        // var cuello_letra_linea_id = 6
         var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea option:selected" ).val())     
         var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea option:selected" ).text()      
         var color_fondo_letra_linea = $( "#color_fondo_letra_linea" ).val()      
         
-        console.log('hola')
+        id_color = $("#color_combinacion_letra_6").attr('id')
+        id_alto = $("#alto_combinacion_letra_6").attr('id')
+        aviso_alto = $('#aviso_letra_alto').attr('id')
+        aviso_table = $('#aviso_letra_linea_table').attr('id')
+        aviso = $('#aviso_letra_linea').attr('id')
+
         //letra
-        var material_combinacion_letra_6 = parseInt($( "#material_combinacion_letra_6 option:selected" ).val())     
+        var material_letra = parseInt($( "#material_combinacion_letra_6 option:selected" ).val())     
         var material_combinacion_letra_6_nombre = $( "#material_combinacion_letra_6 option:selected" ).text() 
-        var tipo_fuente_combinacion_letra_6 = $( "#tipo_fuente_combinacion_letra_6 option:selected" ).text() 
-        var contenido_texto_combinacion_letra_6 = $("#contenido_texto_combinacion_letra_6").val()
-        var color_combinacion_letra_6 = $("#color_combinacion_letra_6").val()
-        var tamano_combinacion_letra_6 = $("#tamano_combinacion_letra_6").val()
-        
-        var objeto_cuello_combinacion_letra_data = {
-            //letra
-            material_combinacion_letra_6,
-            tipo_fuente_combinacion_letra_6,
-            contenido_texto_combinacion_letra_6,
-            color_combinacion_letra_6,
-            tamano_combinacion_letra_6,
-        }
+        var tipo_fuente__letra = $( "#tipo_fuente_combinacion_letra_6 option:selected" ).text() 
+        var contenido_letra = $("#contenido_texto_combinacion_letra_6").val()
+        var color_letra = $("#color_combinacion_letra_6").val()
+        var alto_letra = $("#alto_combinacion_letra_6").val()
+               
+
+        if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
+            $('#aviso_letra_alto').html("")
+            $('#aviso_letra_linea_table').html("") 
+
+            if(!validar_alto_cm(alto_letra)){
+                $('#aviso_letra_linea').html("")  
+                $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            }else{
+                var objeto_cuello_combinacion_letra_data = {    
+                    //letra
+                    eliminar_combinacion,
+                    cuello_combinacion_id, 
+                    cuello_letra_linea_id,
+                    material_letra,
+                    tipo_fuente__letra,
+                    contenido_letra,
+                    color_letra,
+                    alto_letra,
+                }
+
+                if(isNaN(material_fondo_letra_linea) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente" || contenido_letra === "" || alto_letra === ""){
+                    validar_aviso(letra_linea,cuello_letra_linea_id)
+                }else{
+                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
+
+                    if(letra_linea === 0){   
+                        fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_letra_linea_nombre}</th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th>---</th>
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>`
+                        letra_linea++;
                         
-        if(isNaN(material_fondo_letra_linea) || isNaN(material_combinacion_letra_6) || tipo_fuente_combinacion_letra_6 === "Escoger tipo de fuente" || contenido_texto_combinacion_letra_6 === "" || tamano_combinacion_letra_6 === ""){
-            validar_aviso(letra_linea,cuello_letra_linea_id)
+                    }      
+                    dejar_valores_in_true()
+                    $("#alto_combinacion_letra_6").val("")
+                    $("#contenido_texto_combinacion_letra_6").val("")
+                    $("#material_combinacion_letra_6").prop('disabled', true)
+
+                     
+                    if(letra_linea === 1){
+                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+                    }
+                    objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
+                    pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_letra_6_nombre)
+                    dejar_campos_vacios(cuello_letra_linea_id)
+                    eliminar_combinacion++
+                }
+            }        
         }else{
-            if(letra_linea === 0){    
-                pintar_fondo_combinacion(cuello_letra_linea_id,material_fondo_letra_linea_nombre,color_fondo_letra_linea)       
-                pintar_clases(cuello_letra_linea_id)
-                letra_linea++;
-            }       
-            if(letra_linea === 1){
-                ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
-            }
-            pintar_combinacion_letra(cuello_letra_linea_id,contador_letra_linea,material_combinacion_letra_6_nombre,color_combinacion_letra_6,tamano_combinacion_letra_6,tipo_fuente_combinacion_letra_6,contenido_texto_combinacion_letra_6)
-            dejar_campos_vacios(cuello_letra_linea_id)
-            contador_letra_linea++
-            objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
+            $('#aviso_letra_linea_table').html("")  
+            $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_figura', function(){
+                let id = parseInt($(this).attr('data-id'))
+                eliminar(objeto_cuello.obj_datos_letra,id)  
+                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_letra_6_nombre)
+            })   
+        })
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_fondo', function(){
+                objeto_cuello.obj_material_fondo = ""
+                objeto_cuello.obj_color_fondo = ""
+                objeto_cuello.obj_datos_letra = []
+                letra_linea = 0
+                fondo_cuello_cm = 10
+                dejar_valores_in_false()
+            })   
+        })           
+        
         console.log(objeto_cuello)
     })
 
     $('#agregar_combinacion_linea_3').click(function(){
+        $('#aviso_letra_linea_alto').html("")
+        $('#aviso_letra_linea_table').html("")  
+        var cuello_combinacion_id = "linea2"
+
+
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
@@ -828,41 +1527,111 @@ function cuello_letra_linea(){
         var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea option:selected" ).text()      
         var color_fondo_letra_linea = $( "#color_fondo_letra_linea" ).val()    
      
-        //linea
-        var material_combinacion_linea_6 = parseInt($( "#material_combinacion_linea_6 option:selected" ).val())     
-        var material_combinacion_linea_6_nombre = $( "#material_combinacion_linea_6 option:selected" ).text() 
-        var color_combinacion_linea_6 = $("#color_combinacion_linea_6").val()
-        var grosor_combinacion_linea_6 = $("#grosor_combinacion_linea_6").val()
+        id_color = $("#color_combinacion_linea_6").attr('id')
+        id_alto = $("#alto_combinacion_linea_6").attr('id')
+        aviso_alto = $('#aviso_letra_linea_alto').attr('id')
+        aviso_table = $('#aviso_letra_linea_table').attr('id')
+        aviso = $('#aviso_letra_linea').attr('id')
 
-        var objeto_cuello_combinacion_linea_data = {
-            //linea
-            material_combinacion_linea_6,
-            color_combinacion_linea_6,
-            grosor_combinacion_linea_6,
-        }
-        if(isNaN(material_fondo_letra_linea) || isNaN(material_combinacion_linea_6) ||  grosor_combinacion_linea_6 === ""){
-            validar_aviso(letra_linea,cuello_letra_linea_id)   
+        //linea
+        var material_linea = parseInt($( "#material_combinacion_linea_6 option:selected" ).val())     
+        var material_combinacion_linea_6_nombre = $( "#material_combinacion_linea_6 option:selected" ).text() 
+        var color_linea = $("#color_combinacion_linea_6").val()
+        var alto_linea = $("#alto_combinacion_linea_6").val()
+
+        if(alto_linea <= 10 && alto_linea >0){
+            $('#aviso_letra_linea_alto').html("")
+            $('#aviso_letra_linea_table').html("")
+
+            if(!validar_alto_cm(alto_linea)){
+                $('#aviso_letra_linea').html("")  
+                $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            }else{
+                var objeto_cuello_combinacion_linea_data = {
+                    //linea
+                    eliminar_combinacion,
+                    cuello_combinacion_id,
+                    material_linea,
+                    color_linea,
+                    alto_linea,
+                }
+
+                if(isNaN(material_fondo_letra_linea) || isNaN(material_linea) ||  alto_linea === ""){
+                    validar_aviso(letra_linea,cuello_letra_linea_id)   
+                }else{
+                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
+
+                    if(letra_linea === 0){                 
+                        fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_letra_linea_nombre}</th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th>---</th>
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>`
+                        letra_linea++;
+                    } 
+                    dejar_valores_in_true()
+                    $("#material_combinacion_linea_6").prop('disabled', true)
+                    $("#alto_combinacion_linea_6").val("")     
+                    if(letra_linea === 1){
+                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+                    }
+                    objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
+                    pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_linea_6_nombre)
+                    dejar_campos_vacioss()
+                    eliminar_combinacion++
+                }
+            }        
         }else{
-            if(letra_linea === 0){           
-                pintar_fondo_combinacion(cuello_letra_linea_id,material_fondo_letra_linea_nombre,color_fondo_letra_linea)
-                pintar_clases(cuello_letra_linea_id)
-                letra_linea++;
-            }       
-            if(letra_linea === 1){
-                ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
-            }
-            pintar_combinacion_linea(cuello_letra_linea_id,contador_letra_linea,material_combinacion_linea_6_nombre,color_combinacion_linea_6,grosor_combinacion_linea_6)
-            dejar_campos_vacios(cuello_letra_linea_id)
-            contador_letra_linea++
-            objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
+            $('#aviso_letra_linea_table').html("")  
+            $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_figura', function(){
+                let id = parseInt($(this).attr('data-id'))
+                eliminar(objeto_cuello.obj_datos_linea,id)  
+                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_linea_6_nombre)
+            } )   
+        })
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_fondo', function(){
+                objeto_cuello.obj_material_fondo = ""
+                objeto_cuello.obj_color_fondo = ""
+                objeto_cuello.obj_datos_linea = []
+                letra_linea = 0
+                fondo_cuello_cm = 10
+                dejar_valores_in_false()
+            })   
+        })       
         console.log(objeto_cuello)
     })
 
 }
 
 function cuello_letra_linea_figura(){
+    id_table = $('#tabla_diseno_letra_linea_figura').attr('id')
+    id_material_fondo = $( "#material_fondo_letra_linea_figura").attr('id')      
+    id_material = $( "#material_combinacion_letra_63" ).attr('id')
+    id_material = $( "#material_combinacion_linea_63" ).attr('id')
+    id_color_fondo = $("#color_fondo_letra_linea_figura").attr('id')
+    id_tbody = $('#tbody_letra_linea_figura').attr('id')
+    id_crear_diseno = $('#crear_diseno_letra_figura_linea').attr('id')
+
+
+    aviso_alto = $('#aviso_letra_linea_figura_alto').attr('id')
+    aviso_table = $('#aviso_letra_linea_figura_table').attr('id')
+    aviso = $('#aviso_letra_linea_figura').attr('id')
+
     $('#agregar_combinacion_letra_3').click(function(){
+
+        $('#aviso_letra_linea_figura_alto').html("")
+        $('#aviso_letra_linea_table').html("")  
+        var cuello_combinacion_id = "letra"
+
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
@@ -871,44 +1640,97 @@ function cuello_letra_linea_figura(){
         var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
         var color_fondo_letra_linea = $( "#color_fondo_letra_linea_figura" ).val()      
         
-        console.log('hola')
+        id_color = $("#color_combinacion_letra_7").attr('id')
+        id_alto = $("#alto_combinacion_letra_7").attr('id')
+       
         //letra
-        var material_combinacion_letra_6 = parseInt($( "#material_combinacion_letra_7 option:selected" ).val())     
-        var material_combinacion_letra_6_nombre = $( "#material_combinacion_letra_7 option:selected" ).text() 
-        var tipo_fuente_combinacion_letra_6 = $( "#tipo_fuente_combinacion_letra_7 option:selected" ).text() 
-        var contenido_texto_combinacion_letra_6 = $("#contenido_texto_combinacion_letra_7").val()
-        var color_combinacion_letra_6 = $("#color_combinacion_letra_7").val()
-        var tamano_combinacion_letra_6 = $("#tamano_combinacion_letra_7").val()
-        
-        var objeto_cuello_combinacion_letra_data = {
-            //letra
-            material_combinacion_letra_6,
-            tipo_fuente_combinacion_letra_6,
-            contenido_texto_combinacion_letra_6,
-            color_combinacion_letra_6,
-            tamano_combinacion_letra_6,
-        }
-                        
-        if(isNaN(material_fondo_letra_linea) || isNaN(material_combinacion_letra_6) || tipo_fuente_combinacion_letra_6 === "Escoger tipo de fuente" || contenido_texto_combinacion_letra_6 === "" || tamano_combinacion_letra_6 === ""){
-            validar_aviso(letra_linea,cuello_letra_linea_id)
-        }else{
-            if(letra_linea_figura === 0){    
-                pintar_fondo_combinacion(cuello_letra_linea_id,material_fondo_letra_linea_nombre,color_fondo_letra_linea)       
-                pintar_clases(cuello_letra_linea_id)
-                letra_linea_figura++;
-            }       
-            if(letra_linea_figura === 1){
-                ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+        var material_letra = parseInt($( "#material_combinacion_letra_7 option:selected" ).val())     
+        var material_combinacion_letra_7_nombre = $( "#material_combinacion_letra_7 option:selected" ).text() 
+        var tipo_fuente__letra = $( "#tipo_fuente_combinacion_letra_7 option:selected" ).text() 
+        var contenido_letra = $("#contenido_texto_combinacion_letra_7").val()
+        var color_letra = $("#color_combinacion_letra_7").val()
+        var alto_letra = $("#alto_combinacion_letra_7").val()
+        if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
+            $('#aviso_letra_linea_figura_alto').html("")
+            $('#aviso_letra_linea_figura_table').html("") 
+
+            if(!validar_alto_cm(alto_letra)){
+                $('#aviso_letra_linea_figura').html("")  
+                $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            
+            }else{
+                var objeto_cuello_combinacion_letra_data = {    
+                    //letra
+                    eliminar_combinacion,
+                    cuello_combinacion_id, 
+                    cuello_letra_linea_id,
+                    material_letra,
+                    tipo_fuente__letra,
+                    contenido_letra,
+                    color_letra,
+                    alto_letra,
+                }
+                if(isNaN(material_fondo_letra_linea) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente " || contenido_letra === "" || alto_letra === ""){
+                    validar_aviso(letra_linea,cuello_letra_linea_id)
+                }else{
+                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
+
+                    if(letra_linea_figura === 0){                        
+                        fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_letra_linea_nombre}</th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th>---</th>
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>`
+                        letra_linea_figura++;
+                    }      
+                    dejar_valores_in_true()
+                    $("#alto_combinacion_letra_7").val("")
+                    $("#contenido_texto_combinacion_letra_7").val("")
+                    $("#material_combinacion_letra_7").prop('disabled', true)
+
+                    if(letra_linea_figura === 1){
+                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+                    }
+                    objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
+                    pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_7_nombre)
+                    dejar_campos_vacios(cuello_letra_linea_id)                   
+                    eliminar_combinacion++
+                }
             }
-            pintar_combinacion_letra(cuello_letra_linea_id,contador_letra_linea,material_combinacion_letra_6_nombre,color_combinacion_letra_6,tamano_combinacion_letra_6,tipo_fuente_combinacion_letra_6,contenido_texto_combinacion_letra_6)
-            dejar_campos_vacios(cuello_letra_linea_id)
-            contador_letra_linea_figura++
-            objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
+        }else{
+            $('#aviso_letra_linea_figura_table').html("")  
+            $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_figura', function(){
+                let id = parseInt($(this).attr('data-id'))
+                eliminar(objeto_cuello.obj_datos_letra,id)  
+                pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_7_nombre)
+            })   
+        })
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_fondo', function(){
+                objeto_cuello.obj_material_fondo = ""
+                objeto_cuello.obj_color_fondo = ""
+                objeto_cuello.obj_datos_letra = []
+                letra_linea_figura = 0
+                fondo_cuello_cm = 10
+                dejar_valores_in_false()
+            })   
+        })
+        
         console.log(objeto_cuello)
     })
 
-    $('#agregar_combinacion_linea_3').click(function(){
+    $('#agregar_combinacion_linea_4').click(function(){
+        $('#aviso_letra_linea_figura_alto').html("")
+        $('#aviso_letra_linea_figura_table').html("")  
+        var cuello_combinacion_id = "linea2"
+
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
@@ -917,38 +1739,98 @@ function cuello_letra_linea_figura(){
         var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
         var color_fondo_letra_linea = $( "#color_fondo_letra_linea_figura" ).val()    
      
-        //linea
-        var material_combinacion_linea_6 = parseInt($( "#material_combinacion_linea_7 option:selected" ).val())     
-        var material_combinacion_linea_6_nombre = $( "#material_combinacion_linea_7 option:selected" ).text() 
-        var color_combinacion_linea_6 = $("#color_combinacion_linea_7").val()
-        var grosor_combinacion_linea_6 = $("#grosor_combinacion_linea_7").val()
 
-        var objeto_cuello_combinacion_linea_data = {
-            //linea
-            material_combinacion_linea_6,
-            color_combinacion_linea_6,
-            grosor_combinacion_linea_6,
-        }
-        if(isNaN(material_fondo_letra_linea) || isNaN(material_combinacion_linea_6) ||  grosor_combinacion_linea_6 === ""){
-            validar_aviso(letra_linea,cuello_letra_linea_id)   
-        }else{
-            if(letra_linea_figura === 0){           
-                pintar_fondo_combinacion(cuello_letra_linea_id,material_fondo_letra_linea_nombre,color_fondo_letra_linea)
-                pintar_clases(cuello_letra_linea_id)
-                letra_linea_figura++;
-            }       
-            if(letra_linea_figura === 1){
-                ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+        id_color = $("#color_combinacion_linea_7").attr('id')
+        id_alto = $("#alto_combinacion_linea_7").attr('id')
+        
+
+        //linea
+        var material_linea = parseInt($( "#material_combinacion_linea_7 option:selected" ).val())     
+        var material_combinacion_linea_6_nombre = $( "#material_combinacion_linea_7 option:selected" ).text() 
+        var color_linea = $("#color_combinacion_linea_7").val()
+        var alto_linea = $("#alto_combinacion_linea_7").val()
+
+        
+
+        if(alto_linea <= 10 && alto_linea >0){
+            $('#aviso_letra_linea_figura_alto').html("")
+            $('#aviso_letra_linea_figura_table').html("")
+
+            if(!validar_alto_cm(alto_linea)){
+                $('#aviso_letra_linea_figura').html("")  
+                $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            }else{
+                var objeto_cuello_combinacion_linea_data = {
+                    //linea
+                    eliminar_combinacion,
+                    cuello_combinacion_id,
+                    material_linea,
+                    color_linea,
+                    alto_linea,
+                }
+                if(isNaN(material_fondo_letra_linea) || isNaN(material_linea) ||  alto_linea === ""){
+                    validar_aviso(letra_linea_figura,cuello_letra_linea_id)   
+                }else{
+                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
+
+                    if(letra_linea_figura === 0){  
+                        fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_letra_linea_nombre}</th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th>---</th>
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>`         
+                        
+                        letra_linea_figura++;
+                    } 
+                    dejar_valores_in_true()
+                    $("#material_combinacion_linea_7").prop('disabled', true)
+                    $("#alto_combinacion_linea_7").val("")   
+                    if(letra_linea_figura === 1){
+                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+                    }
+                    objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
+                    pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_6_nombre)
+                    dejar_campos_vacioss()
+                    eliminar_combinacion++
+                }
             }
-            pintar_combinacion_linea(cuello_letra_linea_id,contador_letra_linea_figura,material_combinacion_linea_6_nombre,color_combinacion_linea_6,grosor_combinacion_linea_6)
-            dejar_campos_vacios(cuello_letra_linea_id)
-            contador_letra_linea_figura++
-            objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
+        }else{
+            $('#aviso_letra_linea_figura_table').html("")  
+            $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_figura', function(){
+                let id = parseInt($(this).attr('data-id'))
+                eliminar(objeto_cuello.obj_datos_linea,id)  
+                pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_6_nombre)
+
+            } )   
+        })
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_fondo', function(){
+                objeto_cuello.obj_material_fondo = ""
+                objeto_cuello.obj_color_fondo = ""
+                objeto_cuello.obj_datos_linea = []
+                letra_linea_figura = 0
+                fondo_cuello_cm = 10
+                dejar_valores_in_false()
+            })   
+        })     
+
+        
         console.log(objeto_cuello)
     })
     
     $('#agregar_combinacion_figura_3').click(function(){
+        $('#aviso_letra_linea_figura_alto').html("")
+        $('#aviso_letra_linea_figura_table').html("")
+        var cuello_combinacion_id = "5"
+
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
@@ -956,39 +1838,87 @@ function cuello_letra_linea_figura(){
         var material_fondo_linea_figura = parseInt($( "#material_fondo_letra_linea_figura option:selected" ).val())     
         var material_fondo_linea_figura_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
         var color_fondo_linea_figura = $( "#color_fondo_letra_linea_figura" ).val()      
-     
+        
+        id_color = $("#color_combinacion_figura_7").attr('id')
+        id_alto = $("#alto_combinacion_figura_7").attr('id')
+        id_ancho = $("#ancho_combinacion_figura_7").attr('id')
+
         //figura
         var material_combinacion_figura_8 = parseInt($( "#material_combinacion_figura_7 option:selected" ).val())     
         var material_combinacion_figura_8_nombre = $( "#material_combinacion_figura_7 option:selected" ).text() 
-        var alto_combinacion_figura_8 = $("#alto_combinacion_figura_7").val()
-        var ancho_combinacion_figura_8 = $("#ancho_combinacion_figura_7").val()
-        var color_combinacion_figura_8 = $("#color_combinacion_figura_7").val()
+        var alto_figura = $("#alto_combinacion_figura_7").val()
+        var ancho_figura = $("#ancho_combinacion_figura_7").val()
+        var color_figura = $("#color_combinacion_figura_7").val()
         var imagen_diseno_combinacion_figura_8 = $("#imagen_diseno_combinacion_figura_7").val()
 
-        var objeto_cuello_combinacion_figura_data = {
-            //figura
-            material_combinacion_figura_8,
-            alto_combinacion_figura_8,
-            color_combinacion_figura_8,
-            ancho_combinacion_figura_8,
-            imagen_diseno_combinacion_figura_8,
-        }
-        if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_combinacion_figura_8 === "" || alto_combinacion_figura_8 === "" || ancho_combinacion_figura_8 === ""){
-            validar_aviso(linea_figura,cuello_linea_figura_id)   
-        }else{
-            if(letra_linea_figura === 0){           
-                pintar_fondo_combinacion(cuello_linea_figura_id,material_fondo_linea_figura_nombre,color_fondo_linea_figura)
-                pintar_clases(cuello_linea_figura_id)
-                letra_linea_figura++;
-            }       
-            if(letra_linea_figura === 1){
-                ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+        if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
+            $('#aviso_letra_linea_figura_alto').html("")
+            $('#aviso_letra_linea_figura_table').html("") 
+            if(!validar_alto_cm(alto_figura)){
+                $('#aviso_letra_linea_figura').html("")  
+                $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            }else{
+                var objeto_cuello_combinacion_figura_data = {
+                    //figura
+                    eliminar_combinacion,
+                    cuello_combinacion_id,
+                    material_combinacion_figura_8,
+                    alto_figura,
+                    color_figura,
+                    ancho_figura,
+                    imagen_diseno_combinacion_figura_8,
+                }
+                if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_figura === "" ||  ancho_figura === ""){
+                    validar_aviso(linea_figura,cuello_linea_figura_id)   
+                }else{
+                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
+
+                    if(letra_linea_figura === 0){                           
+                        fondo = `<tr>
+                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th>${material_fondo_linea_figura_nombre}</th>
+                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
+                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th>---</th>
+                                <th>---</th>
+                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                            </tr>`  
+                        
+                        letra_linea_figura++;
+                    }    
+                    dejar_valores_in_true()
+                    $("#material_combinacion_figura_7").prop('disabled', true)
+   
+                    if(letra_linea_figura === 1){
+                        ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+                    }
+                    objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
+                    pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)
+                    dejar_campos_vacioss()
+                    eliminar_combinacion++
+                }
             }
-            pintar_combinacion_figura(cuello_linea_figura_id,contador_figura_linea,material_combinacion_figura_8_nombre,color_combinacion_figura_8,alto_combinacion_figura_8,ancho_combinacion_figura_8)
-            dejar_campos_vacios(cuello_linea_figura_id)
-            contador_figura_linea++
-            objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
+        }else{
+            $('#aviso_letra_linea_figura_table').html("")  
+            $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_figura', function(){
+                let id = parseInt($(this).attr('data-id'))
+                eliminar(objeto_cuello.obj_datos_figura,id)  
+                pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)
+            })   
+        })
+        $(document).ready(function(){
+            $('body').on('click','.eliminar_fondo', function(){
+                objeto_cuello.obj_material_fondo = ""
+                objeto_cuello.obj_color_fondo = ""
+                objeto_cuello.obj_datos_figura = []
+                letra_linea_figura = 0
+                fondo_cuello_cm = 10
+                dejar_valores_in_false()
+            })   
+        })       
         console.log(objeto_cuello)
     })
     
@@ -1148,229 +2078,6 @@ function ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,de
     objeto_cuello.obj_material_fondo = material_fondo_letra_figura
     objeto_cuello.obj_color_fondo = color_fondo_letra_figura
 }
-function pintar_fondo_combinacion(cuello_combinacion_id,material_fondo_letra_figura_nombre,color_fondo_letra_figura){
-    switch (cuello_combinacion_id) {
-        case 5:
-            $("#tbody_letra_figura").append(`
-                <tr>
-                    <th>fondo</th>
-                    <th>${material_fondo_letra_figura_nombre}</th>
-                    <th style="width: 20px;height: 10px; background: ${color_fondo_letra_figura}"></th>
-                    <th>---</th>
-                    <th>---</th>
-                    <th>---</th>
-                    <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            break;
-        case 6:
-            $("#tbody_linea_letra").append(`
-                <tr>
-                    <th>fondo</th>
-                    <th>${material_fondo_letra_figura_nombre}</th>
-                    <th style="width: 20px;height: 10px; background: ${color_fondo_letra_figura}"></th>
-                    <th>---</th>
-                    <th>---</th>
-                    <th>---</th>
-                    <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            break;
-        case 7:
-            $("#tbody_linea_letra_figura").append(`
-                <tr>
-                    <th>fondo</th>
-                    <th>${material_fondo_letra_figura_nombre}</th>
-                    <th style="width: 20px;height: 10px; background: ${color_fondo_letra_figura}"></th>
-                    <th>---</th>
-                    <th>---</th>
-                    <th>---</th>
-                    <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            break;
-        case 8:
-            $("#tbody_linea_figura").append(`
-                <tr>
-                    <th>fondo</th>
-                    <th>${material_fondo_letra_figura_nombre}</th>
-                    <th style="width: 20px;height: 10px; background: ${color_fondo_letra_figura}"></th>
-                    <th>---</th>
-                    <th>---</th>
-                    <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            $("#alto_combinacion_figura_8").val("")      
-          break;
-        case 'cuello_figurascuello_lineas':
-          console.log('soy figuras y lineas');
-          cuello_figura_linea()          
-          break;
-        case 'cuello_letrascuello_figurascuello_lineas':
-          console.log('soy los tres juntos');
-          break;
-    }
-}
-
-function pintar_combinacion_linea(cuello_combinacion_id,contador_figura_linea,material_combinacion_linea_8_nombre,color_combinacion_linea_8,grosor_combinacion_linea_8){  
-    switch(cuello_combinacion_id) {
-        case 6:
-            $("#tbody_linea_letra").append(`
-                <tr>
-                    <th>linea ${contador_figura_linea}</th>
-                    <th>${material_combinacion_linea_8_nombre}</th>
-                    <th style="width: 20px;height: 5px; background: ${color_combinacion_linea_8}"></th>
-                    <th>${grosor_combinacion_linea_8}</th>
-                    <th>---</th>
-                    <th>---</th>
-                    <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            $("#grosor_combinacion_linea_6").val("")
-            break;
-        case 7:
-            $("#tbody_linea_letra_figura").append(`
-                <tr>
-                    <th>linea ${contador_figura_linea}</th>
-                    <th>${material_combinacion_linea_8_nombre}</th>
-                    <th style="width: 20px;height: 5px; background: ${color_combinacion_linea_8}"></th>
-                    <th>${grosor_combinacion_linea_8}</th>
-                    <th>---</th>
-                    <th>---</th>
-                    <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            $("#grosor_combinacion_linea_6").val("")
-            break;
-        case 8:
-            $("#tbody_linea_figura").append(`
-                <tr>
-                    <th>linea${contador_figura_linea}</th>
-                    <th>${material_combinacion_linea_8_nombre}</th>
-                    <th style="width: 20px;height: 5px; background: ${color_combinacion_linea_8}"></th>
-                    <th>${grosor_combinacion_linea_8}</th>
-                    <th>---</th>
-                    <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            $("#grosor_combinacion_linea_8").val("")     
-          break;
-        case 'cuello_figurascuello_lineas':
-          console.log('soy figuras y lineas');
-          cuello_figura_linea()          
-          break;
-        case 'cuello_letrascuello_figurascuello_lineas':
-          console.log('soy los tres juntos');
-          break;
-    }
-    
-    
-    
-}
-function pintar_combinacion_letra(cuello_combinacion_id,contador_figura_letra,material_combinacion_letra_5_nombre,color_combinacion_letra_5,tamano_combinacion_letra_5,tipo_fuente_combinacion_letra_5,contenido_texto_combinacion_letra_5){  
-    
-    switch (cuello_combinacion_id) {
-        case 5:
-            $("#tbody_letra_figura").append(`
-                <tr>
-                    <th>texto ${contador_figura_letra}</th>
-                    <th>${material_combinacion_letra_5_nombre}</th>
-                    <th style="width: 20px;height: 5px; background: ${color_combinacion_letra_5}"></th>
-                    <th>${tamano_combinacion_letra_5}</th>
-                    <th>${tipo_fuente_combinacion_letra_5}</th>
-                    <th>${contenido_texto_combinacion_letra_5}</th>
-                    <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-        $("#alto_combinacion_figura_5").val("")
-          break;
-        case 6:
-            $("#tbody_linea_letra").append(`
-                <tr>
-                    <th>texto ${contador_figura_letra}</th>
-                    <th>${material_combinacion_letra_5_nombre}</th>
-                    <th style="width: 20px;height: 5px; background: ${color_combinacion_letra_5}"></th>
-                    <th>${tamano_combinacion_letra_5}</th>
-                    <th>${tipo_fuente_combinacion_letra_5}</th>
-                    <th>${contenido_texto_combinacion_letra_5}</th>
-                    <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            $("#alto_combinacion_figura_8").val("")      
-          break;
-        case 7:
-            $("#tbody_linea_letra_figura").append(`
-            <tr>
-                <th>texto ${contador_figura_letra}</th>
-                <th>${material_combinacion_letra_5_nombre}</th>
-                <th style="width: 20px;height: 5px; background: ${color_combinacion_letra_5}"></th>
-                <th>${tamano_combinacion_letra_5}</th>
-                <th>${tipo_fuente_combinacion_letra_5}</th>
-                <th>${contenido_texto_combinacion_letra_5}</th>
-                <th class="text-center"><img   src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-            </tr>`
-            );
-            $("#alto_combinacion_figura_7").val("")      
-            break;
-        case 'cuello_letrascuello_figurascuello_lineas':
-          console.log('soy los tres juntos');
-          break;
-    }
-
-}
-function pintar_combinacion_figura(cuello_combinacion_id,contador_figura_letra,material_combinacion_figura_5_nombre,color_combinacion_figura_5,alto_combinacion_figura_5,ancho_combinacion_figura_5){
-    switch (cuello_combinacion_id) {
-        case 5:
-            $("#tbody_letra_figura").append(`
-                <tr>
-                    <th>figura ${contador_figura_letra}</th>
-                    <th>${material_combinacion_figura_5_nombre}</th>
-                    <th style="width: 20px;height: 5px; background: ${color_combinacion_figura_5}"></th>
-                    <th>${alto_combinacion_figura_5}</th>
-                    <th>${ancho_combinacion_figura_5}</th>
-                    <th>---</th>
-                    <th class="text-center"><img src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            $("#alto_combinacion_figura_5").val("")
-          break;
-          case 7:
-            $("#tbody_letra_linea_figura").append(`
-                <tr>
-                    <th>figura ${contador_figura_letra}</th>
-                    <th>${material_combinacion_figura_5_nombre}</th>
-                    <th style="width: 20px;height: 5px; background: ${color_combinacion_figura_5}"></th>
-                    <th>${alto_combinacion_figura_5}</th>
-                    <th>${ancho_combinacion_figura_5}</th>
-                    <th>---</th>
-                    <th class="text-center"><img src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            $("#alto_combinacion_figura_7").val("")
-          break;
-        case 8:
-            $("#tbody_linea_figura").append(`
-                <tr>
-                    <th>figura ${contador_figura_linea}</th>
-                    <th>${material_combinacion_figura_5_nombre}</th>
-                    <th style="width: 20px;height: 5px; background: ${color_combinacion_figura_5}"></th>
-                    <th>${alto_combinacion_figura_5}</th>
-                    <th>${ancho_combinacion_figura_5}</th>
-                    <th class="text-center"><img src="img/layouts/cancelar.svg" width="20px;" height="20px;" alt=""></th>
-                </tr>`
-            );
-            $("#alto_combinacion_figura_8").val("")      
-          break;
-        case 'cuello_figurascuello_lineas':
-          console.log('soy figuras y lineas');
-          cuello_figura_linea()          
-          break;
-        case 'cuello_letrascuello_figurascuello_lineas':
-          console.log('soy los tres juntos');
-          break;
-    }
-    
-}
 
 // funcion ajax mandar datos al controlador 
 function tabla_cuello_mandar_datos(){
@@ -1381,7 +2088,8 @@ function tabla_cuello_mandar_datos(){
         method: "POST",
         success: function (response) {
             console.log("data recibida",response)
-            if(response){
+
+            if(response){                
                 swal({
                     title: "Correcto",
                     text: "se guardado correctamente",
@@ -1404,3 +2112,10 @@ function tabla_cuello_mandar_datos(){
     });
 }
 
+function validacion_alert(){
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Algunos campos faltan por completar',
+      })
+}

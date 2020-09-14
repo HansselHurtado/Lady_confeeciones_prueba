@@ -59,7 +59,7 @@
         <div class="d-flex justify-content-end py-3">
             <div class="w-75 d-flex justify-content-center">
                 <h3 class="text-dark mr-4">Cuellos</h3>
-            <a href={{ route('crear_cuello') }} class="btn btn-primary">diseñar</a>
+            <a href={{ route('crear_cuello') }} class="btn btn-primary color_a">diseñar</a>
             </div>
         </div>
         <div class="d-flex w-100 justify-content-between">
@@ -73,7 +73,7 @@
                     <li class="p-2"><a class="text-dark" href="">liso +</a></li>
                     <li class="p-2"><a class="text-dark" href="">linea +</a></li>
                     <div class="d-flex justify-content-center">
-                        <a href="" class="btn btn-primary">diseñar</a>
+                        <a href="#" class="btn btn-primary color_a">diseñar</a>
                     </div>
                 </nav>
             </div>
