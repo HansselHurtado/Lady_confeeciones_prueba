@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label for="contenido_letra">Contenido del texto</label>
-                    <input class="form-control" type="text" name="" id="contenido_letra">
+                    <input class="form-control" type="text" name="" id="contenido_letra" maxlength="50" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                 </div>
             </div>
             <div class=" row my-3 mx-4">
@@ -62,7 +62,7 @@
                 <div class="row  mx-0">
                     <div class="form-group">
                         <label for="tamano_fuente_letra">Alto de texto</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_letra">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_letra" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <div class="form-group mx-3">
                         <label for="color_letra">Color de letra</label>

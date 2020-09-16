@@ -57,11 +57,11 @@
                     <div>
                         <div class="form-group">
                             <label for="nombre_cuello">Nombre de Diseño</label>
-                            <input class="form-control" type="text" name="nombre" id="nombre_cuello" required>
+                            <input class="form-control" type="text" name="nombre" id="nombre_cuello" maxlength="80" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                         </div>
                         <div class="form-group">
                             <label for="descripcion_cuello">Descripción</label>
-                            <input class="form-control" type="text" name="descripcion" id="descripcion_cuello">
+                            <input class="form-control" type="text" name="descripcion" id="descripcion_cuello" maxlength="150" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                 
             </div>
             <div class="row my-4">
-                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary eliminar_fondo imagen" >Continuar</button>
+                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary eliminar_fondo imagen continuar" >Continuar</button>
             </div>
         </div>
 

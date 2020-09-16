@@ -13,7 +13,7 @@
                         <!-- Icon Divider-->
                         <div class="divider-custom">
                             <div class="divider-custom-line"></div>
-                            <div class="divider-custom-icon">   <img src="{{ asset('/icons/error.svg') }}" alt="" width="50px"></div>
+                            <div class="divider-custom-icon"> <h4 id="titulo_img"> </h4></div>
                             <div class="divider-custom-line"></div>
                         </div>
                         <!-- Contact Section Form-->
@@ -58,11 +58,11 @@
                             <div class=" row my-3 mx-1 d-flex justify-content-around ">             
                                 <label for="">Talla</label>
                                 <select class="form-control w-30" name="" id="talla_seleccionada" required>
-                                    <option value="" selected disabled>Escoger Talla</option>
-                                    <option >12</option>                                
-                                    <option >14</option>                                
-                                    <option >16</option>                                
-                                    <option >18</option>                                
+                                    <option value="" selected disabled>Seleccione una Talla</option>
+                                    <option id="12">12</option>                                
+                                    <option id="14">14</option>                                
+                                    <option id="16">16</option>                                
+                                    <option id="18">18</option>                                
                                 </select>
                                 <label for="imagen_diseño">Cantidad</label>
                                 <input class="form-control tamano_input_color" type="number" name="" id="cantidad_tallas" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
@@ -85,8 +85,7 @@
                                           <th>Total</th>
                                           <th id="suma_cantidades"></th>
                                           <th id="suma_valor_total"></th>
-                                          <th>Opción</th>
-
+                                          <th></th>
                                         </tr>
                                       </tfoot>
                                     <tbody id="tbody_tallas">
@@ -97,54 +96,67 @@
                                 
                                 <div class=" row my-3 mx-1 d-flex justify-content-start">
                                            
-                                    <div class="">                    
-                                        <label for="imagen_diseño">Cantidad de Fajas</label>
-                                        <input class="form-control tamano_input_color mx-2" type="number" name="" id="" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
-                                    </div>
-                                    <div class="">                    
-                                        <label for="imagen_diseño">Cantidad de Puños</label>
-                                        <input class="form-control tamano_input_color mx-2" type="number" name="" id="" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required> 
-                                    </div>  
+                                    
+                                     
                                                              
                                 </div>  
                             
-                                <div id="punos_fajas" class="d-flex flex-column">                                     
-                                    <div id="imagen_punos_puno" class="my-3 hiden animacion text-left">
-                                        <label class="" for="">Por favor introduzca una imagen del diseño de puño</label>
-                                        <input class="w-100" type="file" name="" id="">
-                                    </div>  
-                                    <div id="imagen_punos_fajas" class="my-3 hiden animacion text-left">
-                                        <label class="" for="">Por favor introduzca una imagen del diseño de faja</label>
-                                        <input class="w-100" type="file" name="" id="">
-                                    </div>   
+                                <div id="punos_fajas" class="d-flex flex-column">   
                                     {{-- puño --}}
-                                    <div class="justify-content-start text-left">
-                                        <label for="">El puño conserva el mismo modelo del cuello</label>
+                                    <div class="text-left">
+                                        <span class="text-success"><strong> Sección de Puños</strong></span>
                                     </div>
-                                    <div class="d-flex">
-                                        <div class="d-flex align-items-center mx-2">
-                                            <label for="id_tallas_si" class="m-0" >Sí</label>
-                                            <input  class="ml-1 tallas" type="radio" name="tallas" value="2" id="id_tallas_si">
+                                    <div class="border border-medium my-2 p-3 rounded">
+                                        <div class=" my-2 d-flex justify-content-start">                    
+                                            <label for="imagen_diseño">Cantidad de Puños</label>
+                                            <input class="form-control tamano_input_color mx-2" type="number" name="" id="" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required> 
+                                        </div> 
+                                        <div class="justify-content-start text-left">
+                                            <label for="">El puño conserva el mismo modelo del cuello</label>
                                         </div>
-                                        <div class="d-flex align-items-center">
-                                            <label for="id_tallas_no" class="m-0">No</label>
-                                            <input class="ml-1 tallas" type="radio" name="tallas" value="1" id="id_tallas_no">
-                                        </div>  
+                                        <div class="d-flex">
+                                            <div class="d-flex align-items-center mx-2">
+                                                <label for="id_tallas_si" class="m-0" >Sí</label>
+                                                <input  class="ml-1 tallas" type="radio" name="tallas" value="2" >
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <label for="id_tallas_no" class="m-0">No</label>
+                                                <input class="ml-1 tallas" type="radio" name="tallas" value="1" >
+                                            </div>  
+                                        </div> 
+                                        <div id="imagen_punos_puno" class="my-3 hiden animacion text-left">
+                                            <label class="" for="">Por favor introduzca una imagen del diseño de puño</label>
+                                            <input class="w-100" type="file" name="" id="">
+                                        </div>     
                                     </div>
+                                    
                                     {{-- faja --}}
-                                    <div class="justify-content-start text-left">
-                                        <label for="">La faja conserva el mismo modelo del cuello</label>
+                                    <div class="text-left">
+                                        <span class="text-success"><strong> Sección de Fajas</strong></span>
                                     </div>
-                                    <div class="d-flex">
-                                        <div class="d-flex align-items-center mx-2">
-                                            <label for="id_tallas_si" class="m-0" >Sí</label>
-                                            <input  class="ml-1 tallas" type="radio" name="tallas_faja" value="4" id="id_tallas_si">
+                                    <div class="border border-medium my-2 p-3 rounded">
+                                        <div class=" my-2 d-flex justify-content-start">                    
+                                            <label for="imagen_diseño">Cantidad de Fajas</label>
+                                            <input class="form-control tamano_input_color mx-2" type="number" name="" id="" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                                         </div>
-                                        <div class="d-flex align-items-center">
-                                            <label for="id_tallas_no" class="m-0">No</label>
-                                            <input class="ml-1 tallas" type="radio" name="tallas_faja" value="3" id="id_tallas_no">
-                                        </div>  
-                                    </div>
+                                        <div class="justify-content-start text-left">
+                                            <label for="">La faja conserva el mismo modelo del cuello</label>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="d-flex align-items-center mx-2">
+                                                <label for="id_tallas_si" class="m-0" >Sí</label>
+                                                <input  class="ml-1 tallas" type="radio" name="tallas_faja" value="4" >
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <label for="id_tallas_no" class="m-0">No</label>
+                                                <input class="ml-1 tallas" type="radio" name="tallas_faja" value="3" >
+                                            </div>  
+                                        </div>
+                                        <div id="imagen_punos_fajas" class="my-3 hiden animacion text-left">
+                                            <label class="" for="">Por favor introduzca una imagen del diseño de faja</label>
+                                            <input class="w-100" type="file" name="" id="">
+                                        </div>   
+                                    </div>                           
                                 </div>
                             </div>
 
@@ -159,7 +171,7 @@
                                 </div>
                             </div>
                             <div class=" row my-3 mx-1 d-flex justify-content-start">                    
-                                <button class="btn btn-primary" onclick="tabla_cuello_mandar_datos();">Añadir al carrito</button>
+                                <button class="btn btn-primary mandar_datos" id="mandar_datos" >Añadir al carrito</button>
                             </div>
                             
                         </div>

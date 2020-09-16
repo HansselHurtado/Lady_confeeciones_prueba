@@ -14,6 +14,7 @@ $('.combinacion').click(function(){
 $('#mostrar_formulario').click(function(){
     let nameForm = ''
     var nombre_cuello = $("#nombre_cuello").val()
+    var imagen = $("#imagen_diseno").val()
     $('input:checkbox').each(function(){
         let name = $(this).attr('name')
         $(`#formulario_${name}`).addClass('hiden');
@@ -26,11 +27,16 @@ $('#mostrar_formulario').click(function(){
         }
     })
     if(nameForm.length === 0 && nombre_cuello === ""){
-        $('#aviso').html("<strong  class='text-danger animacion'> Por favor llene todos los campos </strong>")  
+        // $('#aviso').html("<strong  class='text-danger animacion'> Por favor llene todos los campos </strong>") 
+        validacion_alert() 
     }else if(nameForm.length === 0 ) {
-        $('#aviso').html("<strong  class='text-danger animacion'> Debe escoger un tipo de cuello</strong>")  
+        validacion_alert_tipo_cuello()
+        // $('#aviso').html("<strong  class='text-danger animacion'> Debe escoger un tipo de cuello</strong>")  
     }else if(nombre_cuello === ""){
-        $('#aviso').html("<strong  class='text-danger animacion'> Debe introducir un nombre </strong>")  
+        validacion_alert_tipo_cuello_nombre()
+        // $('#aviso').html("<strong  class='text-danger animacion'> Debe introducir un nombre </strong>")  
+    // }else if(imagen === ""){
+    //     validacion_alert_tipo_cuello_img()
     }else {
         console.log(nameForm)
         // $(".modal_aviso").attr('id','modal_mostrar_formulario')
@@ -67,6 +73,9 @@ let id_tbody = ''
 let id_table = ''
 let id_material_fondo = ''
 let id_material = ''
+let id_material_letra = ''
+let id_material_figura = ''
+let id_material_linea = ''
 let id_color_fondo = ''
 
 let id_color = ''
@@ -80,6 +89,8 @@ let talla_eliminar_id = 1
 let sma_cantidades = 0
 const precio_total = 1200
 let total = 0
+let talla_nombre =""
+
 // ****************************** tallas ****************************************************************************
 function pintar_tabla_tallas(array){
     let total_cantiades = 0
@@ -94,7 +105,7 @@ function pintar_tabla_tallas(array){
                 <th>${element.talla_seleccionada_nombre}</th>
                 <th>${element.cantidad_tallas}</th>
                 <th>${total_cantiades}</th>
-                <th class="text-center "><img class="eliminar_talla" src="img/layouts/cancelar.svg" data-id="${element.talla_eliminar_id}" width="20px;" height="20px;" alt=""></th>            
+                <th class="text-center "><img class="eliminar_talla" src="img/layouts/cancelar.svg" id="${element.talla_seleccionada_nombre}" data-id="${element.talla_eliminar_id}" width="20px;" height="20px;" alt=""></th>            
             </tr>
             `
             );
@@ -105,24 +116,33 @@ function pintar_tabla_tallas(array){
 
 function agregar_tallas(){
     var talla_seleccionada = $( "#talla_seleccionada option:selected" ).val()      
-    var talla_seleccionada_nombre = $( "#talla_seleccionada option:selected" ).text()  
+    var talla_seleccionada_nombre = $( "#talla_seleccionada option:selected" ).text()
     var cantidad_tallas = $("#cantidad_tallas").val()
     var objeto_cuello_tallas_data = {
         talla_eliminar_id,
         talla_seleccionada_nombre,
         cantidad_tallas,    
     }
-    if(talla_seleccionada !== "" && cantidad_tallas > 0 ){
-        $('#tabla_tallas').removeClass('hiden')
-        $('#tabla_tallas').addClass('show')       
-        objeto_cuello.tallas.push(objeto_cuello_tallas_data)
-        pintar_tabla_tallas(objeto_cuello.tallas)
-        talla_eliminar_id++
-        sma_cantidades = sma_cantidades + parseInt(cantidad_tallas)
-        $("#cantidad_tallas").val("") 
-        $("#suma_cantidades").text(sma_cantidades) 
-        $("#suma_valor_total").text(total) 
+
+    if(talla_nombre != talla_seleccionada_nombre ){
+        if(talla_seleccionada !== "" && cantidad_tallas > 0 ){
+            $('#tabla_tallas').removeClass('hiden')
+            $('#tabla_tallas').addClass('show')       
+            objeto_cuello.tallas.push(objeto_cuello_tallas_data)
+            pintar_tabla_tallas(objeto_cuello.tallas)
+            talla_eliminar_id++
+            sma_cantidades = sma_cantidades + parseInt(cantidad_tallas)
+            $("#cantidad_tallas").val("") 
+            $("#suma_cantidades").text(sma_cantidades) 
+            $("#suma_valor_total").text(total) 
+            talla_nombre = talla_seleccionada_nombre
+        }else{
+            validacion_alert()
+        }
+    }else{
+        validacion_alert_talla()
     }
+    
     $('.tallas').click(function(){
         if($(this).val() === "1"){
             $('#imagen_punos_puno').removeClass('hiden')
@@ -135,36 +155,59 @@ function agregar_tallas(){
         }else if($(this).val() === "4"){
             $('#imagen_punos_fajas').addClass('hiden')
         }
-    }) 
+    })
+    $( "#talla_seleccionada option:selected" ).attr('disabled',true) 
     console.log(objeto_cuello);
     $(document).ready(function(){
         $('body').on('click','.eliminar_talla', function(){
             let id = parseInt($(this).attr('data-id'))
+            let id_nombre = parseInt($(this).attr('id'))
+            $(`#${id_nombre}`).attr('disabled',false)
+            talla_nombre =""
+            console.log(id_nombre);
             eliminar_talla(objeto_cuello.tallas,id)  
             pintar_tabla_tallas(objeto_cuello.tallas)
+
         } )   
-    })
+    })    
 }
 
-// Añdiendo imagen de fondo 
-$(document).ready(function() {
-    $('.imagen').click(function(){
-        /*let data = new FormData();
-var files = $('#imagen_diseno')[0].files[0]
-        data.append('file', files);
-        console.log("soy la imagen",files)
-        console.log("soy la imagen form",data)*/
-        // objeto_cuello.obj_imagen_diseno = data
-    })
+// vaciar los formularios
+// $(document).ready(function(){
+//     $('body').on('click','.continuar', function(){
+//         objeto_cuello.obj_material_fondo = ""
+//         objeto_cuello.obj_color_fondo = ""
+//         objeto_cuello.obj_datos_linea = []
+//         objeto_cuello.obj_datos_figura = []
+//         objeto_cuello.obj_datos_letra = []
+//         objeto_cuello.tallas = []
+//         linea = 0
+//         figura = 0
+
+//         fondo_cuello_cm = 10
+//         dejar_valores_in_false()
+//     })   
+// })
+
+// validar si escogio una talla, para guardar el pedido
+$(document).ready(function(){
+    $('body').on('click','.mandar_datos', function(){            
+        console.log("hola");
+        if(sma_cantidades > 0){
+            tabla_cuello_mandar_datos()
+        }else{
+            validacion_alert_mandar_carrito()
+        }
+    } )   
 })
 
-// *************************** cuello figura ***********************************************************
-
+// mostrar imagen
 function showimagefondo(){
     console.log("soy imag");
     let img_diseno =  document.getElementById('imagen_diseno')
     console.log(img_diseno);
     $('#show_img').html("")
+    $('#titulo_img').html("Imagen del diseño")
     if(img_diseno.files && img_diseno.files[0]){
         var reader = new FileReader()
         reader.onload = function(e){
@@ -174,8 +217,60 @@ function showimagefondo(){
         }
         reader.readAsDataURL(img_diseno.files[0]);
         // objeto_cuello.obj_imagen_diseno = img_diseno.files[0]
+    }else{
+        $('#titulo_img').html("No ha subido ninguna imagen")
     }
 }
+
+
+function showimagefigura(img){
+    console.log("soy imag figura",img);
+    let img_diseno =  document.getElementById('' + img)
+    console.log(img_diseno);
+    $('#show_img').html("")
+    $('#titulo_img').html("Imagen de la figura")
+    if(img_diseno.files && img_diseno.files[0]){
+        var reader = new FileReader()
+        reader.onload = function(e){
+            $("#show_img").append(`
+                <img width="500px;" height="500px;" src="${e.target.result}"></img>
+            `)
+        }
+        reader.readAsDataURL(img_diseno.files[0]);
+        // objeto_cuello.obj_imagen_diseno = img_diseno.files[0]
+    }else{
+        $('#titulo_img').html("No ha subido ninguna imagen")
+    }
+}
+
+
+// validar para que escoja más de un elemento a fabricar
+function validar_arrays_combinacion(array,array2,button){
+    $("#" + button).click(function(){
+        console.log('estoy en modl');
+        if(array.length !== 0  && array2.length !==0  ){
+            $("#Modal_mostrar_diseno_hecho").modal("show");
+        }else{
+            validacion_alert_combinacion()
+        }
+    })
+}
+function validar_arrays_combinacion_3(array,array2,array3,button){
+    $("#" + button).click(function(){
+        console.log('estoy en modl');
+        if(array.length !== 0  && array2.length !==0 && array3.length !==0 ){
+            $("#Modal_mostrar_diseno_hecho").modal("show");
+        }else{
+            validacion_alert_combinacion()
+        }
+    })
+}
+
+
+
+// *************************** cuello figura ***********************************************************
+
+
 
 // agregar tabla cuello figura
 function tabla_cuello_figura(){
@@ -207,7 +302,6 @@ function tabla_cuello_figura(){
     var alto_figura = $("#alto_figura").val()
     var ancho_figura = $("#ancho_figura").val()
     var color_figura = $("#color_figura").val()
-    var imagen_diseno_figura = $("#imagen_diseno_figura").val()
 
 
     if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
@@ -215,7 +309,8 @@ function tabla_cuello_figura(){
         $('#aviso_figura_table').html("")  
         if(!validar_alto_cm(alto_figura)){
             $('#aviso_figura').html("")  
-            $('#aviso_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            validacion_alert_alto()
+            // $('#aviso_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
         }else{
             var objeto_cuello_figura_data = {
                 figura_eliminar_id,
@@ -223,15 +318,15 @@ function tabla_cuello_figura(){
                 alto_figura,
                 ancho_figura,
                 color_figura,
-                imagen_diseno_figura,
                 cuello_figura_id,
             }
             if(!validate_form(material_fondo_figura, color_fondo_figura, material_figura, alto_figura, ancho_figura, color_figura)){
                 if(figura === 0){
-                    // validacion_alert()
-                    $('#aviso_figura').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
+                    validacion_alert()
+                    // $('#aviso_figura').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
                 }else{
-                    $('#aviso_figura_table').html("<strong  class='text-danger animacion'> Algunos Campos no están completos</strong>")
+                    validacion_alert()
+                    // $('#aviso_figura_table').html("<strong  class='text-danger animacion'> Algunos Campos no están completos</strong>")
                 }
             }else{    
                 fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
@@ -253,20 +348,24 @@ function tabla_cuello_figura(){
                     objeto_cuello.obj_cuello_id = cuello_figura_id
                     objeto_cuello.obj_nombre_cuello = nombre_cuello
                     objeto_cuello.obj_descripcion_cuello = descripcion_cuello
-                    // objeto_cuello.obj_imagen_diseno = imagen_diseno
+                    objeto_cuello.obj_imagen_diseno = imagen_diseno
                     objeto_cuello.obj_material_fondo = material_fondo_figura
                     objeto_cuello.obj_color_fondo = color_fondo_figura
                 }
                 objeto_cuello.obj_datos_figura.push(objeto_cuello_figura_data)
                 pintar_tr( objeto_cuello.obj_datos_figura,id_tbody,material_figura_nombre)
                 dejar_campos_vacioss()
-                figura_eliminar_id++            
+                figura_eliminar_id++     
             }   
         }
     }else{
         $('#aviso_figura_table').html("") 
-        // validacion_alert()
-        $('#aviso_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+        if(alto_figura >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
+        // $('#aviso_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>") 
     }
     
     if(validar_fondo_cuello_cm()){
@@ -297,14 +396,29 @@ function dejar_valores_in_false(){
     $("#" + id_material_fondo).prop('disabled', false)
     $("#" + id_color_fondo).prop('disabled', false)
     $("#" + id_material).prop('disabled', false)
+
+    // $("#" + id_material_fondo).val("")
+    // $("#" + id_color_fondo).val("")
+    // $("#" + id_material).val("")
+
+
     $("#" + id_tbody).html("")
     $("#" + id_table).removeClass('show')
     $("#" + id_table).addClass('hiden')    
 
     $("#" + id_crear_diseno).removeClass('show')
     $("#" + id_crear_diseno).addClass('hiden') 
-}
 
+}
+function dejar_valores_in_false_combinacion(){    
+    $("#" + id_material_figura).prop('disabled', false)
+    $("#" + id_material_letra).prop('disabled', false)
+    $("#" + id_material_linea).prop('disabled', false)
+
+    // $("#" + id_material_figura).val("")
+    // $("#" + id_material_letra).val("")
+    // $("#" + id_material_linea).val("")
+}
 function dejar_valores_in_true(){    
     $("#" + id_material_fondo).prop('disabled', true)
     $("#" + id_color_fondo).prop('disabled', true)
@@ -314,7 +428,8 @@ function dejar_valores_in_true(){
     $("#" + id_table).addClass('show')   
     
     $("#" + id_crear_diseno).removeClass('hiden')
-    $("#" + id_crear_diseno).addClass('show')    
+    $("#" + id_crear_diseno).addClass('show')  
+    
 }
 
 function dejar_campos_vacioss(){
@@ -463,7 +578,7 @@ function pintar_tr(array,id_tbody,material_noombre){
             if(element.cuello_figura_id === "4"){
                 $("#" + id_tbody).append(`
                     <tr>
-                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th><img src="icons/figura.svg" alt="" width="30px"><u>figura</u></th>
                         <th>${material_noombre}</th>
                         <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"></div></th>
                         <th>${element.alto_figura} cm</th>
@@ -476,7 +591,7 @@ function pintar_tr(array,id_tbody,material_noombre){
             if(element.cuello_combinacion_id === "5"){
                 $("#" + id_tbody).append(`
                     <tr>
-                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th><img src="icons/figura.svg" alt="" width="30px"><u>figura</u></th>
                         <th>${material_noombre}</th>
                         <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"</div>></th>
                         <th>${element.alto_figura} cm</th>
@@ -549,7 +664,7 @@ function pintar_tr_combinacion(array,array2,id_tbody,material_noombre){
             if(element.cuello_combinacion_id === "5"){
                 $("#" + id_tbody).append(`
                     <tr>
-                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th><img src="icons/figura.svg" alt="" width="30px"><u>figura</u></th>
                         <th>${material_noombre}</th>
                         <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"></div></th>
                         <th>${element.alto_figura} cm</th>
@@ -563,7 +678,7 @@ function pintar_tr_combinacion(array,array2,id_tbody,material_noombre){
             if(element.cuello_combinacion_id === "figura"){
                 $("#" + id_tbody).append(`
                     <tr>
-                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th><img src="icons/figura.svg" alt="" width="30px"><u>figura</u></th>
                         <th>${material_noombre}</th>
                         <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"></div></th>
                         <th>${element.alto_figura} cm</th>
@@ -640,7 +755,7 @@ function pintar_tr_combinacion_letra_figura_linea(array,array2,array3,id_tbody,m
             if(element.cuello_combinacion_id === "5"){
                 $("#" + id_tbody).append(`
                     <tr>
-                        <th><img src="icons/figura.svg" alt="" width="30px">figura</th>
+                        <th><img src="icons/figura.svg" alt="" width="30px"><u>figura</u></th>
                         <th>${material_noombre}</th>
                         <th><div style="width: 50px;height: 50px;border-style: double; background: ${element.color_figura}" class="rounded-circle mx-auto"></div></th>
                         <th>${element.alto_figura} cm</th>
@@ -678,7 +793,8 @@ function cuello_liso(){
     var color_fondo_liso = $("#color_fondo_liso").val()
 
     if(material_fondo_liso === ""){
-        $('#aviso_liso').html("<strong  class='text-danger animacion'>Por favor seleccione el material</strong>")     
+        validacion_alert()
+        // $('#aviso_liso').html("<strong  class='text-danger animacion'>Por favor seleccione el material</strong>")     
     }else{
         $(".liso").attr('data-target','#Modal_mostrar_diseno_hecho')
         $('#aviso_liso').text("")
@@ -730,13 +846,13 @@ function tabla_cuello_letra(){
 
 
     
-    if  (alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
+    if (alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
         $('#aviso_letra_alto').html("")
         $('#aviso_letra_table').html("") 
-
         if(!validar_alto_cm(alto_letra)){
-            $('#aviso_letra').html("")  
-            $('#aviso_letra_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            $('#aviso_letra').html("") 
+            validacion_alert_alto()
+            // $('#aviso_letra_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
         }else{
             var objeto_cuello_letra_data = {
                 cuello_letra_id,
@@ -750,9 +866,11 @@ function tabla_cuello_letra(){
             console.log("soy contenido",contenido_letra);
             if(isNaN(material_letra) || material_fondo_letra === "" ||  alto_letra === "" || tipo_fuente__letra === "Escoge una fuente " || contenido_letra === "" ){
                 if(letra === 0){
-                    $('#aviso_letra').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
+                    validacion_alert()
+                    // $('#aviso_letra').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
                 }else{
-                    $('#aviso_letra_table').html("<strong  class='text-danger animacion'> Algunos Campos no están completos</strong>")
+                    validacion_alert()                   
+                    // $('#aviso_letra_table').html("<strong  class='text-danger animacion'> Algunos Campos no están completos</strong>")
                 } 
                 console.log(fondo_cuello_cm);           
             }else{
@@ -761,7 +879,7 @@ function tabla_cuello_letra(){
                 if(letra === 0){   
                     vaciar_objeto()
                     fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_letra_noombre}</th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra}" class="rounded-circle mx-auto"> </div></th>
@@ -787,8 +905,13 @@ function tabla_cuello_letra(){
             }
         }
     }else{
+        if(alto_letra >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
         $('#aviso_letra_table').html("")  
-        $('#aviso_letra_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+        // $('#aviso_letra_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
     }
 
     $(document).ready(function(){
@@ -859,7 +982,8 @@ function tabla_cuello_linea(){
 
         if(!validar_alto_cm(alto_linea)){
             $('#aviso_linea').html("")  
-            $('#aviso_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+            validacion_alert_alto()
+            // $('#aviso_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
         }else{
             var objeto_cuello_linea_data = {
                 cuello_linea_id,
@@ -870,9 +994,11 @@ function tabla_cuello_linea(){
             }
             if( isNaN(material_linea) || material_fondo_linea === "" || alto_linea === ""){
                 if(linea === 0){
-                    $('#aviso_linea').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
+                    validacion_alert()                    
+                    // $('#aviso_linea').html("<strong  class='text-danger animacion'> Algunos Campos no estan completos</strong>")
                 }else{
-                    $('#aviso_linea_table').html("<strong  class='text-danger animacion'> Algunos Campos no están completos</strong>")
+                    validacion_alert()
+                    // $('#aviso_linea_table').html("<strong  class='text-danger animacion'> Algunos Campos no están completos</strong>")
                 } 
             }else{
                 fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
@@ -906,8 +1032,13 @@ function tabla_cuello_linea(){
         }
         
     }else{
+        if(alto_linea >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
         $('#aviso_linea_table').html("")  
-        $('#aviso_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+        // $('#aviso_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
     }
 
     $(document).ready(function(){
@@ -926,9 +1057,7 @@ function tabla_cuello_linea(){
             fondo_cuello_cm = 10
             dejar_valores_in_false()
         })   
-    })
-
-       
+    })       
     console.log(objeto_cuello)
 }
 
@@ -963,15 +1092,19 @@ function combinacion(Noombre_combinacion){
 
 function cuello_letra_figura(){
     var cuello_letra_figura_id = 5
+    button = $('#modal_button_letra_figura').attr('id')
 
     id_table = $('#tabla_diseno_letra_figura').attr('id')
     id_material_fondo = $( "#material_fondo_letra_figura").attr('id')      
     id_material = $( "#material_combinacion_figura_53" ).attr('id')
-    id_material = $( "#material_combinacion_letra_53" ).attr('id')
     id_color_fondo = $("#color_fondo_letra_figura").attr('id')
     id_tbody = $('#tbody_letra_figura_combinacion').attr('id')    
     id_crear_diseno =  $("#crear_diseno_letra_figura").attr('id')
-
+    
+    id_material_figura = $( "#material_combinacion_figura_5" ).attr('id')
+    id_material_letra = $( "#material_combinacion_letra_5" ).attr('id')
+    id_material_linea = $( "#material_combinacion_linea_55" ).attr('id')
+  
     $('#agregar_combinacion_figura').click(function(){
         
         $('#aviso_letra_figura_alto').html("")
@@ -998,14 +1131,14 @@ function cuello_letra_figura(){
         var alto_figura = $("#alto_combinacion_figura_5").val()
         var ancho_figura = $("#ancho_combinacion_figura_5").val()
         var color_figura = $("#color_combinacion_figura_5").val()
-        var imagen_diseno_combinacion_figura_5 = $("#imagen_diseno_combinacion_figura_5").val()
 
         if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
             $('#aviso_letra_figura_alto').html("")
             $('#aviso_letra_figura_table').html("")  
             if(!validar_alto_cm(alto_figura)){
                 $('#aviso_letra_figura').html("")  
-                $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+                validacion_alert_alto()                
+                // $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
             }else{
                 var objeto_cuello_combinacion_figura_data = {
                     //figura
@@ -1015,15 +1148,15 @@ function cuello_letra_figura(){
                     alto_figura,
                     color_figura,
                     ancho_figura,
-                    imagen_diseno_combinacion_figura_5,
                 }
                 if(isNaN(material_fondo_letra_figura) || isNaN(material_combinacion_figura_5) ||  alto_figura === "" || ancho_figura === ""){
-                    validar_aviso(letra_figura,cuello_letra_figura_id)   
+                    // validar_aviso(letra_figura,cuello_letra_figura_id)   
+                    validacion_alert()
                 }else{
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
                     if(letra_figura === 0){     
                         fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_letra_figura_nombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
@@ -1047,8 +1180,13 @@ function cuello_letra_figura(){
                 }
             }
         }else{
+            if(alto_figura >= 10){
+                validacion_alert_alto()
+            }else{
+                validacion_alert()
+            }
             $('#aviso_letra_figura_table').html("")  
-            $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+            // $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
         $(document).ready(function(){
             $('body').on('click','.eliminar_figura', function(){
@@ -1065,6 +1203,7 @@ function cuello_letra_figura(){
                 letra_figura = 0
                 fondo_cuello_cm = 10
                 dejar_valores_in_false()
+                dejar_valores_in_false_combinacion()
             })   
         })
 
@@ -1104,7 +1243,8 @@ function cuello_letra_figura(){
 
             if(!validar_alto_cm(alto_letra)){
                 $('#aviso_letra_figura').html("")  
-                $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+                validacion_alert_alto()
+                // $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
             }else{
                 var objeto_cuello_combinacion_letra_data = {    
                     //letra
@@ -1119,13 +1259,14 @@ function cuello_letra_figura(){
                 }
                
                 if(isNaN(material_fondo_letra_figura) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente" || contenido_letra === "" || alto_letra === ""){
-                    validar_aviso(letra_figura,cuello_letra_figura_id)
+                    validacion_alert()
+                    // validar_aviso(letra_figura,cuello_letra_figura_id)
                 }else{
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
 
                     if(letra_figura === 0){  
                         fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_letra_figura_nombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
@@ -1151,8 +1292,13 @@ function cuello_letra_figura(){
                 }
             }           
         }else{
+            if(alto_letra >= 10){
+                validacion_alert_alto()
+            }else{
+                validacion_alert()
+            }
             $('#aviso_letra_figura_table').html("")  
-            $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+            // $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
         $(document).ready(function(){
             $('body').on('click','.eliminar_figura', function(){
@@ -1169,20 +1315,27 @@ function cuello_letra_figura(){
                 letra_figura = 0
                 fondo_cuello_cm = 10
                 dejar_valores_in_false()
+                dejar_valores_in_false_combinacion()
             })   
         })
         console.log(objeto_cuello)
     })
+    validar_arrays_combinacion(objeto_cuello.obj_datos_figura,objeto_cuello.obj_datos_letra,button)
+    
 }
 
 function cuello_figura_linea(){
     var cuello_linea_figura_id = 5
+    button = $('#modal_button_figura_linea').attr('id')
+    validar_arrays_combinacion(objeto_cuello.obj_datos_figura,objeto_cuello.obj_datos_linea,button)
     
     id_tbody = $('#tbody_linea_figura').attr('id')
     id_table = $('#tabla_diseno_linea_figura').attr('id')
     id_material_fondo = $( "#material_fondo_figura_linea").attr('id')      
-    id_material = $( "#material_combinacion_figura_53" ).attr('id')
-    id_material = $( "#material_combinacion_letra_53" ).attr('id')
+    id_material = $( "#material_combinacion_figura_35" ).attr('id')
+    id_material_figura = $( "#material_combinacion_figura_8" ).attr('id')
+    id_material_letra = $( "#material_combinacion_letra_83" ).attr('id')
+    id_material_linea = $( "#material_combinacion_linea_8" ).attr('id')
     id_color_fondo = $("#color_fondo_linea_figura").attr('id')
     id_crear_diseno =  $("#crear_diseno_figura_linea").attr('id')
 
@@ -1213,7 +1366,6 @@ function cuello_figura_linea(){
         var alto_figura = $("#alto_combinacion_figura_8").val()
         var ancho_figura = $("#ancho_combinacion_figura_8").val()
         var color_figura = $("#color_combinacion_figura_8").val()
-        var imagen_diseno_combinacion_figura_8 = $("#imagen_diseno_combinacion_figura_8").val()
 
         
         if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
@@ -1221,7 +1373,8 @@ function cuello_figura_linea(){
             $('#aviso_linea_figura_table').html("")
             if(!validar_alto_cm(alto_figura)){
                 $('#aviso_linea_figura').html("")  
-                $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+                validacion_alert_alto()
+                // $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
             }else{
                 var objeto_cuello_combinacion_figura_data = {
                     //figura
@@ -1231,15 +1384,15 @@ function cuello_figura_linea(){
                     alto_figura,
                     color_figura,
                     ancho_figura,
-                    imagen_diseno_combinacion_figura_8,
                 }
                 if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_figura === "" || ancho_figura === ""){
-                    validar_aviso(linea_figura,cuello_linea_figura_id)   
+                    validacion_alert()
+                    // validar_aviso(linea_figura,cuello_linea_figura_id)   
                 }else{
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
                     if(linea_figura === 0){  
                         fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_linea_figura_nombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
@@ -1264,8 +1417,13 @@ function cuello_figura_linea(){
                 }
             }
         }else{
+            if(alto_figura >= 10){
+                validacion_alert_alto()
+            }else{
+                validacion_alert()
+            }
             $('#aviso_linea_figura_table').html("")  
-            $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+            // $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
         $(document).ready(function(){
             $('body').on('click','.eliminar_figura', function(){
@@ -1283,6 +1441,7 @@ function cuello_figura_linea(){
                 linea_figura = 0
                 fondo_cuello_cm = 10
                 dejar_valores_in_false()
+                dejar_valores_in_false_combinacion()
             })   
         })  
         
@@ -1324,7 +1483,8 @@ function cuello_figura_linea(){
 
             if(!validar_alto_cm(alto_linea)){
                 $('#aviso_linea_figura').html("")  
-                $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+                validacion_alert_alto()
+                // $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
             }else{
                 var objeto_cuello_combinacion_linea_data = {
                     //linea
@@ -1336,13 +1496,14 @@ function cuello_figura_linea(){
                 }
 
                 if(isNaN(material_fondo_linea_figura) || isNaN(material_linea) ||  alto_linea === ""){
-                    validar_aviso(linea_figura,cuello_linea_figura_id)   
+                    validacion_alert()
+                    // validar_aviso(linea_figura,cuello_linea_figura_id)   
                 }else{
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
 
                     if(linea_figura === 0){   
                         fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_linea_figura_nombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
@@ -1365,8 +1526,13 @@ function cuello_figura_linea(){
                 }
             }
         }else{
+            if(alto_linea >= 10){
+                validacion_alert_alto()
+            }else{
+                validacion_alert()
+            }
             $('#aviso_linea_figura_table').html("")  
-            $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+            // $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
 
         $(document).ready(function(){
@@ -1385,6 +1551,7 @@ function cuello_figura_linea(){
                 linea_figura = 0
                 fondo_cuello_cm = 10
                 dejar_valores_in_false()
+                dejar_valores_in_false_combinacion()
             })   
         })
     
@@ -1396,15 +1563,19 @@ function cuello_figura_linea(){
 function cuello_letra_linea(){
 
     var cuello_letra_linea_id = 6
-
+    button = $('#modal_button_letra_linea').attr('id')
+    validar_arrays_combinacion(objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,button)
+    
     id_table = $('#tabla_diseno_letra_linea').attr('id')
     id_material_fondo = $( "#material_fondo_letra_linea").attr('id')      
     id_material = $( "#material_combinacion_letra_63" ).attr('id')
-    id_material = $( "#material_combinacion_linea_63" ).attr('id')
     id_color_fondo = $("#color_fondo_letra_linea").attr('id')
     id_tbody = $('#tbody_linea_letra').attr('id')    
     id_crear_diseno =  $("#crear_diseno_linea_letra").attr('id')
 
+    id_material_figura = $( "#material_combinacion_figura_83" ).attr('id')
+    id_material_letra = $( "#material_combinacion_letra_6" ).attr('id')
+    id_material_linea = $( "#material_combinacion_linea_6" ).attr('id')
 
     $('#agregar_combinacion_letra_2').click(function(){
 
@@ -1441,7 +1612,8 @@ function cuello_letra_linea(){
 
             if(!validar_alto_cm(alto_letra)){
                 $('#aviso_letra_linea').html("")  
-                $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+                validacion_alert_alto()
+                // $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
             }else{
                 var objeto_cuello_combinacion_letra_data = {    
                     //letra
@@ -1456,13 +1628,14 @@ function cuello_letra_linea(){
                 }
 
                 if(isNaN(material_fondo_letra_linea) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente" || contenido_letra === "" || alto_letra === ""){
-                    validar_aviso(letra_linea,cuello_letra_linea_id)
+                    validacion_alert()
+                    // validar_aviso(letra_linea,cuello_letra_linea_id)
                 }else{
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
 
                     if(letra_linea === 0){   
                         fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_letra_linea_nombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
@@ -1489,8 +1662,13 @@ function cuello_letra_linea(){
                 }
             }        
         }else{
+            if(alto_letra >= 10){
+                validacion_alert_alto()
+            }else{
+                validacion_alert()
+            }
             $('#aviso_letra_linea_table').html("")  
-            $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+            // $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
         $(document).ready(function(){
             $('body').on('click','.eliminar_figura', function(){
@@ -1507,6 +1685,7 @@ function cuello_letra_linea(){
                 letra_linea = 0
                 fondo_cuello_cm = 10
                 dejar_valores_in_false()
+                dejar_valores_in_false_combinacion()
             })   
         })           
         
@@ -1545,7 +1724,8 @@ function cuello_letra_linea(){
 
             if(!validar_alto_cm(alto_linea)){
                 $('#aviso_letra_linea').html("")  
-                $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+                validacion_alert_alto()
+                // $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
             }else{
                 var objeto_cuello_combinacion_linea_data = {
                     //linea
@@ -1557,13 +1737,14 @@ function cuello_letra_linea(){
                 }
 
                 if(isNaN(material_fondo_letra_linea) || isNaN(material_linea) ||  alto_linea === ""){
-                    validar_aviso(letra_linea,cuello_letra_linea_id)   
+                    validacion_alert()
+                    // validar_aviso(letra_linea,cuello_letra_linea_id)   
                 }else{
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
 
                     if(letra_linea === 0){                 
                         fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_letra_linea_nombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
@@ -1585,9 +1766,14 @@ function cuello_letra_linea(){
                     eliminar_combinacion++
                 }
             }        
-        }else{
+        }else{            
+            if(alto_linea >= 10){
+                validacion_alert_alto()
+            }else{
+                validacion_alert()
+            }
             $('#aviso_letra_linea_table').html("")  
-            $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+            // $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
 
         $(document).ready(function(){
@@ -1605,6 +1791,7 @@ function cuello_letra_linea(){
                 letra_linea = 0
                 fondo_cuello_cm = 10
                 dejar_valores_in_false()
+                dejar_valores_in_false_combinacion()
             })   
         })       
         console.log(objeto_cuello)
@@ -1613,14 +1800,19 @@ function cuello_letra_linea(){
 }
 
 function cuello_letra_linea_figura(){
+    button = $('#modal_button_letra_linea_figura').attr('id')
+    validar_arrays_combinacion_3(objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,button)
+    
     id_table = $('#tabla_diseno_letra_linea_figura').attr('id')
     id_material_fondo = $( "#material_fondo_letra_linea_figura").attr('id')      
     id_material = $( "#material_combinacion_letra_63" ).attr('id')
-    id_material = $( "#material_combinacion_linea_63" ).attr('id')
     id_color_fondo = $("#color_fondo_letra_linea_figura").attr('id')
     id_tbody = $('#tbody_letra_linea_figura').attr('id')
     id_crear_diseno = $('#crear_diseno_letra_figura_linea').attr('id')
-
+    
+    id_material_figura = $( "#material_combinacion_figura_7" ).attr('id')
+    id_material_letra = $( "#material_combinacion_letra_7" ).attr('id')
+    id_material_linea = $( "#material_combinacion_linea_7" ).attr('id')
 
     aviso_alto = $('#aviso_letra_linea_figura_alto').attr('id')
     aviso_table = $('#aviso_letra_linea_figura_table').attr('id')
@@ -1650,13 +1842,15 @@ function cuello_letra_linea_figura(){
         var contenido_letra = $("#contenido_texto_combinacion_letra_7").val()
         var color_letra = $("#color_combinacion_letra_7").val()
         var alto_letra = $("#alto_combinacion_letra_7").val()
+        
         if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
             $('#aviso_letra_linea_figura_alto').html("")
             $('#aviso_letra_linea_figura_table').html("") 
 
             if(!validar_alto_cm(alto_letra)){
                 $('#aviso_letra_linea_figura').html("")  
-                $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+                validacion_alert_alto()
+                // $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
             
             }else{
                 var objeto_cuello_combinacion_letra_data = {    
@@ -1671,13 +1865,14 @@ function cuello_letra_linea_figura(){
                     alto_letra,
                 }
                 if(isNaN(material_fondo_letra_linea) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente " || contenido_letra === "" || alto_letra === ""){
-                    validar_aviso(letra_linea,cuello_letra_linea_id)
+                    validacion_alert()
+                    // validar_aviso(letra_linea,cuello_letra_linea_id)
                 }else{
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
 
                     if(letra_linea_figura === 0){                        
                         fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_letra_linea_nombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
@@ -1701,9 +1896,14 @@ function cuello_letra_linea_figura(){
                     eliminar_combinacion++
                 }
             }
-        }else{
+        }else{            
+            if(alto_letra >= 10){
+                validacion_alert_alto()
+            }else{
+                validacion_alert()
+            }
             $('#aviso_letra_linea_figura_table').html("")  
-            $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+            // $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
         $(document).ready(function(){
             $('body').on('click','.eliminar_figura', function(){
@@ -1720,6 +1920,7 @@ function cuello_letra_linea_figura(){
                 letra_linea_figura = 0
                 fondo_cuello_cm = 10
                 dejar_valores_in_false()
+                dejar_valores_in_false_combinacion()
             })   
         })
         
@@ -1758,7 +1959,8 @@ function cuello_letra_linea_figura(){
 
             if(!validar_alto_cm(alto_linea)){
                 $('#aviso_letra_linea_figura').html("")  
-                $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+                validacion_alert_alto()
+                // $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
             }else{
                 var objeto_cuello_combinacion_linea_data = {
                     //linea
@@ -1769,13 +1971,14 @@ function cuello_letra_linea_figura(){
                     alto_linea,
                 }
                 if(isNaN(material_fondo_letra_linea) || isNaN(material_linea) ||  alto_linea === ""){
-                    validar_aviso(letra_linea_figura,cuello_letra_linea_id)   
+                    validacion_alert()
+                    // validar_aviso(letra_linea_figura,cuello_letra_linea_id)   
                 }else{
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
 
                     if(letra_linea_figura === 0){  
                         fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_letra_linea_nombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
@@ -1798,9 +2001,14 @@ function cuello_letra_linea_figura(){
                     eliminar_combinacion++
                 }
             }
-        }else{
+        }else{            
+            if(alto_linea >= 10){
+                validacion_alert_alto()
+            }else{
+                validacion_alert()
+            }
             $('#aviso_letra_linea_figura_table').html("")  
-            $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+            // $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
 
         $(document).ready(function(){
@@ -1819,6 +2027,7 @@ function cuello_letra_linea_figura(){
                 letra_linea_figura = 0
                 fondo_cuello_cm = 10
                 dejar_valores_in_false()
+                dejar_valores_in_false_combinacion()
             })   
         })     
 
@@ -1849,14 +2058,14 @@ function cuello_letra_linea_figura(){
         var alto_figura = $("#alto_combinacion_figura_7").val()
         var ancho_figura = $("#ancho_combinacion_figura_7").val()
         var color_figura = $("#color_combinacion_figura_7").val()
-        var imagen_diseno_combinacion_figura_8 = $("#imagen_diseno_combinacion_figura_7").val()
 
         if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
             $('#aviso_letra_linea_figura_alto').html("")
             $('#aviso_letra_linea_figura_table').html("") 
             if(!validar_alto_cm(alto_figura)){
                 $('#aviso_letra_linea_figura').html("")  
-                $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+                validacion_alert_alto()
+                // $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
             }else{
                 var objeto_cuello_combinacion_figura_data = {
                     //figura
@@ -1866,16 +2075,16 @@ function cuello_letra_linea_figura(){
                     alto_figura,
                     color_figura,
                     ancho_figura,
-                    imagen_diseno_combinacion_figura_8,
                 }
                 if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_figura === "" ||  ancho_figura === ""){
-                    validar_aviso(linea_figura,cuello_linea_figura_id)   
+                    validacion_alert()
+                    // validar_aviso(linea_figura,cuello_linea_figura_id)   
                 }else{
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
 
                     if(letra_linea_figura === 0){                           
                         fondo = `<tr>
-                                <th><img src="icons/almohada.svg" alt="" width="30px">fondo</th>
+                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_linea_figura_nombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
                                 <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
@@ -1899,8 +2108,13 @@ function cuello_letra_linea_figura(){
                 }
             }
         }else{
+            if(alto_figura >= 10){
+                validacion_alert_alto()
+            }else{
+                validacion_alert()
+            }
             $('#aviso_letra_linea_figura_table').html("")  
-            $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+            // $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
         $(document).ready(function(){
             $('body').on('click','.eliminar_figura', function(){
@@ -1917,6 +2131,7 @@ function cuello_letra_linea_figura(){
                 letra_linea_figura = 0
                 fondo_cuello_cm = 10
                 dejar_valores_in_false()
+                dejar_valores_in_false_combinacion()
             })   
         })       
         console.log(objeto_cuello)
@@ -2091,8 +2306,8 @@ function tabla_cuello_mandar_datos(){
 
             if(response){                
                 swal({
-                    title: "Correcto",
-                    text: "se guardado correctamente",
+                    title: "Añadido al carrito",
+                    text: "se añadio al carrito correctamente",
                     icon: "success",
                     button: "Aceptar!",
                   })
@@ -2113,9 +2328,77 @@ function tabla_cuello_mandar_datos(){
 }
 
 function validacion_alert(){
-    Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Algunos campos faltan por completar',
-      })
+    swal({
+        title: "Algunos campos por llenar",
+        text: "Algunos campos por llenar",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+
+function validacion_alert_alto(){
+    swal({
+        title: "Excede el numero maximo de alto",
+        text: "El cuello tiene un alto maximo de 10 cm",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+
+function validacion_alert_tipo_cuello(){
+    swal({
+        title: "Debe escoger un tipo de cuello",
+        text: "seleccione un tipo de cuello en los checkbox",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+function validacion_alert_tipo_cuello_nombre(){
+    swal({
+        title: "Nombre del diseño",
+        text: "Debe ingresar un nombre al diseño",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+function validacion_alert_tipo_cuello_img(){
+    swal({
+        title: "Imagen del diseño",
+        text: "Debe ingresar una imagen para el diseño",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+function validacion_alert_talla(){
+    swal({
+        title: "Ya has seleccionado esta talla",
+        text: "si te equivocste y quieres seleccionar más, por favor eliminala de la tabla y vuelve a seleccionar",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+function validacion_alert_dato_invalido(){
+    swal({
+        title: "Dato invalido",
+        text: "Por favor revisa todos los campos y vuelve a ingresar",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+function validacion_alert_mandar_carrito(){
+    swal({
+        title: "Seleccione una talla",
+        text: "Por favor seleccione la cantidad de tallas a comprar",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+
+function validacion_alert_combinacion(){
+    swal({
+        title: "Debe añadir por lo menos uno de cada uno",
+        text: "Por favor seleccione por lo menos uno de cada uno",
+        icon: "warning",
+        button: "Cerrar!",
+    })
 }

@@ -34,10 +34,7 @@
                             <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                         @endforeach
                     </select>
-                    <div class="my-3">
-                        <label for="imagen_diseno_figura">Imagen de figura</label>
-                        <input class="w-100" type="file" name="" id="imagen_diseno_figura">
-                    </div>
+                    
                 </div>
                 <div class="row  mx-0">
                     <div class="form-group">
@@ -46,7 +43,7 @@
                     </div> 
                     <div class="form-group mx-3">
                         <label for="imagen_diseño">Ancho (cm)</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="ancho_figura" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                        <input class="form-control tamano_input_color" type="number" name="" id="ancho_figura" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                     </div> 
                     <span id="aviso_figura_alto"></span>                            
 

@@ -28,11 +28,11 @@
                     <div class="row mx-0 justify-content-between w-100">
                         <div class="form-group">
                             <label for="alto_combinacion_figura_8">Alto de figura</label>
-                            <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_figura_8">
+                            <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_figura_8" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div> 
                         <div class="form-group">
                             <label for="ancho_combinacion_figura_8">Ancho de figura</label>
-                            <input class="form-control tamano_input_color" type="number" name="" id="ancho_combinacion_figura_8">
+                            <input class="form-control tamano_input_color" type="number" name="" id="ancho_combinacion_figura_8" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div>  
                         <span id="aviso_linea_figura_alto"></span>                            
 
@@ -53,10 +53,7 @@
                         <label for="color_combinacion_figura_8">Color de figura</label>
                         <input class="form-control tamano_input_color" type="color" name="" id="color_combinacion_figura_8">
                     </div> 
-                    <div>
-                        <label for="imagen_diseno_combinacion_figura_8">Imagen de figura</label>
-                        <input class="w-100" type="file" name="" id="imagen_diseno_combinacion_figura_8">
-                    </div> 
+                   
                     <div id="aviso_linea_figura" class="row my-2"></div>                     
                 </div>                                     
             </div>
@@ -86,7 +83,7 @@
                     </div>    
                     <div class="form-group ">
                         <label for="alto_combinacion_linea_8">Alto de linea</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_8">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_8" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>  
                     <div id="aviso_linea_figura" class="row my-2"></div>                   
                 </div>                                     
@@ -131,7 +128,7 @@
      </div>
      <div class="hiden animacion" id="crear_diseno_figura_linea">
         <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" data-toggle="modal" data-target="#Modal_mostrar_diseno_hecho" class="btn btn-primary">Crear Diseño</button>
+            <button class="btn btn-primary"  id="modal_button_figura_linea" data-toggle="modal"  class="btn btn-primary">Crear Diseño</button>
         </div>
     </div>
     <div id="aviso_linea_figura_table" class="row my-2"></div>

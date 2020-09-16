@@ -39,7 +39,7 @@
                     </div>
                     <div class="form-group">
                         <label for="contenido_texto_combinacion_letra_6">Contenido del texto</label>
-                        <input class="form-control" type="text" name="" id="contenido_texto_combinacion_letra_6">
+                        <input class="form-control" type="text" name="" id="contenido_texto_combinacion_letra_6" maxlength="50" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>                    
                 </div>
             </div>
@@ -61,7 +61,7 @@
                     </div>    
                     <div class="form-group ">
                         <label for="tamano_combinacion_letra_6">Alto de texto</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_letra_6">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_letra_6" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <span id="aviso_letra_alto"></span>                            
 
@@ -96,7 +96,7 @@
                     </div>    
                     <div class="form-group ">
                         <label for="grosor_combinacion_linea_6">Alto de linea</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_6">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_6" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>
                     <div id="aviso_letra_linea" class="row my-2"></div>                   
                 </div>                                     
@@ -106,28 +106,7 @@
             </div> 
         </div>            
     </div> 
-    {{-- <div id="tabla_diseno_letra_linea" class="my-3 w-100 hiden animacion">
-        <h4> Resumen del diseño</h4>
-        <table class="table table-bordered w-100" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-                <tr class="text-center">   
-                    <th>Orden</th>
-                    <th>Material</th>
-                    <th>Color</th>
-                    <th class="w-50">Alto</th>
-                    <th class="w-75">Tipo de fuente</th>
-                    <th>Contenido</th>
-                    <th>Opción</th>
-                </tr>
-            </thead>
-            <tbody id="tbody_linea_letra">
-                
-            </tbody>
-        </table>
-        <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" onclick="tabla_cuello_mandar_datos();">Guardar</button>
-        </div>                
-    </div> --}}
+    
 
 
     <div class="table-users my-3 w-60 hiden animacion mr-tabla" id="tabla_diseno_letra_linea" >
@@ -165,7 +144,7 @@
      </div>
      <div class="hiden animacion" id="crear_diseno_linea_letra">
         <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" data-toggle="modal" data-target="#Modal_mostrar_diseno_hecho" class="btn btn-primary">Crear Diseño</button>
+            <button class="btn btn-primary" id="modal_button_letra_linea" data-toggle="modal" class="btn btn-primary">Crear Diseño</button>
         </div>
     </div>
     <div id="aviso_letra_linea_table" class="row my-2"></div>

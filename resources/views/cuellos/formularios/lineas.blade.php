@@ -44,7 +44,7 @@
                 <div class="row  mx-0">
                     <div class="form-group">
                         <label for="grosor_linea">Alto de linea (cm)</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_linea">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_linea" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <div class="form-group mx-3">
                         <label for="imagen_diseño">Color de linea</label>
@@ -62,31 +62,7 @@
             <a class="btn btn-primary color_a" href="#tabla_diseno_linea" onclick="tabla_cuello_linea();"> Agregar</a>                 
         </div>
     </div>
-    {{-- <div id="tabla_diseno_linea"  class="my-3 w-60 hiden animacion">
-        <h4> Resumen del diseño</h4>
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-                <tr>    
-                    <th>Orden</th>
-                    <th>Material</th>
-                    <th>Alto</th>
-                    <th>Color</th>
-                    <th>Opcion</th>
-                </tr>
-            </thead>
-            <tbody id="tbody_linea">
-                
-            </tbody>
-        </table>
-        <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" data-toggle="modal" data-target="#Modal_mostrar_diseno_hecho" class="btn btn-primary">Crear Diseño</button>
-        </div>
-        <div id="aviso_linea_table" class="row my-2"></div>
-
-        {{-- <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" onclick="tabla_cuello_mandar_datos();">Guardar</button>    
-        </div>                  
-    </div> --}}
+    
 
     <div class="table-users my-3 w-60 hiden animacion mr-tabla" id="tabla_diseno_linea" >
         <div class="header color_a">Resumen del diseño</div>

@@ -1,4 +1,4 @@
-<!-- Modal registrar personal -->
+<!-- Modal detalle de cuello -->
 <div class="portfolio-modal modal fade" id="Modal_detalle_cuello" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
     <div class="modal-dialog modal-lg-ancho" role="document">
         <div class="modal-content">
@@ -72,26 +72,6 @@
                                     </tbody>
                                 </table>
                                 <div id="para algun aviso" class="row my-2"></div>                      
-                            
-                                <div id="punos_fajas" class="d-flex flex-column">
-                                    <div class="justify-content-start text-left">
-                                        <label for="">El puño y las fajas son el mismo que el modelo del cuello</label>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="d-flex align-items-center mx-2">
-                                            <label for="id_tallas_si" class="m-0" >Sí</label>
-                                            <input  class="ml-1 tallas" type="radio" name="tallas" value="2" id="id_tallas_si">
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <label for="id_tallas_no" class="m-0">No</label>
-                                            <input class="ml-1 tallas" type="radio" name="tallas" value="1" id="id_tallas_no">
-                                        </div>  
-                                    </div> 
-                                    <div id="imagen_punos_fajas" class="my-3 hiden animacion text-left">
-                                        <label class="" for="">Por favor introduzca una imagen del diseño de puño</label>
-                                        <input class="w-100" type="file" name="" id="">
-                                    </div>                               
-                                </div>
                             </div>
 
                             <div class=" row my-3 mx-1 d-flex justify-content-start">

@@ -59,7 +59,7 @@ class Diseno_cuello_controller extends Controller
                         $cuello_letra->color_letra = $request->obj_datos_letra[$i]["color_letra"];
                         $cuello_letra->fuente_ltra = $request->obj_datos_letra[$i]["tipo_fuente__letra"];
                         $cuello_letra->contenido = $request->obj_datos_letra[$i]["contenido_letra"];
-                        $cuello_letra->tamano_fuente = $request->obj_datos_letra[$i]["tamano_fuente_letra"];
+                        $cuello_letra->tamano_fuente = $request->obj_datos_letra[$i]["alto_letra"];
                         $cuello_letra->id_diseno_cuello = $cuello->id_diseno_cuello;
                         $cuello_letra->id_material_cuello = $request->obj_datos_letra[$i]["material_letra"];
                         $cuello_letra->save();
@@ -71,7 +71,6 @@ class Diseno_cuello_controller extends Controller
                         $cuello_figura_figura->color_figura = $request->obj_datos_figura[$i]["color_figura"];
                         $cuello_figura_figura->alto = $request->obj_datos_figura[$i]["alto_figura"];
                         $cuello_figura_figura->ancho = $request->obj_datos_figura[$i]["ancho_figura"];
-                        $cuello_figura_figura->imagen_figura = $request->obj_datos_figura[$i]["imagen_diseno_figura"];
                         $cuello_figura_figura->id_diseno_cuello = $cuello->id_diseno_cuello;
                         $cuello_figura_figura->id_material_cuello = $request->obj_datos_figura[$i]["material_figura"];
                         $cuello_figura_figura->save();
@@ -80,20 +79,19 @@ class Diseno_cuello_controller extends Controller
                 case 5:
                     for($i=0; $i<count($request->obj_datos_letra); $i++) { 
                         $cuello_letra = new Letras();
-                        $cuello_letra->color_letra = $request->obj_datos_letra[$i]["color_combinacion_letra_5"];
-                        $cuello_letra->fuente_ltra = $request->obj_datos_letra[$i]["tipo_fuente_combinacion_letra_5"];
-                        $cuello_letra->contenido = $request->obj_datos_letra[$i]["contenido_texto_combinacion_letra_5"];
-                        $cuello_letra->tamano_fuente = $request->obj_datos_letra[$i]["tamano_combinacion_letra_5"];
+                        $cuello_letra->color_letra = $request->obj_datos_letra[$i]["color_letra"];
+                        $cuello_letra->fuente_ltra = $request->obj_datos_letra[$i]["tipo_fuente__letra"];
+                        $cuello_letra->contenido = $request->obj_datos_letra[$i]["contenido_letra"];
+                        $cuello_letra->tamano_fuente = $request->obj_datos_letra[$i]["alto_letra"];
                         $cuello_letra->id_diseno_cuello = $cuello->id_diseno_cuello;
-                        $cuello_letra->id_material_cuello = $request->obj_datos_letra[$i]["material_combinacion_letra_5"];
+                        $cuello_letra->id_material_cuello = $request->obj_datos_letra[$i]["material_letra"];
                         $cuello_letra->save();
                     }
                     for($i=0; $i<count($request->obj_datos_figura); $i++) { 
                         $cuello_figura_figura = new Figuras();
-                        $cuello_figura_figura->color_figura = $request->obj_datos_figura[$i]["color_combinacion_figura_5"];
-                        $cuello_figura_figura->alto = $request->obj_datos_figura[$i]["alto_combinacion_figura_5"];
-                        $cuello_figura_figura->ancho = $request->obj_datos_figura[$i]["ancho_combinacion_figura_5"];
-                        $cuello_figura_figura->imagen_figura = $request->obj_datos_figura[$i]["imagen_diseno_combinacion_figura_5"];
+                        $cuello_figura_figura->color_figura = $request->obj_datos_figura[$i]["color_figura"];
+                        $cuello_figura_figura->alto = $request->obj_datos_figura[$i]["ancho_figura"];
+                        $cuello_figura_figura->ancho = $request->obj_datos_figura[$i]["ancho_figura"];
                         $cuello_figura_figura->id_diseno_cuello = $cuello->id_diseno_cuello;
                         $cuello_figura_figura->id_material_cuello = $request->obj_datos_figura[$i]["material_combinacion_figura_5"];
                         $cuello_figura_figura->save();
@@ -103,39 +101,66 @@ class Diseno_cuello_controller extends Controller
                 case 6:
                     for($i=0; $i<count($request->obj_datos_linea); $i++) { 
                         $cuello_linea = new Lineas();
-                        $cuello_linea->color_linea = $request->obj_datos_linea[$i]["color_combinacion_linea_6"];
-                        $cuello_linea->grosor = $request->obj_datos_linea[$i]["grosor_combinacion_linea_6"];
+                        $cuello_linea->color_linea = $request->obj_datos_linea[$i]["color_linea"];
+                        $cuello_linea->grosor = $request->obj_datos_linea[$i]["alto_linea"];
                         $cuello_linea->id_diseno_cuello = $cuello->id_diseno_cuello;
-                        $cuello_linea->id_material_cuello = $request->obj_datos_linea[$i]["material_combinacion_linea_6"];
+                        $cuello_linea->id_material_cuello = $request->obj_datos_linea[$i]["material_linea"];
                         $cuello_linea->save();
                     }
                     for($i=0; $i<count($request->obj_datos_letra); $i++) { 
                         $cuello_letra = new Letras();
-                        $cuello_letra->color_letra = $request->obj_datos_letra[$i]["color_combinacion_letra_6"];
-                        $cuello_letra->fuente_ltra = $request->obj_datos_letra[$i]["tipo_fuente_combinacion_letra_6"];
-                        $cuello_letra->contenido = $request->obj_datos_letra[$i]["contenido_texto_combinacion_letra_6"];
-                        $cuello_letra->tamano_fuente = $request->obj_datos_letra[$i]["tamano_combinacion_letra_6"];
+                        $cuello_letra->color_letra = $request->obj_datos_letra[$i]["color_letra"];
+                        $cuello_letra->fuente_ltra = $request->obj_datos_letra[$i]["tipo_fuente__letra"];
+                        $cuello_letra->contenido = $request->obj_datos_letra[$i]["contenido_letra"];
+                        $cuello_letra->tamano_fuente = $request->obj_datos_letra[$i]["alto_letra"];
                         $cuello_letra->id_diseno_cuello = $cuello->id_diseno_cuello;
-                        $cuello_letra->id_material_cuello = $request->obj_datos_letra[$i]["material_combinacion_letra_6"];
+                        $cuello_letra->id_material_cuello = $request->obj_datos_letra[$i]["material_letra"];
                         $cuello_letra->save();
                     }             
                     break;
-
+                case 7:
+                    for($i=0; $i<count($request->obj_datos_linea); $i++) { 
+                        $cuello_linea = new Lineas();
+                        $cuello_linea->color_linea = $request->obj_datos_linea[$i]["color_linea"];
+                        $cuello_linea->grosor = $request->obj_datos_linea[$i]["alto_linea"];
+                        $cuello_linea->id_diseno_cuello = $cuello->id_diseno_cuello;
+                        $cuello_linea->id_material_cuello = $request->obj_datos_linea[$i]["material_linea"];
+                        $cuello_linea->save();
+                    }
+                    for($i=0; $i<count($request->obj_datos_letra); $i++) { 
+                        $cuello_letra = new Letras();
+                        $cuello_letra->color_letra = $request->obj_datos_letra[$i]["color_letra"];
+                        $cuello_letra->fuente_ltra = $request->obj_datos_letra[$i]["tipo_fuente__letra"];
+                        $cuello_letra->contenido = $request->obj_datos_letra[$i]["contenido_letra"];
+                        $cuello_letra->tamano_fuente = $request->obj_datos_letra[$i]["alto_letra"];
+                        $cuello_letra->id_diseno_cuello = $cuello->id_diseno_cuello;
+                        $cuello_letra->id_material_cuello = $request->obj_datos_letra[$i]["material_letra"];
+                        $cuello_letra->save();
+                    }     
+                    for($i=0; $i<count($request->obj_datos_figura); $i++) { 
+                        $cuello_figura_figura = new Figuras();
+                        $cuello_figura_figura->color_figura = $request->obj_datos_figura[$i]["color_figura"];
+                        $cuello_figura_figura->alto = $request->obj_datos_figura[$i]["ancho_figura"];
+                        $cuello_figura_figura->ancho = $request->obj_datos_figura[$i]["ancho_figura"];
+                        $cuello_figura_figura->id_diseno_cuello = $cuello->id_diseno_cuello;
+                        $cuello_figura_figura->id_material_cuello = $request->obj_datos_figura[$i]["material_combinacion_figura_8"];
+                        $cuello_figura_figura->save();
+                    } 
+                    break;
                 case 8:
                     for($i=0; $i<count($request->obj_datos_linea); $i++) { 
                         $cuello_linea = new Lineas();
-                        $cuello_linea->color_linea = $request->obj_datos_linea[$i]["color_combinacion_linea_8"];
-                        $cuello_linea->grosor = $request->obj_datos_linea[$i]["grosor_combinacion_linea_8"];
+                        $cuello_linea->color_linea = $request->obj_datos_linea[$i]["color_linea"];
+                        $cuello_linea->grosor = $request->obj_datos_linea[$i]["alto_linea"];
                         $cuello_linea->id_diseno_cuello = $cuello->id_diseno_cuello;
-                        $cuello_linea->id_material_cuello = $request->obj_datos_linea[$i]["material_combinacion_linea_8"];
+                        $cuello_linea->id_material_cuello = $request->obj_datos_linea[$i]["material_linea"];
                         $cuello_linea->save();
                     }
                     for($i=0; $i<count($request->obj_datos_figura); $i++) { 
                         $cuello_figura_figura = new Figuras();
-                        $cuello_figura_figura->color_figura = $request->obj_datos_figura[$i]["color_combinacion_figura_8"];
-                        $cuello_figura_figura->alto = $request->obj_datos_figura[$i]["alto_combinacion_figura_8"];
-                        $cuello_figura_figura->ancho = $request->obj_datos_figura[$i]["ancho_combinacion_figura_8"];
-                        $cuello_figura_figura->imagen_figura = $request->obj_datos_figura[$i]["imagen_diseno_combinacion_figura_8"];
+                        $cuello_figura_figura->color_figura = $request->obj_datos_figura[$i]["color_figura"];
+                        $cuello_figura_figura->alto = $request->obj_datos_figura[$i]["ancho_figura"];
+                        $cuello_figura_figura->ancho = $request->obj_datos_figura[$i]["ancho_figura"];
                         $cuello_figura_figura->id_diseno_cuello = $cuello->id_diseno_cuello;
                         $cuello_figura_figura->id_material_cuello = $request->obj_datos_figura[$i]["material_combinacion_figura_8"];
                         $cuello_figura_figura->save();
