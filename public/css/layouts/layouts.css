@@ -96,6 +96,11 @@ h4 {
     color: #2727B8 !important;
     
 }
+
+.button_close_modal {
+    text-align: right;
+    padding: 8px !important;
+}
 .fixed {
     position: fixed;
     top: 0;

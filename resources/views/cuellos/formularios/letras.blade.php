@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class=" row my-3 mx-4">
-                <a class="btn btn-primary color_a"  href="#tabla_diseno_letra" onclick="tabla_cuello_letra();"> Agregar</a>
+                <a class="btn btn-primary color_a"  href="#tabla_diseno_letra" id="agregar_letra" onclick="tabla_cuello_letra();"> Agregar</a>
             </div>
         </div>
         <div class="d-flex w-50 flex-column px-3">
@@ -61,7 +61,7 @@
                 </div>
                 <div class="row  mx-0">
                     <div class="form-group">
-                        <label for="tamano_fuente_letra">Alto de texto</label>
+                        <label for="tamano_fuente_letra">Alto de texto (cm)</label>
                         <input class="form-control tamano_input_color" type="number" name="" id="alto_letra" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <div class="form-group mx-3">

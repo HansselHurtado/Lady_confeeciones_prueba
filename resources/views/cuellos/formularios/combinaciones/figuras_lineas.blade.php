@@ -27,11 +27,11 @@
                     </div>
                     <div class="row mx-0 justify-content-between w-100">
                         <div class="form-group">
-                            <label for="alto_combinacion_figura_8">Alto de figura</label>
+                            <label for="alto_combinacion_figura_8">Alto de figura (cm)</label>
                             <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_figura_8" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div> 
                         <div class="form-group">
-                            <label for="ancho_combinacion_figura_8">Ancho de figura</label>
+                            <label for="ancho_combinacion_figura_8">Ancho de figura (cm)</label>
                             <input class="form-control tamano_input_color" type="number" name="" id="ancho_combinacion_figura_8" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div>  
                         <span id="aviso_linea_figura_alto"></span>                            
@@ -82,7 +82,7 @@
                         <input class="form-control tamano_input_color" type="color" name="" id="color_combinacion_linea_8">
                     </div>    
                     <div class="form-group ">
-                        <label for="alto_combinacion_linea_8">Alto de linea</label>
+                        <label for="alto_combinacion_linea_8">Alto de linea (cm)</label>
                         <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_8" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>  
                     <div id="aviso_linea_figura" class="row my-2"></div>                   

@@ -60,7 +60,7 @@
                         <input class="form-control tamano_input_color" type="color" name="" id="color_combinacion_letra_6">
                     </div>    
                     <div class="form-group ">
-                        <label for="tamano_combinacion_letra_6">Alto de texto</label>
+                        <label for="tamano_combinacion_letra_6">Alto de texto (cm)</label>
                         <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_letra_6" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <span id="aviso_letra_alto"></span>                            
@@ -95,7 +95,7 @@
                         <input class="form-control tamano_input_color" type="color" name="" id="color_combinacion_linea_6">
                     </div>    
                     <div class="form-group ">
-                        <label for="grosor_combinacion_linea_6">Alto de linea</label>
+                        <label for="grosor_combinacion_linea_6">Alto de linea (cm)</label>
                         <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_6" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>
                     <div id="aviso_letra_linea" class="row my-2"></div>                   

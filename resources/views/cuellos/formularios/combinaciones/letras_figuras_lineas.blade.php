@@ -26,11 +26,11 @@
                     </div>
                     <div class="row mx-0 justify-content-between w-100">
                         <div class="form-group">
-                            <label for="alto_combinacion_figura_7">Alto de figura</label>
+                            <label for="alto_combinacion_figura_7">Alto de figura (cm)</label>
                             <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_figura_7" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div> 
                         <div class="form-group">
-                            <label for="    ">Ancho de figura</label>
+                            <label for="    ">Ancho de figura (cm)</label>
                             <input class="form-control tamano_input_color" type="number" name="" id="ancho_combinacion_figura_7" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div>
                         <div class=" row my-3 mx-2">
@@ -91,7 +91,7 @@
                         <input class="form-control tamano_input_color" type="color" name="" id="color_combinacion_letra_7">
                     </div>    
                     <div class="form-group ">
-                        <label for="tamano_combinacion_letra_7">Alto de texto</label>
+                        <label for="tamano_combinacion_letra_7">Alto de texto (cm)</label>
                         <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_letra_7" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <div id="aviso_letra_linea_figura_alto" class="row my-2"></div>                     
@@ -126,7 +126,7 @@
                         <input class="form-control tamano_input_color" type="color" name="" id="color_combinacion_linea_7">
                     </div>    
                     <div class="form-group ">
-                        <label for="alto_combinacion_linea_7">Alto de linea</label>
+                        <label for="alto_combinacion_linea_7">Alto de linea (cm)</label>
                         <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_7" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <div id="aviso_letra_linea_figura" class="row my-2"></div>                   

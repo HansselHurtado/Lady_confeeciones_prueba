@@ -2,7 +2,7 @@
 <div class="portfolio-modal modal fade" id="Modal_detalle_cuello" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
     <div class="modal-dialog modal-lg-ancho" role="document">
         <div class="modal-content">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close button_close_modal" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             <div class="modal-body text-center">
@@ -13,7 +13,7 @@
                     <div class="w-50 d-flex flex-column pr-3">
                         <div class="d-flex flex-column text-left">
                             <button class="btn btn-primary">GRAN OFERTA</button>
-                            <h4>Cuello modelo <strong id="nombre_modelo"></strong> exclusivo para los colegios y trabajos</h4>
+                            <h4>Cuello modelo <strong id="nombre_modelo"></strong></h4>
                         </div>
                         <div class="text-left">
                             <span>modelo <strong id="modelo_detalle"></strong></span>
@@ -33,11 +33,11 @@
                                 <div class="d-flex col-5 align-items-center">
                                     <label for="" class="m-0 mr-2">Talla</label>
                                     <select class="form-control w-100" name="" id="talla_seleccionada" required>
-                                        <option value="" selected disabled>Tallas</option>
-                                        <option >12</option>                                
-                                        <option >14</option>                                
-                                        <option >16</option>                                
-                                        <option >18</option>                                
+                                        <option value="" selected disabled>Seleccione</option>
+                                        <option class="quitar_disabled" id="12" >12</option>                                
+                                        <option class="quitar_disabled" id="14" >14</option>                                
+                                        <option class="quitar_disabled" id="16" >16</option>                                
+                                        <option class="quitar_disabled" id="18" >18</option>                                
                                     </select>
                                 </div>           
                                 <div class="d-flex col-4 align-items-center p-0">
@@ -58,6 +58,7 @@
                                             <th>Talla</th>
                                             <th>Cantidad</th>
                                             <th>Total</th>
+                                            <th>Opción</th>
                                         </tr>
                                     </thead>
                                     <tfoot class="color-table">
@@ -88,9 +89,9 @@
                             <div>
                                 
                             </div>
-                        </div>
-                        <div class="p-3 row">
-                            <a class="btn btn-primary p-3 w-60 color_a" href="{{route('diseno_cuello')}}">Añadir al carrito</a>
+                        </div>                       
+                        <div class=" p-3 row my-3 mx-1 d-flex justify-content-start">                    
+                            <button class="btn btn-primary mandar_datos p-3 w-60 " id="mandar_datos" >Añadir al carrito</button>
                         </div>
                     </div>
                 </div>

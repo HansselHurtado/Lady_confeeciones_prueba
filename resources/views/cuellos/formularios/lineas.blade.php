@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class=" row my-3 mx-4" >
-            <a class="btn btn-primary color_a" href="#tabla_diseno_linea" onclick="tabla_cuello_linea();"> Agregar</a>                 
+            <a class="btn btn-primary color_a" href="#tabla_diseno_linea" id="agregar_linea" onclick="tabla_cuello_linea();"> Agregar</a>                 
         </div>
     </div>
     

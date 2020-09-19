@@ -2,7 +2,7 @@
 <div class="portfolio-modal modal fade" id="Modal_mostrar_imagen_diseno" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close button_close_modal" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             <div class="modal-body text-center">
@@ -39,14 +39,14 @@
 <div class="portfolio-modal modal fade " id="Modal_mostrar_diseno_hecho" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close button_close_modal" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             <div class="modal-body text-center">
                 <section class="page-section">
                     <div class="container">
                         <!-- Contact Section Heading-->
-                        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="nombre_modelo_creado">Finalizar Diseño</h2>
+                        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="nombre_modelo_creado">Finalizar Pedido</h2>
                         <!-- Icon Divider-->
                         <div class="divider-custom">
                             <div class="divider-custom-line"></div>
@@ -59,10 +59,10 @@
                                 <label for="">Talla</label>
                                 <select class="form-control w-30" name="" id="talla_seleccionada" required>
                                     <option value="" selected disabled>Seleccione una Talla</option>
-                                    <option id="12">12</option>                                
-                                    <option id="14">14</option>                                
-                                    <option id="16">16</option>                                
-                                    <option id="18">18</option>                                
+                                    <option class="quitar_disabled" id="12">12</option>                                
+                                    <option class="quitar_disabled" id="14">14</option>                                
+                                    <option class="quitar_disabled" id="16">16</option>                                
+                                    <option class="quitar_disabled" id="18">18</option>                                
                                 </select>
                                 <label for="imagen_diseño">Cantidad</label>
                                 <input class="form-control tamano_input_color" type="number" name="" id="cantidad_tallas" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>

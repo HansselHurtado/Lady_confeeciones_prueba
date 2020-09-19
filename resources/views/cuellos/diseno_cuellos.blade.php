@@ -81,7 +81,7 @@
                 <div class="w-100 d-flex flex-wrap justify-content-between">
                     @foreach ($diseno_cuellos as $diseno_cuello)
                         <div class="container_cuello">
-                        <div class="item_cuello color text-center text-white" data-toggle="modal" data-target="#Modal_detalle_cuello" onclick="detalles_cuello('{{$diseno_cuello->nombre_diseno}}','{{$diseno_cuello->id_diseno_cuello}}',' {{$diseno_cuello->nombre_modelo}}','{{$diseno_cuello->material}}')">
+                        <div class="item_cuello color text-center text-white vaciar_talla" data-toggle="modal" data-target="#Modal_detalle_cuello " onclick="detalles_cuello('{{$diseno_cuello->nombre_diseno}}','{{$diseno_cuello->id_diseno_cuello}}',' {{$diseno_cuello->nombre_modelo}}','{{$diseno_cuello->material}}')">
                                 <div class="align-items-center pt-2">
                                     <span class="text-center"><strong >Diseño: {{$diseno_cuello->nombre_modelo}}</strong></span>
                                 </div>
@@ -89,7 +89,7 @@
                                     <span class="text-center"><strong >Fondo: {{$diseno_cuello->material}}</strong></span>
                                 </div>                                
                             </div>
-                            <div class="item_description d-flex flex-column align-items-center">
+                            <div class="item_description d-flex flex-column align-items-center vaciar_talla" data-toggle="modal" data-target="#Modal_detalle_cuello" onclick="detalles_cuello('{{$diseno_cuello->nombre_diseno}}','{{$diseno_cuello->id_diseno_cuello}}',' {{$diseno_cuello->nombre_modelo}}','{{$diseno_cuello->material}}')">
                                 <span><strong>{{$diseno_cuello->nombre_diseno}}</strong></span>
                                 <small class="text-primary"><strong>${{$diseno_cuello->valor}}</strong></small>
                                 <button class="btn btn-primary">comprar</button>

@@ -97,7 +97,7 @@
                 
             </div>
             <div class="row my-4">
-                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary eliminar_fondo imagen continuar" >Continuar</button>
+                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary eliminar_fondo imagen continuar vaciar_talla" >Continuar</button>
             </div>
         </div>
 
