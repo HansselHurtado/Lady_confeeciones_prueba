@@ -2390,7 +2390,7 @@ function tabla_cuello_mandar_datos(){
                     button: "Aceptar!",
                   })
                   .then((value) => {
-                    window.location.href = "https://ladysconfecciones.herokuapp.com/api/crear-cuello/diseno-cuellos";
+                    window.location.href = "https://ladysconfecciones.herokuapp.com/crear-cuello/diseno-cuellos";
                 });
             }
         },
