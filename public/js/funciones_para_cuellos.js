@@ -2375,7 +2375,7 @@ function ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,de
 // funcion ajax mandar datos al controlador 
 function tabla_cuello_mandar_datos(){
     $.ajax({
-        url: "http://127.0.0.1:8000/api/crear-cuello/cuello",
+        url: "https://ladysconfecciones.herokuapp.com/api/crear-cuello/cuello",
         data: objeto_cuello,
         dataType: "json",
         method: "POST",
