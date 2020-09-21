@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(UserSeeder::class);
         $this->call(Color_cuellos_seeder::class);
         $this->call(Materiales_cuellos_seeder::class);
-        $this->call(Modelo_cuellos_seeder::class);
         $this->call(Valor_modelo_seeder::class);
+        $this->call(Modelo_cuellos_seeder::class);
         $this->call(Talla_cuellos_seeder::class);
     }
 }
