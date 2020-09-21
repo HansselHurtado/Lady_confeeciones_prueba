@@ -12,10 +12,12 @@ class Materiales_cuellos_seeder extends Seeder
     public function run()
     {
         $material_cuello = new Material_cuello();
+        $material_cuello->id_material_cuello = 1;
         $material_cuello->nombre_material = "Hilo";
         $material_cuello->save();
 
         $material_cuello = new Material_cuello();
+        $material_cuello->id_material_cuello = 2;
         $material_cuello->nombre_material = "Hilaza";
         $material_cuello->save();        
 
