@@ -45,7 +45,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => 'mysql://b30cb94934aeb5:a1636afc@us-cdbr-east-02.cleardb.com/heroku_14247a6bcdb7455?reconnect=true',
+            'url' => 'https://ladysconfecciones.herokuapp.com/',
             'host' => 'us-cdbr-east-02.cleardb.com',
             'port' => env('DB_PORT', '3306'),
             'database' => 'heroku_14247a6bcdb7455',
