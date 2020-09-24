@@ -97,6 +97,10 @@ h4 {
     
 }
 
+.carrito {
+    margin-left: 540px;
+}
+
 .button_close_modal {
     text-align: right;
     padding: 8px !important;

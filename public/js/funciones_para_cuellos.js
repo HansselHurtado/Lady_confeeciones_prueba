@@ -1,3 +1,6 @@
+// var ip = "ladysconfecciones.herokuapp.com";
+
+var ip = '127.0.0.1:8000';
 
 //deschequear los tipos de modelo que no sean liso
 $('input:checkbox[name=cuello_liso]').click(function(){
@@ -43,8 +46,11 @@ $('#mostrar_formulario').click(function(){
         $('#aviso').html("")  
         $(`#formulario_${nameForm}`).removeClass('hiden');
         $(`#formulario_${nameForm}`).addClass('show');
-        fondo_cuello_cm = 10
+        fondo_cuello_cm = 10        
     }
+    $( "#material_fondo_liso" ).val("")    
+    $( "#color_fondo_liso" ).val("")    
+
     combinacion(nameForm)
 })
 
@@ -98,12 +104,13 @@ function pintar_tabla_tallas(array){
     $("#tbody_tallas").html('')
     if(array.length > 0){
         array.forEach(element => {
-            total_cantiades = precio_total * element.cantidad_tallas
+            total_cantiades = precio * element.cantidad_tallas
             total = total + total_cantiades
             $("#tbody_tallas").append(`
             <tr>
                 <th>${element.talla_seleccionada_nombre}</th>
                 <th>${element.cantidad_tallas}</th>
+                <th>${precio}</th>
                 <th>${total_cantiades}</th>
                 <th class="text-center "><img class="eliminar_talla" title="eliminar" src="/icons/basura.svg" id="${element.talla_seleccionada_nombre}" data-id="${element.talla_eliminar_id}" width="20px;" height="20px;" alt=""></th>            
             </tr>
@@ -114,17 +121,24 @@ function pintar_tabla_tallas(array){
     
 }
 
+function buscar_talla(talla_seleccionada){
+    for(let talla of objeto_cuello.tallas ){
+        if(talla.talla_seleccionada_nombre === talla_seleccionada) return true
+    }
+    return false
+}
+
 function agregar_tallas(){
     var talla_seleccionada = $( "#talla_seleccionada option:selected" ).val()      
-    var talla_seleccionada_nombre = $( "#talla_seleccionada option:selected" ).text()
-    var cantidad_tallas = $("#cantidad_tallas").val()
-    var objeto_cuello_tallas_data = {
-        talla_eliminar_id,
-        talla_seleccionada_nombre,
-        cantidad_tallas,    
-    }
-
-    if(talla_nombre != talla_seleccionada_nombre ){
+    if(!buscar_talla(talla_seleccionada)){
+        var talla_seleccionada_nombre = $( "#talla_seleccionada option:selected" ).text()
+        var cantidad_tallas = $("#cantidad_tallas").val()
+        var objeto_cuello_tallas_data = {
+            talla_eliminar_id,
+            talla_seleccionada_nombre,
+            cantidad_tallas,    
+        }    
+        console.log(precio);
         if(talla_seleccionada !== "" && cantidad_tallas > 0 ){
             $('#tabla_tallas').removeClass('hiden')
             $('#tabla_tallas').addClass('show')       
@@ -133,16 +147,20 @@ function agregar_tallas(){
             talla_eliminar_id++
             sma_cantidades = sma_cantidades + parseInt(cantidad_tallas)
             $("#cantidad_tallas").val("") 
-            $("#suma_cantidades").text(sma_cantidades) 
-            $("#suma_valor_total").text(total) 
+            $("#suma_cantidades").text(sma_cantidades+ ' und') 
+            $("#suma_valor_total").text('$'+total) 
             talla_nombre = talla_seleccionada_nombre
         }else{
+            if(cantidad_tallas < 0){
+                return validacion_alert_dato_invalido()
+            }
             validacion_alert()
         }
+        $( "#talla_seleccionada").val("") 
     }else{
         validacion_alert_talla()
     }
-    
+
     $('.tallas').click(function(){
         if($(this).val() === "1"){
             $('#imagen_punos_puno').removeClass('hiden')
@@ -156,7 +174,6 @@ function agregar_tallas(){
             $('#imagen_punos_fajas').addClass('hiden')
         }
     })
-    $( "#talla_seleccionada option:selected" ).attr('disabled',true) 
     console.log(objeto_cuello);  
 }
 
@@ -185,9 +202,8 @@ $(document).ready(function(){
 
 function validar_datos(){
     $('body').on('click','.mandar_datos', function(){            
-        console.log("hola");
         if(sma_cantidades > 0){
-            tabla_cuello_mandar_datos()
+            window.location.href = `http://${ip}/ladys-confecciones/carrito_compras`;
         }else{
             validacion_alert_mandar_carrito()
         }
@@ -200,11 +216,12 @@ function vaciar_tallas(){
         objeto_cuello.tallas = []  
         sma_cantidades = 0
         $("#cantidad_tallas").val("") 
+        $("#fajas").val("") 
+        $("#punos").val("") 
         $("#talla_seleccionada").val("")
         $('#tabla_tallas').removeClass('show')
         $('#tabla_tallas').addClass('hiden')  
-        $('.quitar_disabled').attr('disabled',false)
-        talla_nombre = ""
+        $(".liso").removeAttr('data-target')
     }) 
 }
 
@@ -420,7 +437,7 @@ function dejar_valores_in_false(){
     $("#" + id_color_fondo).prop('disabled', false)
     $("#" + id_material).prop('disabled', false)
 
-    $("#" + id_material_fondo).val("")
+    $("#" + id_material_fondo).val("")  
     $("#" + id_material).val("")
 
 
@@ -490,9 +507,9 @@ function eliminar_talla(array, id){
            if(index !== -1){
                 console.log(fondo_cuello_cm)
                 sma_cantidades = sma_cantidades - parseInt(talla.cantidad_tallas)
-                total = total - precio_total * parseInt(talla.cantidad_tallas)
-                $("#suma_cantidades").text(sma_cantidades) 
-                $("#suma_valor_total").text(total) 
+                total = total - precio * parseInt(talla.cantidad_tallas)
+                $("#suma_cantidades").text(sma_cantidades+ ' und') 
+                $("#suma_valor_total").text('$'+total) 
                 array.splice(index,1)
            }
        }
@@ -813,7 +830,7 @@ function cuello_liso(){
     var cuello_liso_id = $("#cuello_liso_id").val()
     var material_fondo_liso = $( "#material_fondo_liso option:selected" ).val()    
     var color_fondo_liso = $("#color_fondo_liso").val()
-
+    console.log("soy liso",material_fondo_liso);
     if(material_fondo_liso === ""){
         validacion_alert()
         // $('#aviso_liso').html("<strong  class='text-danger animacion'>Por favor seleccione el material</strong>")     
@@ -2375,13 +2392,12 @@ function ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,de
 // funcion ajax mandar datos al controlador 
 function tabla_cuello_mandar_datos(){
     $.ajax({
-        url: "https://ladysconfecciones.herokuapp.com/api/crear-cuello/cuello",
+        url: `http://${ip}/api/crear-cuello/cuello`,
         data: objeto_cuello,
         dataType: "json",
         method: "POST",
         success: function (response) {
             console.log("data recibida",response)
-
             if(response){                
                 swal({
                     title: "Añadido al carrito",
@@ -2390,7 +2406,7 @@ function tabla_cuello_mandar_datos(){
                     button: "Aceptar!",
                   })
                   .then((value) => {
-                    window.location.href = "https://ladysconfecciones.herokuapp.com/crear-cuello/diseno-cuellos";
+                    window.location.href = `http://${ip}/crear-cuello/diseno-cuellos`;
                 });
             }
         },
@@ -2408,7 +2424,7 @@ function tabla_cuello_mandar_datos(){
 function validacion_alert(){
     swal({
         title: "Algunos campos por llenar",
-        text: "Algunos campos por llenar",
+        text: "Algunos campos por llenar, por favor verifique",
         icon: "warning",
         button: "Cerrar!",
     })

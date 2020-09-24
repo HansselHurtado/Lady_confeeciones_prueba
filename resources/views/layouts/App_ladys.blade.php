@@ -95,10 +95,16 @@
                         </li>
 
                     </ul>
-                    <form class="form-inline my-2 my-lg-0 input_search">
+                    {{-- <form class="form-inline my-2 my-lg-0 input_search">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    </form>
-                    
+                    </form> --}}
+
+                    {{-- carrito de compras --}}
+                    <div class="carrito">
+                        <a href="{{route('carrito')}}">
+                            <img style="width: 40px; " src="{{ asset('icons/carrito-de-compras.svg') }}" alt="" width="10%">
+                        </a>
+                    </div>
                     
 
                     <!-- Right Side Of Navbar -->

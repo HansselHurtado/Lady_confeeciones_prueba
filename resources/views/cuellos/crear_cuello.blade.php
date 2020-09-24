@@ -68,7 +68,7 @@
                 <div class="d-flex w-50 flex-column p-3 w-md-80">
                     <div>
                         <label for="imagen_diseño">Imagen del diseño</label>
-                        <input class="w-100 " type="file" name="imagen_diseno" id="imagen_diseno">
+                        <input class="w-100 " type="file" name="imagen_diseno" id="imagen_diseno" accept="image/gif,image/jpeg,image/jpg,image/png">
                     </div>
                     <div class="my-4">                             
                         <label for="">Tipo de cuello</label>

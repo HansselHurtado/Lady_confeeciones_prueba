@@ -59,21 +59,21 @@
         <div class="d-flex justify-content-end py-3">
             <div class="w-75 d-flex justify-content-center">
                 <h3 class="text-dark mr-4">Cuellos</h3>
-            <a href={{ route('crear_cuello') }} class="btn btn-primary color_a">diseñar</a>
+            <a href={{ route('crear_cuello') }} class="btn btn-primary color_a">Diseñar</a>
             </div>
         </div>
         <div class="d-flex w-100 justify-content-between">
             <div class="content_category pb-4 border border-primary">
                 <div class="color p-1">
-                    <h2 class="text-white text-center mb-0">categorías</h2>
+                    <h2 class="text-white text-center mb-0">Categorías</h2>
                 </div>
                 <nav>
-                    <li class="p-2"><a class="text-dark" href="">figura +</a></li>
-                    <li class="p-2"><a class="text-dark" href="">letra +</a></li>
-                    <li class="p-2"><a class="text-dark" href="">liso +</a></li>
-                    <li class="p-2"><a class="text-dark" href="">linea +</a></li>
+                    <li class="p-2"><a class="text-dark" href="">Figura +</a></li>
+                    <li class="p-2"><a class="text-dark" href="">Letra +</a></li>
+                    <li class="p-2"><a class="text-dark" href="">Liso +</a></li>
+                    <li class="p-2"><a class="text-dark" href="">Linea +</a></li>
                     <div class="d-flex justify-content-center">
-                        <a href="#" class="btn btn-primary color_a">diseñar</a>
+                        <a href="#" class="btn btn-primary color_a">Diseñar</a>
                     </div>
                 </nav>
             </div>
@@ -104,6 +104,6 @@
     
 @endsection
 @section('scripts')
-    <script  src="{!! asset('js/funciones_para_cuellos.js') !!}"></script>
     <script  src="{!! asset('js/cuellos_modal.js') !!}"></script>
+    <script  src="{!! asset('js/funciones_para_cuellos.js') !!}"></script>
 @endsection

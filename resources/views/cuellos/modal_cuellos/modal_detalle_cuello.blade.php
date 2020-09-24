@@ -12,14 +12,14 @@
                     </div>
                     <div class="w-50 d-flex flex-column pr-3">
                         <div class="d-flex flex-column text-left">
-                            <button class="btn btn-primary">GRAN OFERTA</button>
+                            {{-- <button class="btn btn-primary">GRAN OFERTA</button> --}}
                             <h4>Cuello modelo <strong id="nombre_modelo"></strong></h4>
                         </div>
                         <div class="text-left">
                             <span>modelo <strong id="modelo_detalle"></strong></span>
                             <h4 class="text-danger"><strong id="precio_cuello_detalle"></strong></h4>
                         </div>
-                        <div class="border border-medium d-flex p-3 rounded">
+                        {{-- <div class="border border-medium d-flex p-3 rounded">
                             <div class="mr-3">
                                 <img src="{{ asset('/icons/almohada.svg') }}" alt="" width="30px">
                             </div>
@@ -27,13 +27,13 @@
                                 <span class="text-success"><strong>Envío gratis</strong></span>
                                 <p>Después de 12 unidades</p>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="d-flex flex-column border border-medium rounded mt-3">
                             <div class=" row my-3 mx-1 d-flex justify-content-around justify-content-between">  
                                 <div class="d-flex col-5 align-items-center">
                                     <label for="" class="m-0 mr-2">Talla</label>
                                     <select class="form-control w-100" name="" id="talla_seleccionada" required>
-                                        <option value="" selected disabled>Seleccione</option>
+                                        <option value="" selected disabled>Seleccionar</option>
                                         <option class="quitar_disabled" id="12" >12</option>                                
                                         <option class="quitar_disabled" id="14" >14</option>                                
                                         <option class="quitar_disabled" id="16" >16</option>                                
@@ -42,7 +42,7 @@
                                 </div>           
                                 <div class="d-flex col-4 align-items-center p-0">
                                     <label for="imagen_diseño" class="m-0 mr-2">Cantidad</label>
-                                    <input class="form-control w-100" type="number" name="" id="cantidad_tallas" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                                    <input class="form-control w-100" type="number" name="" id="cantidad_tallas"  maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                                 </div>
                                   
                                 <div class="col-3">
@@ -57,7 +57,8 @@
                                         <tr>    
                                             <th>Talla</th>
                                             <th>Cantidad</th>
-                                            <th>Total</th>
+                                            <th>Valor Unitario</th>
+                                            <th>Valor Total</th>
                                             <th>Opción</th>
                                         </tr>
                                     </thead>
@@ -65,7 +66,7 @@
                                         <tr>
                                           <th>Total</th>
                                           <th id="suma_cantidades"></th>
-                                          <th id="suma_valor_total"></th>
+                                          <th colspan="2" class="text-right" id="suma_valor_total"></th>
                                         </tr>
                                       </tfoot>
                                     <tbody id="tbody_tallas">
@@ -79,11 +80,11 @@
                                            
                                 <div class="">                    
                                     <label for="imagen_diseño">Cantidad de Fajas</label>
-                                    <input class="form-control tamano_input_color mx-2" type="number" name="" id="" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                                    <input class="form-control tamano_input_color mx-2" type="number" name="" id="fajas" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                                 </div>
                                 <div class="">                    
                                     <label for="imagen_diseño">Cantidad de Puños</label>
-                                    <input class="form-control tamano_input_color mx-2" type="number" name="" id="" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required> 
+                                    <input class="form-control tamano_input_color mx-2" type="number" name="" id="punos" maxlength="4"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required> 
                                 </div>                                                         
                             </div> 
                             <div>
