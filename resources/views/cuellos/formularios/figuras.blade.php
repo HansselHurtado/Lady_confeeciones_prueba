@@ -96,7 +96,7 @@
                     <th class="class-th-color"></th>
                     <th class="class-th-color"></th>
                     <th class="class-th-color">Total</th>
-                    <th class="class-th-color">$4.500</th>
+                    <th class="class-th-color" id="precio_figura"></th>
                 </tr>
             </tfoot>
             <tbody id="tbody_figura">

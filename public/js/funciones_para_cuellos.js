@@ -48,6 +48,7 @@ $('#mostrar_formulario').click(function(){
         $(`#formulario_${nameForm}`).addClass('show');
         fondo_cuello_cm = 10        
     }
+    $( "#material_fondo_liso" ).prop('disabled', false)    
     $( "#material_fondo_liso" ).val("")    
     $( "#color_fondo_liso" ).val("")    
 
@@ -96,6 +97,7 @@ let sma_cantidades = 0
 const precio_total = 1200
 let total = 0
 let talla_nombre =""
+let precio_diseno = 0
 
 // ****************************** tallas ****************************************************************************
 function pintar_tabla_tallas(array){
@@ -117,8 +119,29 @@ function pintar_tabla_tallas(array){
             `
             );
        });
-    }   
-    
+    }    
+}
+
+function pintar_tabla_tallas_diseno(array){
+    let total_cantiades = 0
+    total = 0
+    $("#tbody_tallas_diseno").html('')
+    if(array.length > 0){
+        array.forEach(element => {
+            total_cantiades = precio_diseno * element.cantidad_tallas
+            total = total + total_cantiades
+            $("#tbody_tallas_diseno").append(`
+            <tr>
+                <th>${element.talla_seleccionada_nombre}</th>
+                <th>${element.cantidad_tallas}</th>
+                <th>${precio_diseno}</th>
+                <th>${total_cantiades}</th>
+                <th class="text-center "><img class="eliminar_talla_diseno" title="eliminar" src="/icons/basura.svg" id="${element.talla_seleccionada_nombre}" data-id="${element.talla_eliminar_id}" width="20px;" height="20px;" alt=""></th>            
+            </tr>
+            `
+            );
+       });
+    }    
 }
 
 function buscar_talla(talla_seleccionada){
@@ -137,7 +160,8 @@ function agregar_tallas(){
             talla_eliminar_id,
             talla_seleccionada_nombre,
             cantidad_tallas,    
-        }    
+        }   
+         
         console.log(precio);
         if(talla_seleccionada !== "" && cantidad_tallas > 0 ){
             $('#tabla_tallas').removeClass('hiden')
@@ -161,6 +185,44 @@ function agregar_tallas(){
         validacion_alert_talla()
     }
 
+    console.log(objeto_cuello);  
+}
+
+// funcion de tallas crear diseño
+function agregar_tallas_crear_diseno(){
+    var talla_seleccionada = $( "#talla_seleccionada_diseno option:selected" ).val()      
+    if(!buscar_talla(talla_seleccionada)){
+        var talla_seleccionada_nombre = $( "#talla_seleccionada_diseno option:selected" ).text()
+        var cantidad_tallas = $("#cantidad_tallas_diseno").val()
+        var objeto_cuello_tallas_data = {
+            talla_eliminar_id,
+            talla_seleccionada_nombre,
+            cantidad_tallas,    
+        }    
+        console.log("estoy dentro");
+
+        if(talla_seleccionada !== "" && cantidad_tallas > 0 ){
+            $('#tabla_tallas_diseno').removeClass('hiden')
+            $('#tabla_tallas_diseno').addClass('show')       
+            objeto_cuello.tallas.push(objeto_cuello_tallas_data)
+            pintar_tabla_tallas_diseno(objeto_cuello.tallas)
+            talla_eliminar_id++
+            sma_cantidades = sma_cantidades + parseInt(cantidad_tallas)
+            $("#cantidad_tallas_diseno").val("") 
+            $("#suma_cantidades_diseno").text(sma_cantidades+ ' und') 
+            $("#suma_valor_total_disno").text('$'+total) 
+            talla_nombre = talla_seleccionada_nombre
+        }else{
+            if(cantidad_tallas < 0){
+                return validacion_alert_dato_invalido()
+            }
+            validacion_alert()
+        }
+        $( "#talla_seleccionada_diseno").val("") 
+    }else{
+        validacion_alert_talla()
+    }
+
     $('.tallas').click(function(){
         if($(this).val() === "1"){
             $('#imagen_punos_puno').removeClass('hiden')
@@ -176,6 +238,22 @@ function agregar_tallas(){
     })
     console.log(objeto_cuello);  
 }
+
+function precio_cuello(id_modelo, id_material, id_precio){
+    $.ajax({
+        url:`http://${ip}/api/crear-cuello/precio-modelo/${id_modelo}/${id_material}`,
+        success:function(data){
+            console.log("estoy en precio ",data)                             
+            precio_diseno = data.valor_modelo
+            console.log(precio_diseno);
+            $("#"+id_precio).text('$'+precio_diseno)
+        },
+        error:function(error){
+            console.log(error)
+        }
+    });
+}
+
 
 //  vaciar los formularios
 // $(document).ready(function(){
@@ -219,8 +297,11 @@ function vaciar_tallas(){
         $("#fajas").val("") 
         $("#punos").val("") 
         $("#talla_seleccionada").val("")
+        $("#talla_seleccionada_diseno").val("")
         $('#tabla_tallas').removeClass('show')
-        $('#tabla_tallas').addClass('hiden')  
+        $('#tabla_tallas').addClass('hiden')
+        $('#tabla_tallas_diseno').removeClass('show')
+        $('#tabla_tallas_diseno').addClass('hiden')  
         $(".liso").removeAttr('data-target')
     }) 
 }
@@ -235,7 +316,17 @@ function eliminar_talla_class(){
         eliminar_talla(objeto_cuello.tallas,id)  
         pintar_tabla_tallas(objeto_cuello.tallas)
 
-    } )  
+    })
+
+    $('body').on('click','.eliminar_talla_diseno', function(){
+        let id = parseInt($(this).attr('data-id'))
+        let id_nombre = parseInt($(this).attr('id'))
+        $(`#${id_nombre}`).attr('disabled',false)
+        console.log(id_nombre);
+        eliminar_talla_diseno(objeto_cuello.tallas,id)  
+        pintar_tabla_tallas_diseno(objeto_cuello.tallas)
+    })
+    
 }
 
 // mostrar imagen
@@ -368,6 +459,7 @@ function tabla_cuello_figura(){
                 }
             }else{    
                 fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
+                precio_cuello(cuello_figura_id,material_fondo_figura,"precio_figura")
 
                 if(figura === 0){ 
                     vaciar_objeto()
@@ -510,6 +602,24 @@ function eliminar_talla(array, id){
                 total = total - precio * parseInt(talla.cantidad_tallas)
                 $("#suma_cantidades").text(sma_cantidades+ ' und') 
                 $("#suma_valor_total").text('$'+total) 
+                array.splice(index,1)
+           }
+       }
+    });
+    console.log(objeto_cuello)
+}
+
+
+function eliminar_talla_diseno(array, id){
+    array.forEach(talla => {
+       if(talla.talla_eliminar_id === id){
+           let index = array.indexOf(talla)
+           if(index !== -1){
+                console.log(fondo_cuello_cm)
+                sma_cantidades = sma_cantidades - parseInt(talla.cantidad_tallas)
+                total = total - precio_diseno * parseInt(talla.cantidad_tallas)
+                $("#suma_cantidades_diseno").text(sma_cantidades+ ' und') 
+                $("#suma_valor_total_disno").text('$'+total) 
                 array.splice(index,1)
            }
        }
@@ -830,13 +940,17 @@ function cuello_liso(){
     var cuello_liso_id = $("#cuello_liso_id").val()
     var material_fondo_liso = $( "#material_fondo_liso option:selected" ).val()    
     var color_fondo_liso = $("#color_fondo_liso").val()
-    console.log("soy liso",material_fondo_liso);
+
+    precio_cuello(cuello_liso_id,material_fondo_liso,"letra")
+
     if(material_fondo_liso === ""){
         validacion_alert()
         // $('#aviso_liso').html("<strong  class='text-danger animacion'>Por favor seleccione el material</strong>")     
     }else{
         $(".liso").attr('data-target','#Modal_mostrar_diseno_hecho')
         $('#aviso_liso').text("")
+        $( "#material_fondo_liso" ).prop('disabled', true)    
+
         objeto_cuello.obj_cuello_id = cuello_liso_id
         objeto_cuello.obj_nombre_cuello = nombre_cuello
         objeto_cuello.obj_descripcion_cuello = descripcion_cuello
@@ -867,6 +981,8 @@ function tabla_cuello_letra(){
     var nombre_cuello = $("#nombre_cuello").val()
     var descripcion_cuello = $("#descripcion_cuello").val()
     var imagen_diseno = $("#imagen_diseno").val()
+
+    
     
     id_color = $("#color_letra").attr('id')
     id_alto = $("#alto_letra").attr('id')
@@ -913,9 +1029,11 @@ function tabla_cuello_letra(){
                 console.log(fondo_cuello_cm);           
             }else{
                 $("#agregar_letra").text("Agregar más texto")
+                precio_cuello(cuello_letra_id,material_fondo_letra,"precio_letra")
 
+                
                 fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
-
+                
                 if(letra === 0){   
                     vaciar_objeto()
                     fondo = `<tr>
@@ -1006,7 +1124,6 @@ function tabla_cuello_linea(){
     var material_fondo_linea_noombre = $( "#material_fondo_linea option:selected" ).text()      
     var color_fondo_linea = $("#color_fondo_linea").val()
 
-
     id_color = $("#color_linea").attr('id')
     id_alto = $("#alto_linea").attr('id')
     aviso_alto = $('#aviso_linea_alto').attr('id')
@@ -1044,6 +1161,7 @@ function tabla_cuello_linea(){
                 } 
             }else{
                 $("#agregar_linea").text("Agregar más linea")
+                precio_cuello(cuello_linea_id,material_fondo_linea,"precio_linea")
 
                 fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
                 
@@ -1199,6 +1317,7 @@ function cuello_letra_figura(){
                     validacion_alert()
                 }else{
                     $('#agregar_combinacion_figura').text("Agregar más figura")  
+                    precio_cuello(cuello_letra_figura_id,material_fondo_letra_figura,"precio_letra_figura")
 
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
                     if(letra_figura === 0){     
@@ -1317,6 +1436,7 @@ function cuello_letra_figura(){
                     // validar_aviso(letra_figura,cuello_letra_figura_id)
                 }else{
                     $('#agregar_combinacion_letra').text("Agregar más texto")  
+                    precio_cuello(cuello_letra_figura_id,material_fondo_letra_figura,"precio_letra_figura")
 
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
 
@@ -1425,7 +1545,6 @@ function cuello_figura_linea(){
         var alto_figura = $("#alto_combinacion_figura_8").val()
         var ancho_figura = $("#ancho_combinacion_figura_8").val()
         var color_figura = $("#color_combinacion_figura_8").val()
-
         
         if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
             $('#aviso_linea_figura_alto').html("")
@@ -1449,6 +1568,7 @@ function cuello_figura_linea(){
                     // validar_aviso(linea_figura,cuello_linea_figura_id)   
                 }else{
                     $('#agregar_combinacion_figura_2').text("Agregar más figura")  
+                    precio_cuello(cuello_linea_figura_id,material_fondo_linea_figura,"precio_figuras_lineas")
 
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
                     if(linea_figura === 0){  
@@ -1563,6 +1683,7 @@ function cuello_figura_linea(){
                     // validar_aviso(linea_figura,cuello_linea_figura_id)   
                 }else{
                     $('#agregar_combinacion_linea_2').text("Agregar más linea")  
+                    precio_cuello(cuello_linea_figura_id,material_fondo_linea_figura,"precio_figuras_lineas")
 
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
 
@@ -1674,7 +1795,6 @@ function cuello_letra_linea(){
         var color_letra = $("#color_combinacion_letra_6").val()
         var alto_letra = $("#alto_combinacion_letra_6").val()
                
-
         if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
             $('#aviso_letra_alto').html("")
             $('#aviso_letra_linea_table').html("") 
@@ -1700,6 +1820,8 @@ function cuello_letra_linea(){
                     validacion_alert()
                     // validar_aviso(letra_linea,cuello_letra_linea_id)
                 }else{
+                    precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea")
+
                     $('#agregar_combinacion_letra_2').text("Agregar más texto")  
 
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
@@ -1814,6 +1936,8 @@ function cuello_letra_linea(){
                     validacion_alert()
                     // validar_aviso(letra_linea,cuello_letra_linea_id)   
                 }else{
+                    precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea")
+
                     $('#agregar_combinacion_linea_3').text("Agregar más linea")  
 
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
@@ -1896,6 +2020,7 @@ function cuello_letra_linea_figura(){
     aviso_alto = $('#aviso_letra_linea_figura_alto').attr('id')
     aviso_table = $('#aviso_letra_linea_figura_table').attr('id')
     aviso = $('#aviso_letra_linea_figura').attr('id')
+   
 
     $('#agregar_combinacion_letra_3').click(function(){
         
@@ -1947,6 +2072,8 @@ function cuello_letra_linea_figura(){
                     validacion_alert()
                     // validar_aviso(letra_linea,cuello_letra_linea_id)
                 }else{
+                    precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea_figura")
+
                     $('#agregar_combinacion_letra_3').text("Agregar más texto")  
 
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
@@ -2019,7 +2146,7 @@ function cuello_letra_linea_figura(){
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_letra_linea_id = 6
+        var cuello_letra_linea_id = 7
         var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea_figura option:selected" ).val())     
         var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
         var color_fondo_letra_linea = $( "#color_fondo_letra_linea_figura" ).val()    
@@ -2058,6 +2185,8 @@ function cuello_letra_linea_figura(){
                     validacion_alert()
                     // validar_aviso(letra_linea_figura,cuello_letra_linea_id)   
                 }else{
+                    precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea_figura")
+
                     $('#agregar_combinacion_linea_4').text("Agregar más linea")  
 
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
@@ -2133,7 +2262,7 @@ function cuello_letra_linea_figura(){
         var nombre_cuello = $("#nombre_cuello").val()
         var descripcion_cuello = $("#descripcion_cuello").val()
         var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_linea_figura_id = 7
+        var cuello_letra_linea_id = 7
         var material_fondo_linea_figura = parseInt($( "#material_fondo_letra_linea_figura option:selected" ).val())     
         var material_fondo_linea_figura_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
         var color_fondo_linea_figura = $( "#color_fondo_letra_linea_figura" ).val()      
@@ -2170,6 +2299,8 @@ function cuello_letra_linea_figura(){
                     validacion_alert()
                     // validar_aviso(linea_figura,cuello_linea_figura_id)   
                 }else{
+                    precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea_figura")
+
                     $('#agregar_combinacion_figura_3').text("Agregar más figura")  
 
                     fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
@@ -2191,7 +2322,7 @@ function cuello_letra_linea_figura(){
                     $("#material_combinacion_figura_7").prop('disabled', true)
    
                     if(letra_linea_figura === 1){
-                        ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
                     }
                     objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
                     pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)

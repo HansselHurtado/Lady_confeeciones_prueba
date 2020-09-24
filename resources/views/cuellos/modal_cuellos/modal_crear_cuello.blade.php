@@ -57,38 +57,39 @@
                         <div class="d-flex flex-column">
                             <div class=" row my-3 mx-1 d-flex justify-content-around ">             
                                 <label for="">Talla</label>
-                                <select class="form-control w-30" name="" id="talla_seleccionada" required>
+                                <select class="form-control w-30" name="" id="talla_seleccionada_diseno" required>
                                     <option value="" selected disabled>Seleccione una Talla</option>
-                                    <option class="quitar_disabled" id="12">12</option>                                
-                                    <option class="quitar_disabled" id="14">14</option>                                
-                                    <option class="quitar_disabled" id="16">16</option>                                
-                                    <option class="quitar_disabled" id="18">18</option>                                
+                                    <option  id="12">12</option>                                
+                                    <option  id="14">14</option>                                
+                                    <option  id="16">16</option>                                
+                                    <option  id="18">18</option>                                
                                 </select>
                                 <label for="imagen_diseño">Cantidad</label>
-                                <input class="form-control tamano_input_color" type="number" name="" id="cantidad_tallas" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                                <input class="form-control tamano_input_color" type="number" name="" id="cantidad_tallas_diseno" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                                             
-                                <button class="btn btn-primary color_a" onclick="agregar_tallas();"> Agregar</button>
+                                <button class="btn btn-primary color_a" onclick="agregar_tallas_crear_diseno();"> Agregar</button>
                            
                             </div>  
-                            <div id="tabla_tallas" class="my-3 w-60 hiden animacion">
+                            <div id="tabla_tallas_diseno" class="my-3 w-60 hiden animacion">
                                 <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
                                     <thead class="color-table">
                                         <tr>    
                                             <th>Talla</th>
                                             <th>Cantidad</th>
-                                            <th>Total</th>
+                                            <th>Valor Unitario</th>
+                                            <th>Valor Total</th>
                                             <th>Opción</th>
                                         </tr>
                                     </thead>
                                     <tfoot class="color-table">
                                         <tr>
                                           <th>Total</th>
-                                          <th id="suma_cantidades"></th>
-                                          <th id="suma_valor_total"></th>
+                                          <th id="suma_cantidades_diseno"></th>
+                                          <th colspan="2" class="text-right" id="suma_valor_total_disno"></th>
                                           <th></th>
                                         </tr>
                                       </tfoot>
-                                    <tbody id="tbody_tallas">
+                                    <tbody id="tbody_tallas_diseno">
                                         
                                     </tbody>
                                 </table>

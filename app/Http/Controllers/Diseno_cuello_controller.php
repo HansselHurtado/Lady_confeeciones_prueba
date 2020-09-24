@@ -190,4 +190,8 @@ class Diseno_cuello_controller extends Controller
                                     'material_cuellos.nombre_material as material')
                             ->where('id_diseno_cuello',$diseno_cuello)->first();
     }   
+
+    public function precio_modelo($id_modelo, $id_material){
+        return Valor_modelo::where('id_modelo_cuello',$id_modelo)->where('id_material_cuello', $id_material)->first();
+    }
 }

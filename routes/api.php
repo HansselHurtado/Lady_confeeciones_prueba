@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// trear precios de los modelos
+Route::get('crear-cuello/precio-modelo/{id_modelo}/{id_material}','Diseno_cuello_controller@precio_modelo');
 
 Route::post('crear-cuello/cuello','Diseno_cuello_controller@crear_cuello');
 Route::get('cuello/detalles/{id_diseno}','Diseno_cuello_controller@detalle_cuello');
