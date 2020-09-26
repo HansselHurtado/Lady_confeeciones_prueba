@@ -78,10 +78,10 @@
                 </nav>
             </div>
             <div class="row content_cuellos pt-2 pr-3">    
-                <div class="w-100 d-flex flex-wrap justify-content-between">
+                <div class="w-100 d-flex flex-wrap">
                     @foreach ($diseno_cuellos as $diseno_cuello)
                         <div class="container_cuello">
-                        <div class="item_cuello color text-center text-white vaciar_talla" data-toggle="modal" data-target="#Modal_detalle_cuello " onclick="detalles_cuello('{{$diseno_cuello->nombre_diseno}}','{{$diseno_cuello->id_diseno_cuello}}',' {{$diseno_cuello->nombre_modelo}}','{{$diseno_cuello->material}}')">
+                        <div class="item_cuello color text-center text-white mx-2 vaciar_talla" data-toggle="modal" data-target="#Modal_detalle_cuello " onclick="detalles_cuello('{{$diseno_cuello->nombre_diseno}}','{{$diseno_cuello->id_diseno_cuello}}',' {{$diseno_cuello->nombre_modelo}}','{{$diseno_cuello->material}}')">
                                 <div class="align-items-center pt-2">
                                     <span class="text-center"><strong >Diseño: {{$diseno_cuello->nombre_modelo}}</strong></span>
                                 </div>

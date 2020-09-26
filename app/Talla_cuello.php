@@ -12,4 +12,9 @@ class Talla_cuello extends Model
     public function pedido_cuello_por_talla(){
         return $this->hasMany('App\Pedido_cuello_por_talla','id_talla_cuello');
     }
+
+    public function carrito()
+    {
+        return $this->hasMany('App\Carrito','id_talla_cuello');
+    }
 }

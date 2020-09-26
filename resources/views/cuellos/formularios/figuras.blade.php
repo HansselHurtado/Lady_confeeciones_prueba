@@ -107,7 +107,7 @@
      </div>
      <div class="hiden animacion" id="crear_diseno_figura">
         <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" data-toggle="modal" data-target="#Modal_mostrar_diseno_hecho" class="btn btn-primary">Crear Diseño</button>
+            <button class="btn btn-primary" id="button_figura" onclick="validar_arrays()" data-toggle="modal" >Crear Diseño</button>
         </div>
         <div id="aviso_figura_table" class="row my-2"></div>
 

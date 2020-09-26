@@ -49,4 +49,9 @@ class Diseno_cuello extends Model
     {
         return $this->hasMany('App\Pedido_cuello','id_diseno_cuello');
     }
+
+    public function carrito()
+    {
+        return $this->hasMany('App\Carrito','id_diseno_cuello');
+    }
 }

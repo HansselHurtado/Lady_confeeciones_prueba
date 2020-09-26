@@ -40,7 +40,7 @@
 
     </div> 
     <div class=" row my-3 mx-1">                    
-        <button class="btn btn-primary liso" data-toggle="modal"  class="btn btn-primary" onclick="cuello_liso()">Añadir Tallas</button>
+        <button class="btn btn-primary liso crear_diseno" data-toggle="modal"   onclick="cuello_liso()">Crear Diseno</button>
         <div class="divider-custom mx-2" onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno">
             <div class="divider-custom-line"></div>
             <div class="divider-custom-icon">   <img src="{{ asset('/icons/almohada.svg') }}" alt="" width="50px"></div>

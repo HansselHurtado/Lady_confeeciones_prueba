@@ -128,7 +128,7 @@
      </div>
      <div class="hiden animacion" id="crear_diseno_figura_linea">
         <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary"  id="modal_button_figura_linea" data-toggle="modal"  class="btn btn-primary">Crear Diseño</button>
+            <button class="btn btn-primary"  id="modal_button_figura_linea" data-toggle="modal">Crear Diseño</button>
         </div>
     </div>
     <div id="aviso_linea_figura_table" class="row my-2"></div>

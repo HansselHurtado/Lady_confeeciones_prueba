@@ -55,41 +55,89 @@
 
 @section('content_diseno')
     <div class="w-100 bg-white" style="border-radius: 10px">
-        <div>
-            Estoy vacio
-        </div>
+       
         <div class="container">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Entrega</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Cantidad</th>
-                    <th scope="col">Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
-                </tbody>
-            </table>
+            @if (!$productos->isEmpty())
+                
+                <table class="table table-hover" cellspacing="0">
+                    <thead  class="py-4">
+                    <tr style="font-size: 23px">
+                        <th class="border-0"></th>
+                        <th class="border-0" scope="col">Producto</th>
+                        <th class="border-0" scope="col">Categoria</th>
+                        <th class="border-0" scope="col">Talla</th>
+                        <th class="border-0" scope="col">Precio</th>
+                        <th class="border-0" scope="col">Cantidad</th>
+                        <th class="border-0" scope="col">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @php 
+                            $total = 0;
+                        @endphp
+                        @foreach ($productos as $producto)
+                            <tr class="text-center bg-white" style="font-size: 18px">
+                                <td class="border-0" style="vertical-align: middle!important"><img width="80px;" height="80px;" src="https://www.camionetica.com/wp-content/uploads/2015/05/cuello-bordado-Lylo.jpg" alt=""></td>
+                                <td class="border-0" style="vertical-align: middle!important">{{$producto->nombre_diseno}}</td>
+                                <td class="border-0" style="vertical-align: middle!important">Modelo de cuello con {{$producto->nombre_modelo}}</td>
+                                <td class="border-0" style="vertical-align: middle!important">{{$producto->nombre_talla}}</td>
+                                <td class="border-0" style="vertical-align: middle!important">{{ number_format($producto->valor_modelo, 2)}}</td>
+                                <td class="border-0" style="vertical-align: middle!important">{{$producto->cantidad}}</td>
+                                <td class="text-center border-0" style="vertical-align: middle!important">${{number_format($producto->cantidad * $producto->valor_modelo, 2)}}</td>
+                                <td class="text-center border-0" style="vertical-align: middle!important">
+                                    <form action="{{route('delete_carrito',$producto->id_carrito) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="border-0" style="background: white !important"> <img  src="{{ asset('/icons/basura.svg') }}" width="30px;" height="30px;" alt="" title="eliminar del carrito"></button>            
+                                    </form>
+                                </td> 
+                            </tr>   
+                            @php 
+                                $total = $total + ($producto->cantidad * $producto->valor_modelo);
+                            @endphp
+                            
+                        @endforeach                
+                    </tbody>
+                </table>
+                <hr>
+
+                <div>
+                    <div class="row">
+                        <div class="col-10" style="margin: 0 auto">
+                            <span>Ten en cuanto que el valor del envío puede variar</span>
+                        </div>
+                        <div class="col-10 mt-2" style="background: #F0F0F7; margin: 0 auto">
+                            <div class="d-flex justify-content-between p-3">
+                                <span><b>Total</b></span>
+                                <span class="text-danger"><b>
+                                    ${{number_format($total, 2)}}
+                                </b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-10 d-flex align-items-center" style="margin: 20px auto">
+                            <input type="checkbox" class="mr-2 p-2">
+                            <p class="m-0">Acepto términos y condiciones y autorizo el tratamiento de mis dastos personales con las siguientes condiciones</p>
+                        </div>
+                        <div class="col-7 d-flex flex-column justify-content-center align-items-center" style="margin:0 auto">
+                            <a href="" class="btn btn-primary btn-block">Finalizar Compra</a>
+                            <a  href={{ route('diseno_cuello') }} class="text-dark my-3"><u>Seguir comprando</u></a>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="container ">
+                    <div class="mb-4 d-flex justify-content-center align-items-center">
+                        <img class="mt-4" style="width: 100px; " src="{{ asset('icons/carrito-de-compras.svg') }}" alt="" width="10%">
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-frown fa-5x text-gray-300"></i> 
+                        <h3> Carrito vacio!!</h3>
+                        <a  href={{ route('diseno_cuello') }} class="text-dark mb-2"><u>Ir a comprar</u></a>
+                    </div>
+                </div> 
+            @endif
         </div>
         
     </div>

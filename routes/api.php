@@ -23,3 +23,6 @@ Route::get('crear-cuello/precio-modelo/{id_modelo}/{id_material}','Diseno_cuello
 
 Route::post('crear-cuello/cuello','Diseno_cuello_controller@crear_cuello');
 Route::get('cuello/detalles/{id_diseno}','Diseno_cuello_controller@detalle_cuello');
+
+// añadir al carrito
+Route::post('anadir-carrito','carrito_comprasController@add_to_car');

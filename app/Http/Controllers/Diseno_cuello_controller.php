@@ -167,7 +167,7 @@ class Diseno_cuello_controller extends Controller
                     }                    
                     break;
             }
-            return true;
+            return $cuello->id_diseno_cuello;
         }
     }
     public function diseno_cuello(){      

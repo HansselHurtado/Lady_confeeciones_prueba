@@ -36,7 +36,7 @@
 </div>
 
 <!-- Modal cuello creado -->
-<div class="portfolio-modal modal fade " id="Modal_mostrar_diseno_hecho" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
+<div class="portfolio-modal modal fade " id="Modal_mostrar_diseno_hecho" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <button type="button" class="close button_close_modal" data-dismiss="modal" aria-label="Close">
@@ -59,10 +59,10 @@
                                 <label for="">Talla</label>
                                 <select class="form-control w-30" name="" id="talla_seleccionada_diseno" required>
                                     <option value="" selected disabled>Seleccione una Talla</option>
-                                    <option  id="12">12</option>                                
-                                    <option  id="14">14</option>                                
-                                    <option  id="16">16</option>                                
-                                    <option  id="18">18</option>                                
+                                    <option value="1"  id="12">12</option>                                
+                                    <option value="2"  id="14">14</option>                                
+                                    <option value="3"  id="16">16</option>                                
+                                    <option value="4"  id="18">18</option>                                
                                 </select>
                                 <label for="imagen_diseño">Cantidad</label>
                                 <input class="form-control tamano_input_color" type="number" name="" id="cantidad_tallas_diseno" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
@@ -95,8 +95,7 @@
                                 </table>
                                 <div id="para algun aviso" class="row my-2"></div>  
                                 
-                                <div class=" row my-3 mx-1 d-flex justify-content-start">
-                                           
+                                <div class=" row my-3 mx-1 d-flex justify-content-start">                     
                                     
                                      
                                                              
@@ -127,7 +126,7 @@
                                         </div> 
                                         <div id="imagen_punos_puno" class="my-3 hiden animacion text-left">
                                             <label class="" for="">Por favor introduzca una imagen del diseño de puño</label>
-                                            <input class="w-100" type="file" name="" id="">
+                                            <input class="w-100" type="file" name="" id="" accept="image/gif,image/jpeg,image/jpg,image/png">
                                         </div>     
                                     </div>
                                     
@@ -155,7 +154,7 @@
                                         </div>
                                         <div id="imagen_punos_fajas" class="my-3 hiden animacion text-left">
                                             <label class="" for="">Por favor introduzca una imagen del diseño de faja</label>
-                                            <input class="w-100" type="file" name="" id="">
+                                            <input class="w-100" type="file" name="" id="" accept="image/gif,image/jpeg,image/jpg,image/png">
                                         </div>   
                                     </div>                           
                                 </div>
@@ -172,9 +171,8 @@
                                 </div>
                             </div>
                             <div class=" row my-3 mx-1 d-flex justify-content-start">                    
-                                <button class="btn btn-primary mandar_datos" id="mandar_datos" >Añadir al carrito</button>
-                            </div>
-                            
+                                <button class="btn btn-primary mandar_datos " id="mandar_datos" >Añadir al carrito</button>
+                            </div>                            
                         </div>
                     </div>
                 </section>

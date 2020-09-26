@@ -34,10 +34,10 @@
                                     <label for="" class="m-0 mr-2">Talla</label>
                                     <select class="form-control w-100" name="" id="talla_seleccionada" required>
                                         <option value="" selected disabled>Seleccionar</option>
-                                        <option class="quitar_disabled" id="12" >12</option>                                
-                                        <option class="quitar_disabled" id="14" >14</option>                                
-                                        <option class="quitar_disabled" id="16" >16</option>                                
-                                        <option class="quitar_disabled" id="18" >18</option>                                
+                                        <option class="quitar_disabled" value="1" id="12" >12</option>                                
+                                        <option class="quitar_disabled"  value="2" id="14" >14</option>                                
+                                        <option class="quitar_disabled"  value="3" id="16" >16</option>                                
+                                        <option class="quitar_disabled"  value="4" id="18" >18</option>                                
                                     </select>
                                 </div>           
                                 <div class="d-flex col-4 align-items-center p-0">
