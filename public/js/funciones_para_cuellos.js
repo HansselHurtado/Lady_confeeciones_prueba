@@ -3,6 +3,11 @@
 // var ip = '127.0.0.1:8000';
 //var ip = window.location.protocol + "//" + window.location.host
 
+$(document).ready(function(){
+    $(".form").submit(function(e){
+        e.preventDefault();
+    })    
+})
 
 //deschequear los tipos de modelo que no sean liso
 $('input:checkbox[name=cuello_liso]').click(function(){
@@ -22,6 +27,7 @@ $('#mostrar_formulario').click(function(){
     var imagen = $("#imagen_diseno").val()
     $('input:checkbox').each(function(){
         let name = $(this).attr('name')
+
         $(`#formulario_${name}`).addClass('hiden');
         $(`#formulario_cuello_letrascuello_figuras`).addClass('hiden');
         $(`#formulario_cuello_letrascuello_figurascuello_lineas`).addClass('hiden');
@@ -48,11 +54,34 @@ $('#mostrar_formulario').click(function(){
         $('#aviso').html("")  
         $(`#formulario_${nameForm}`).removeClass('hiden');
         $(`#formulario_${nameForm}`).addClass('show');
-        fondo_cuello_cm = 10        
+        fondo_cuello_cm = 10 
+        // dejar_valores_in_false()
+        vaciar_objeto()  
+
+        $(`#formulario_${nameForm} select`).prop('disabled', false)
+        $(`#formulario_${nameForm} input`).prop('disabled', false)
+        $(`#formulario_${nameForm} tbody`).html("")
+        $(`#formulario_${nameForm} .tabla_diseno`).removeClass('show')
+        $(`#formulario_${nameForm} .tabla_diseno`).addClass('hiden')
+        
+        // $(`#formulario_${nameForm} .button_crear_diseno`).removeClass('show')
+        // $(`#formulario_${nameForm} .button_crear_diseno`).addClass('hiden')
+
+        // dejar_valores_in_false_combinacion()
+        $(`#formulario_${nameForm}`)[0].reset();
+        
+        // $("#formulario_cuello_liso")[0].reset();
+        // $("#formulario_cuello_letras")[0].reset();
+        // $("#formulario_cuello_figuras")[0].reset();
+        // $("#formulario_cuello_lineas")[0].reset();
+        // $("#formulario_cuello_letrascuello_figuras")[0].reset();
+        // $("#formulario_cuello_figurascuello_lineas")[0].reset();
+        // $("#formulario_cuello_letrascuello_figurascuello_lineas")[0].reset();
+        // $("#formulario_cuello_letrascuello_lineas")[0].reset();
     }
     $( "#material_fondo_liso" ).prop('disabled', false)    
-    $( "#material_fondo_liso" ).val("")    
-    $( "#color_fondo_liso" ).val("")    
+    // $( "#material_fondo_liso" ).val("")    
+    // $( "#color_fondo_liso" ).val("")    
 
     combinacion(nameForm)
 })
@@ -285,20 +314,29 @@ $(document).ready(function(){
     validar_datos()  
     vaciar_tallas()
     eliminar_talla_class()
-    crear_diseno()
-
-    
+    crear_diseno()    
 })
 
 function crear_diseno(){
-    $('body').on('click','.crear_diseno', function(){ 
-        tabla_cuello_mandar_datos()    
+    $('body').on('click','.crear_diseno', function(){
+        if(objeto_cuello.obj_material_fondo !== ""){
+            tabla_cuello_mandar_datos()    
+        }
     })
 }
 
 function validar_datos(){
     $('body').on('click','.mandar_datos', function(){ 
         console.log( objeto_cuello);    
+
+        let numero_producto = localStorage.getItem("numProducts")
+        
+        if (numero_producto === null) {
+            localStorage.setItem("numProducts",objeto_cuello.tallas.length)
+        }else{
+            let auxiliar = parseInt(numero_producto) + objeto_cuello.tallas.length
+            localStorage.setItem("numProducts",auxiliar)
+        }
 
         if(sma_cantidades > 0){
             $.ajax({
@@ -317,6 +355,7 @@ function validar_datos(){
                           })
                           .then((value) => {
                             window.location.href = `${ip}/ladys-confecciones/carrito_compras`;
+ 
                         });
                     }
                 },
@@ -601,8 +640,8 @@ function dejar_valores_in_false(){
     $("#" + id_table).removeClass('show')
     $("#" + id_table).addClass('hiden')    
 
-    $("#" + id_crear_diseno).removeClass('show')
-    $("#" + id_crear_diseno).addClass('hiden') 
+    // $("#" + id_crear_diseno).removeClass('show')
+    // $("#" + id_crear_diseno).addClass('hiden') 
 
 }
 function dejar_valores_in_false_combinacion(){    
@@ -623,9 +662,10 @@ function dejar_valores_in_true(){
     $("#" + id_table).removeClass('hiden')
     $("#" + id_table).addClass('show')   
     
-    $("#" + id_crear_diseno).removeClass('hiden')
-    $("#" + id_crear_diseno).addClass('show')    
+    // $("#" + id_crear_diseno).removeClass('hiden')
+    // $("#" + id_crear_diseno).addClass('show')    
 }
+
 
 function dejar_campos_vacioss(){
     $("#" + id_alto).val("")    
@@ -836,6 +876,7 @@ function pintar_tr(array,id_tbody,material_noombre){
 
 // pintar combinaciones 
 function pintar_tr_combinacion(array,array2,id_tbody,material_noombre){
+        
     $("#" + id_tbody).html('')
     $("#" + id_tbody).append(fondo)
     $(document).ready(function(){
@@ -1005,12 +1046,13 @@ function cuello_liso(){
     var material_fondo_liso = $( "#material_fondo_liso option:selected" ).val()    
     var color_fondo_liso = $("#color_fondo_liso").val()
 
-    precio_cuello(cuello_liso_id,material_fondo_liso,"letra")
 
     if(material_fondo_liso === ""){
         validacion_alert()
         // $('#aviso_liso').html("<strong  class='text-danger animacion'>Por favor seleccione el material</strong>")     
     }else{
+        precio_cuello(cuello_liso_id,material_fondo_liso,"letra")
+
         $(".liso").attr('data-target','#Modal_mostrar_diseno_hecho')
         $('#aviso_liso').text("")
         $( "#material_fondo_liso" ).prop('disabled', true)    
@@ -1839,7 +1881,6 @@ function cuello_figura_linea(){
                 dejar_valores_in_false()
                 dejar_valores_in_false_combinacion()
                 $('#agregar_combinacion_linea_2').text("Agregar linea")  
-
             })   
         })
     

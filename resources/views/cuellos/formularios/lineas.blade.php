@@ -1,5 +1,5 @@
 <!-- Formulario de diseño con lineas-->
-<div id="formulario_cuello_lineas" class="container my-5 hiden animacion">
+<form id="formulario_cuello_lineas" action="#" class="container my-5 hiden animacion form">
     <div class="row">
         <h4 class="my-5">Detalles del Diseño con lienas</h4>
         <div class="d-flex p-0 justify-content-center align-items-center w-60">
@@ -64,7 +64,7 @@
     </div>
     
 
-    <div class="table-users my-3 w-60 hiden animacion mr-tabla" id="tabla_diseno_linea" >
+    <div class="table-users my-3 w-60 hiden animacion mr-tabla tabla_diseno" id="tabla_diseno_linea" >
         <div class="header color_a">Resumen del diseño</div>
         
         <table cellspacing="0">
@@ -92,16 +92,21 @@
             </tbody>
 
         </table>
-        
-     </div>
-     <div class="hiden animacion" id="crear_diseno_linea">
+        <div class="animacion" id="crear_diseno_linea">
+            <div class=" row my-3 mx-1">                    
+                <button class="btn btn-primary button_crear_diseno" onclick="validar_arrays()"  data-toggle="modal" >Crear Diseño</button>
+            </div>
+            <div id="aviso_linea_table" class="row my-2"></div>
+        </div>
+    </div>
+    {{-- <div class="hiden animacion" id="crear_diseno_linea">
         <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" onclick="validar_arrays()"  data-toggle="modal" >Crear Diseño</button>
+            <button class="btn btn-primary button_crear_diseno" onclick="validar_arrays()"  data-toggle="modal" >Crear Diseño</button>
         </div>
         <div id="aviso_linea_table" class="row my-2"></div>
-    </div>
+    </div> --}}
      
 
 
 
-</div>
+</form>

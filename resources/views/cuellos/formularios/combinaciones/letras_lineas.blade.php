@@ -1,5 +1,5 @@
 <!-- Formulario de diseño con cuello_letras  cuello_lineas-->
-<div id="formulario_cuello_letrascuello_lineas" class="row show w-65 hiden animacion">
+<form id="formulario_cuello_letrascuello_lineas" action="#" class="row show w-65 hiden animacion form">
     <h4 class="my-5">Detalles del Diseño con letras y lineas</h4>
     <div class="boder_radius">
         <div class="row m-0">
@@ -109,7 +109,7 @@
     
 
 
-    <div class="table-users my-3 w-60 hiden animacion mr-tabla" id="tabla_diseno_letra_linea" >
+    <div class="table-users my-3 w-60 hiden animacion mr-tabla tabla_diseno" id="tabla_diseno_letra_linea" >
         <div class="header color_a">Resumen del diseño</div>
         
         <table cellspacing="0">
@@ -140,14 +140,18 @@
                 
             </tbody>
         </table>
-        
-     </div>
-     <div class="hiden animacion" id="crear_diseno_linea_letra">
-        <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" id="modal_button_letra_linea" data-toggle="modal">Crear Diseño</button>
+        <div class="animacion" id="crear_diseno_linea_letra">
+            <div class=" row my-3 mx-1">                    
+                <button class="btn btn-primary button_crear_diseno" id="modal_button_letra_linea" data-toggle="modal">Crear Diseño</button>
+            </div>
         </div>
-    </div>
+     </div>
+     {{-- <div class="hiden animacion" id="crear_diseno_linea_letra">
+        <div class=" row my-3 mx-1">                    
+            <button class="btn btn-primary button_crear_diseno" id="modal_button_letra_linea" data-toggle="modal">Crear Diseño</button>
+        </div>
+    </div> --}}
     <div id="aviso_letra_linea_table" class="row my-2"></div>
 
 
-</div>
+</form>

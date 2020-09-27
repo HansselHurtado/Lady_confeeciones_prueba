@@ -54,6 +54,17 @@
             border-radius: 20px;
             height: 30px;
         }
+        .carrito_numero{
+            background: red;
+            color: white;
+            left: 30px;
+            font-weight: bold;
+            width: 25px;
+            border-radius: 50%;
+            height: 25px;
+            text-align: center;
+            font-size: 17px;
+        }
     </style>
 
 </head>
@@ -101,10 +112,11 @@
                     </form> --}}
 
                     {{-- carrito de compras --}}
-                    <div class="carrito">
+                    <div class="carrito position-relative">
                         <a href="{{route('carrito')}}">
                             <img style="width: 40px; " src="{{ asset('icons/carrito-de-compras.svg') }}" alt="" width="10%">
                         </a>
+                        <span class="position-absolute text-white carrito_numero" id="carrito_numero"></span>
                     </div>
                     
 
@@ -216,7 +228,13 @@
     <script src="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js') !!}" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="{!! asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js') !!}" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="{!! asset('https://unpkg.com/sweetalert/dist/sweetalert.min.js') !!}"></script>
-
+    <script>
+        if(localStorage.getItem("numProducts") === null){
+            $("#carrito_numero").text(0)
+        }else{
+            $("#carrito_numero").text(localStorage.getItem("numProducts"))
+        }
+    </script>
     @yield('scripts')
 
 </body>

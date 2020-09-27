@@ -23,6 +23,14 @@ class carrito_comprasController extends Controller
         $producto->delete();
         return redirect()->back();
     }
+    
+    function empty_cart(){
+        $carrito = Carrito::where('id_carrito', '>' , 0)->get();
+        foreach ($carrito as $products) {
+            $products->delete();
+        }
+        return redirect()->back();
+    }
 
     function add_to_car(Request $request){
         if($request->ajax()){

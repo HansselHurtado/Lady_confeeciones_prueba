@@ -1,6 +1,6 @@
 <!-- Formulario de diseño con  cuello_figuras cuello_lineas-->
 
-<div id="formulario_cuello_figurascuello_lineas" class="row show w-65 hiden animacion">
+<form id="formulario_cuello_figurascuello_lineas" action="#" class="row show w-65 hiden animacion form">
     <h4 class="my-5">Detalles del Diseño con figuras y lineas</h4>
     <div class="boder_radius">
         <div class="row m-0">
@@ -95,7 +95,7 @@
         </div>            
     </div> 
     
-    <div class="table-users my-3 w-60 hiden animacion mr-tabla" id="tabla_diseno_linea_figura" >
+    <div class="table-users my-3 w-60 hiden animacion mr-tabla tabla_diseno" id="tabla_diseno_linea_figura" >
         <div class="header color_a">Resumen del diseño</div>
         
         <table cellspacing="0">
@@ -124,12 +124,16 @@
                 
             </tbody>
         </table>
-        
-     </div>
-     <div class="hiden animacion" id="crear_diseno_figura_linea">
-        <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary"  id="modal_button_figura_linea" data-toggle="modal">Crear Diseño</button>
+        <div class="animacion" id="crear_diseno_figura_linea">
+            <div class=" row my-3 mx-1">                    
+                <button class="btn btn-primary button_crear_diseno"  id="modal_button_figura_linea" data-toggle="modal">Crear Diseño</button>
+            </div>
         </div>
-    </div>
+     </div>
+     {{-- <div class="hiden animacion" id="crear_diseno_figura_linea">
+        <div class=" row my-3 mx-1">                    
+            <button class="btn btn-primary button_crear_diseno"  id="modal_button_figura_linea" data-toggle="modal">Crear Diseño</button>
+        </div>
+    </div> --}}
     <div id="aviso_linea_figura_table" class="row my-2"></div>
-</div>
+</form>

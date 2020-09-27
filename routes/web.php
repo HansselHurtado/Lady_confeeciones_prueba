@@ -26,3 +26,4 @@ Route::get('/crear-cuello/diseno-cuellos','Diseno_cuello_controller@diseno_cuell
 
 //eliminar carrito
 Route::delete('/ladys-confecciones/carrito_compras/eliminar/{id}','carrito_comprasController@delete')->name('delete_carrito'); 
+Route::delete('/ladys-confecciones/carrito_compras/vaciar','carrito_comprasController@empty_cart')->name('vaciar_carrito'); 

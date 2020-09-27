@@ -47,7 +47,7 @@
     </div>
 @endsection
 @section('content')
-    <div class="container bg-white container_principal">
+    <div id="formulario_completo" class="container bg-white container_principal">
         <div class="w-65 mb-4">
             <div class="row">
                   <h4 class="my-5">Nuevo diseño</h4>
@@ -97,7 +97,7 @@
                 
             </div>
             <div class="row my-4">
-                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary eliminar_fondo imagen continuar vaciar_talla" >Continuar</button>
+                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary  imagen continuar vaciar_talla" >Continuar</button>
             </div>
         </div>
 

@@ -57,8 +57,14 @@
     <div class="w-100 bg-white" style="border-radius: 10px">
        
         <div class="container">
-            @if (!$productos->isEmpty())
-                
+            @if (!$productos->isEmpty()) 
+                <div>
+                    <form action="{{route('vaciar_carrito') }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-primary mt-2" onclick="vaciar_carrito()">Vaciar Carrito</button>
+                    </form>
+                </div>               
                 <table class="table table-hover" cellspacing="0">
                     <thead  class="py-4">
                     <tr style="font-size: 23px">
@@ -88,7 +94,7 @@
                                     <form action="{{route('delete_carrito',$producto->id_carrito) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="border-0" style="background: white !important"> <img  src="{{ asset('/icons/basura.svg') }}" width="30px;" height="30px;" alt="" title="eliminar del carrito"></button>            
+                                        <button type="submit" class="border-0" style="background: white !important" onclick="eliminar_storage()"> <img  src="{{ asset('/icons/basura.svg') }}" width="30px;" height="30px;" alt="" title="eliminar del carrito"></button>            
                                     </form>
                                 </td> 
                             </tr>   
@@ -100,7 +106,7 @@
                     </tbody>
                 </table>
                 <hr>
-
+        
                 <div>
                     <div class="row">
                         <div class="col-10" style="margin: 0 auto">
@@ -146,4 +152,13 @@
 @section('scripts')
     <script  src="{!! asset('js/funciones_para_cuellos.js') !!}"></script>
     <script  src="{!! asset('js/cuellos_modal.js') !!}"></script>
+    <script>
+        function eliminar_storage(){
+            let aux = localStorage.getItem("numProducts")
+            localStorage.setItem("numProducts",parseInt(aux) - 1)
+        }
+        function vaciar_carrito(){
+            localStorage.setItem("numProducts",0)
+        }
+    </script>
 @endsection

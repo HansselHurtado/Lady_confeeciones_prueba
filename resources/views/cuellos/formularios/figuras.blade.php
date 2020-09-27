@@ -1,6 +1,6 @@
 
 <!-- Formulario de diseño con figura-->
-<div id="formulario_cuello_figuras" class="container my-5 hiden animacion">
+<form id="formulario_cuello_figuras" action="#" class="container my-5 hiden animacion form">
     <div class="row">
         <h4 class="my-5">Detalles del Diseño con figuras</h4>
         <div class="d-flex p-0 justify-content-center align-items-center w-60">
@@ -74,7 +74,7 @@
         
     </div>
 
-    <div class="table-users my-3 w-60 hiden animacion mr-tabla" id="tabla_diseno_figura" >
+    <div class="table-users my-3 w-60 hiden animacion mr-tabla tabla_diseno" id="tabla_diseno_figura" >
         <div class="header color_a">Resumen del diseño</div>
         
         <table cellspacing="0">
@@ -103,14 +103,18 @@
                 
             </tbody>
         </table>
-        
+        <div class="animacion" id="crear_diseno_figura">
+            <div class=" row my-3 mx-1">                    
+                <button class="btn btn-primary button_crear_diseno" id="button_figura" onclick="validar_arrays()" data-toggle="modal" >Crear Diseño</button>
+            </div>
+            <div id="aviso_figura_table" class="row my-2"></div>
+        </div>
      </div>
-     <div class="hiden animacion" id="crear_diseno_figura">
+    {{-- <div class="hiden animacion" id="crear_diseno_figura">
         <div class=" row my-3 mx-1">                    
-            <button class="btn btn-primary" id="button_figura" onclick="validar_arrays()" data-toggle="modal" >Crear Diseño</button>
+            <button class="btn btn-primary button_crear_diseno" id="button_figura" onclick="validar_arrays()" data-toggle="modal" >Crear Diseño</button>
         </div>
         <div id="aviso_figura_table" class="row my-2"></div>
-
-    </div>
+    </div> --}}
     
-</div>
+</form>
