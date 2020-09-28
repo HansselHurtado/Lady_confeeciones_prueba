@@ -142,7 +142,7 @@
         </table>
         <div class="animacion" id="crear_diseno_linea_letra">
             <div class=" row my-3 mx-1">                    
-                <button class="btn btn-primary button_crear_diseno" id="modal_button_letra_linea" data-toggle="modal">Crear Diseño</button>
+                <button class="btn btn-primary button_crear_diseno" id="modal_button_letra_linea" onclick="validar_arrays_combinacion()" data-toggle="modal">Crear Diseño</button>
             </div>
         </div>
      </div>

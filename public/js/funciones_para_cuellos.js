@@ -20,8 +20,12 @@ $('input:checkbox[name=cuello_liso]').click(function(){
 $('.combinacion').click(function(){
     $('input:checkbox[name=cuello_liso]').prop('checked',false)
 })
+
 // mostrar formularios
 $('#mostrar_formulario').click(function(){
+
+    console.log("estoy dentro de continuar ");
+
     let nameForm = ''
     var nombre_cuello = $("#nombre_cuello").val()
     var imagen = $("#imagen_diseno").val()
@@ -55,9 +59,8 @@ $('#mostrar_formulario').click(function(){
         $(`#formulario_${nameForm}`).removeClass('hiden');
         $(`#formulario_${nameForm}`).addClass('show');
         fondo_cuello_cm = 10 
-        // dejar_valores_in_false()
-        vaciar_objeto()  
-
+        vaciar_objeto()
+        vaciar_variables()
         $(`#formulario_${nameForm} select`).prop('disabled', false)
         $(`#formulario_${nameForm} input`).prop('disabled', false)
         $(`#formulario_${nameForm} tbody`).html("")
@@ -70,14 +73,6 @@ $('#mostrar_formulario').click(function(){
         // dejar_valores_in_false_combinacion()
         $(`#formulario_${nameForm}`)[0].reset();
         
-        // $("#formulario_cuello_liso")[0].reset();
-        // $("#formulario_cuello_letras")[0].reset();
-        // $("#formulario_cuello_figuras")[0].reset();
-        // $("#formulario_cuello_lineas")[0].reset();
-        // $("#formulario_cuello_letrascuello_figuras")[0].reset();
-        // $("#formulario_cuello_figurascuello_lineas")[0].reset();
-        // $("#formulario_cuello_letrascuello_figurascuello_lineas")[0].reset();
-        // $("#formulario_cuello_letrascuello_lineas")[0].reset();
     }
     $( "#material_fondo_liso" ).prop('disabled', false)    
     // $( "#material_fondo_liso" ).val("")    
@@ -131,7 +126,34 @@ let talla_nombre =""
 let precio_diseno = 0
 let button_crear = 'hola'
 let array_tabla = []
+let button = 'hola'
+let button_combinacion_3 = 'hola'
 
+function vaciar_variables(){
+    figura_eliminar_id = 1
+    letra_eliminar_id = 1
+    linea_eliminar_id = 1
+    figura = 0
+    talla_eliminar_id = 1
+    sma_cantidades = 0
+    letra = 0;
+    linea = 0;
+
+    letra_figura = 0
+    linea_figura = 0
+    letra_linea = 0
+    letra_linea_figura = 0
+
+    eliminar_combinacion = 1
+    contador_figura_linea = 1
+    contador_letra_linea = 1
+    contador_letra_linea_figura = 1
+
+    array_combinacion1 = []
+    array_combinacion2 = []
+    array_combinacion3 = []
+
+}
 
 // ****************************** tallas ****************************************************************************
 function pintar_tabla_tallas(array){
@@ -461,16 +483,16 @@ function showimagefigura(img){
 
 
 // validar para que escoja más de un elemento a fabricar
-function validar_arrays_combinacion(array,array2,button){
-    if(array.length !== 0  && array2.length !==0  ){
+function validar_arrays_combinacion(){
+    if(array_combinacion1.length !== 0  && array_combinacion2.length !==0  ){
         tabla_cuello_mandar_datos()  
         $("#Modal_mostrar_diseno_hecho").modal("show");
     }else{
         validacion_alert_combinacion()
     }
 }
-function validar_arrays_combinacion_3(array,array2,array3,button){
-    if(array.length !== 0  && array2.length !==0 && array3.length !==0 ){
+function validar_arrays_combinacion_3(){
+    if(array_combinacion1.length !== 0  && array_combinacion2.length !==0 && array_combinacion3.length !==0 ){
         tabla_cuello_mandar_datos()  
         $("#Modal_mostrar_diseno_hecho").modal("show");
     }else{
@@ -1345,43 +1367,33 @@ let eliminar_combinacion = 1
 let contador_figura_linea = 1
 let contador_letra_linea = 1
 let contador_letra_linea_figura = 1
-let combinacion1 = 0
-let combinacion2 = 0
-let combinacion3 = 0
-let combinacion4 = 0
+
 
 function combinacion(Noombre_combinacion){
     switch (Noombre_combinacion) {
         case 'cuello_letrascuello_figuras':
-            if(combinacion1 === 0){
                 cuello_letra_figura() 
-                combinacion1++;        
-            }
             break;  
         case 'cuello_letrascuello_lineas':
-            if(combinacion2 === 0){
                 cuello_letra_linea()
-                combinacion2++;
-            }
             break;
         case 'cuello_figurascuello_lineas':
-           if(combinacion3 === 0){
                 cuello_figura_linea()          
-                combinacion3++;
-           }
             break;
         case 'cuello_letrascuello_figurascuello_lineas':
-            if(combinacion4 === 0){
                 cuello_letra_linea_figura()
-                combinacion4++;
-            }
             break;
     }
 }
 
+// letras figuras
+let array_combinacion1 = []
+let array_combinacion2 = []
+let array_combinacion3 = []
+
+let cuello_letra_figura_id = 5
+
 function cuello_letra_figura(){
-    var cuello_letra_figura_id = 5
-    button = $('#modal_button_letra_figura').attr('id')
 
     id_table = $('#tabla_diseno_letra_figura').attr('id')
     id_material_fondo = $( "#material_fondo_letra_figura").attr('id')      
@@ -1392,261 +1404,261 @@ function cuello_letra_figura(){
     
     id_material_figura = $( "#material_combinacion_figura_5" ).attr('id')
     id_material_letra = $( "#material_combinacion_letra_5" ).attr('id')
-    id_material_linea = $( "#material_combinacion_linea_55" ).attr('id')
+    id_material_linea = $( "#material_combinacion_linea_55" ).attr('id')  
+}
+
+
+
+$('#agregar_combinacion_figura').click(function(){
+    console.log("soy letra figura click ",letra_figura);
+        
+    $('#aviso_letra_figura_alto').html("")
+    $('#aviso_letra_figura_table').html("")  
+    var cuello_combinacion_id = "5"
+
+    var nombre_cuello = $("#nombre_cuello").val()
+    var descripcion_cuello = $("#descripcion_cuello").val()
+    var imagen_diseno = $("#imagen_diseno").val()
+    var material_fondo_letra_figura = parseInt($( "#material_fondo_letra_figura option:selected" ).val())     
+    var material_fondo_letra_figura_nombre = $( "#material_fondo_letra_figura option:selected" ).text()      
+    var color_fondo_letra_figura = $( "#color_fondo_letra_figura" ).val()      
     
-    $('#agregar_combinacion_figura').click(function(){
+    id_color = $("#color_combinacion_figura_5").attr('id')
+    id_alto = $("#alto_combinacion_figura_5").attr('id')
+    id_ancho = $("#ancho_combinacion_figura_5").attr('id')
+    aviso_alto = $('#aviso_letra_figura_alto').attr('id')
+    aviso_table = $('#aviso_letra_figura_table').attr('id')
+    aviso = $('#aviso_letra_figura').attr('id')
+
+    //figura
+    var material_combinacion_figura_5 = parseInt($( "#material_combinacion_figura_5 option:selected" ).val())     
+    var material_combinacion_figura_5_nombre = $( "#material_combinacion_figura_5 option:selected" ).text() 
+    var alto_figura = $("#alto_combinacion_figura_5").val()
+    var ancho_figura = $("#ancho_combinacion_figura_5").val()
+    var color_figura = $("#color_combinacion_figura_5").val()
+
+    if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
+        console.log("soy alto figura",alto_figura);
+        
         
         $('#aviso_letra_figura_alto').html("")
         $('#aviso_letra_figura_table').html("")  
-        var cuello_combinacion_id = "5"
-
-        var nombre_cuello = $("#nombre_cuello").val()
-        var descripcion_cuello = $("#descripcion_cuello").val()
-        var imagen_diseno = $("#imagen_diseno").val()
-        var material_fondo_letra_figura = parseInt($( "#material_fondo_letra_figura option:selected" ).val())     
-        var material_fondo_letra_figura_nombre = $( "#material_fondo_letra_figura option:selected" ).text()      
-        var color_fondo_letra_figura = $( "#color_fondo_letra_figura" ).val()      
-        
-        id_color = $("#color_combinacion_figura_5").attr('id')
-        id_alto = $("#alto_combinacion_figura_5").attr('id')
-        id_ancho = $("#ancho_combinacion_figura_5").attr('id')
-        aviso_alto = $('#aviso_letra_figura_alto').attr('id')
-        aviso_table = $('#aviso_letra_figura_table').attr('id')
-        aviso = $('#aviso_letra_figura').attr('id')
-
-        //figura
-        var material_combinacion_figura_5 = parseInt($( "#material_combinacion_figura_5 option:selected" ).val())     
-        var material_combinacion_figura_5_nombre = $( "#material_combinacion_figura_5 option:selected" ).text() 
-        var alto_figura = $("#alto_combinacion_figura_5").val()
-        var ancho_figura = $("#ancho_combinacion_figura_5").val()
-        var color_figura = $("#color_combinacion_figura_5").val()
-
-        if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
-            console.log("soy alto figura",alto_figura);
-           
-           
-            $('#aviso_letra_figura_alto').html("")
-            $('#aviso_letra_figura_table').html("")  
-            if(!validar_alto_cm(alto_figura)){
-                $('#aviso_letra_figura').html("")  
-                validacion_alert_alto()                
-                // $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
-            }else{
-                var objeto_cuello_combinacion_figura_data = {
-                    //figura
-                    eliminar_combinacion,
-                    cuello_combinacion_id,
-                    material_combinacion_figura_5,
-                    alto_figura,
-                    color_figura,
-                    ancho_figura,
-                }
-                if(isNaN(material_fondo_letra_figura) || isNaN(material_combinacion_figura_5) ||  alto_figura === "" || ancho_figura === ""){
-                    // validar_aviso(letra_figura,cuello_letra_figura_id)   
-                    validacion_alert()
-                }else{
-                    $('#agregar_combinacion_figura').text("Agregar más figura")  
-                    precio_cuello(cuello_letra_figura_id,material_fondo_letra_figura,"precio_letra_figura")
-
-                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
-                    if(letra_figura === 0){     
-                        fondo = `<tr>
-                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u> </th>
-                                <th>${material_fondo_letra_figura_nombre}</th>
-                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
-                                <th>---</th>
-                                <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                            </tr>`  
-
-                        letra_figura++;
-                    }  
-                    dejar_valores_in_true()
-                    $("#material_combinacion_figura_5").prop('disabled', true)
-
-                    if(letra_figura === 1){
-                        ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_figura,color_fondo_letra_figura)
-                    }
-                    objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
-                    pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_5_nombre)                    
-                    dejar_campos_vacios(cuello_letra_figura_id)
-                    eliminar_combinacion++
-                }
-            }
+        if(!validar_alto_cm(alto_figura)){
+            $('#aviso_letra_figura').html("")  
+            validacion_alert_alto()                
+            // $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
         }else{
-            console.log("soy alto figura",alto_figura);
-            if(alto_figura >= 10){
-                validacion_alert_alto()
-            }else{
-                console.log("estoy barro alto", alto_figura);
-                console.log( ancho_figura);
-                validacion_alert()                
+            var objeto_cuello_combinacion_figura_data = {
+                //figura
+                eliminar_combinacion,
+                cuello_combinacion_id,
+                material_combinacion_figura_5,
+                alto_figura,
+                color_figura,
+                ancho_figura,
             }
-            
-            
-            $('#aviso_letra_figura_table').html("")  
-            // $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
-        }
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_figura', function(){
-                let id = parseInt($(this).attr('data-id'))
-                eliminar(objeto_cuello.obj_datos_figura,id)  
-                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_5_nombre)
-            })   
-        })
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_fondo', function(){
-                objeto_cuello.obj_material_fondo = ""
-                objeto_cuello.obj_color_fondo = ""
-                objeto_cuello.obj_datos_figura = []
-                letra_figura = 0
-                fondo_cuello_cm = 10
-                vaciar_objeto()
-                dejar_valores_in_false()
-                dejar_valores_in_false_combinacion()
-                $('#agregar_combinacion_figura').text("Agregar figura")  
-                console.log("debo estar vacio ",objeto_cuello)
-
-            })   
-        })
-
-        console.log(objeto_cuello)
-    })
-
-    $('#agregar_combinacion_letra').click(function(){        
-        $('#aviso_letra_figura_alto').html("")
-        $('#aviso_letra_figura_table').html("")
-
-        var cuello_combinacion_id = "letra"
-        
-        var nombre_cuello = $("#nombre_cuello").val()
-        var descripcion_cuello = $("#descripcion_cuello").val()
-        var imagen_diseno = $("#imagen_diseno").val()
-        var material_fondo_letra_figura = parseInt($( "#material_fondo_letra_figura option:selected" ).val())     
-        var material_fondo_letra_figura_nombre = $( "#material_fondo_letra_figura option:selected" ).text()      
-        var color_fondo_letra_figura = $( "#color_fondo_letra_figura" ).val()      
-        
-        id_color = $("#color_combinacion_letra_5").attr('id')
-        id_alto = $("#alto_letra").attr('id')
-        id_ancho = $("#ancho_letra").attr('id')
-        aviso_alto = $('#aviso_letra_alto').attr('id')
-        aviso_table = $('#aviso_letra_table').attr('id')
-        aviso = $('#aviso_letra').attr('id')
-
-        //letra
-        var material_letra = parseInt($( "#material_combinacion_letra_5 option:selected" ).val())     
-        var material_combinacion_letra_5_nombre = $( "#material_combinacion_letra_5 option:selected" ).text() 
-        var tipo_fuente__letra = $( "#tipo_fuente_combinacion_letra_5 option:selected" ).text() 
-        var contenido_letra = $("#contenido_texto_combinacion_letra_5").val()
-        var color_letra = $("#color_combinacion_letra_5").val()
-        var alto_letra = $("#alto_combinacion_letra_5").val()
-        
-        if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
-            $('#aviso_letra_alto').html("")
-            $('#aviso_letra_figura_table').html("") 
-
-            if(!validar_alto_cm(alto_letra)){
-                $('#aviso_letra_figura').html("")  
-                validacion_alert_alto()
-                // $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
-            }else{
-                var objeto_cuello_combinacion_letra_data = {    
-                    //letra
-                    eliminar_combinacion,
-                    cuello_combinacion_id, 
-                    cuello_letra_figura_id,
-                    material_letra,
-                    tipo_fuente__letra,
-                    contenido_letra,
-                    color_letra,
-                    alto_letra,
-                }
-               
-                if(isNaN(material_fondo_letra_figura) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente" || contenido_letra === "" || alto_letra === ""){
-                    validacion_alert()
-                    // validar_aviso(letra_figura,cuello_letra_figura_id)
-                }else{
-                    $('#agregar_combinacion_letra').text("Agregar más texto")  
-                    precio_cuello(cuello_letra_figura_id,material_fondo_letra_figura,"precio_letra_figura")
-
-                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
-
-                    if(letra_figura === 0){  
-                        fondo = `<tr>
-                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
-                                <th>${material_fondo_letra_figura_nombre}</th>
-                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
-                                <th>---</th>
-                                <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                            </tr>`  
-
-                        letra_figura++;
-                    }  
-                    dejar_valores_in_true()
-
-                    $("#alto_combinacion_letra_5").val("")
-                    $("#material_combinacion_letra_5").prop('disabled', true)
-
-                    if(letra_figura === 1){
-                        ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_figura,color_fondo_letra_figura)
-                    }
-                    objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
-                    pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_5_nombre)
-                    dejar_campos_vacios(cuello_letra_figura_id)
-                    eliminar_combinacion++
-                }
-            }           
-        }else{
-            if(alto_letra >= 10){
-                validacion_alert_alto()
-            }else{
+            if(isNaN(material_fondo_letra_figura) || isNaN(material_combinacion_figura_5) ||  alto_figura === "" || ancho_figura === ""){
+                // validar_aviso(letra_figura,cuello_letra_figura_id)   
                 validacion_alert()
+            }else{
+                $('#agregar_combinacion_figura').text("Agregar más figura")  
+                precio_cuello(cuello_letra_figura_id,material_fondo_letra_figura,"precio_letra_figura")
+
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
+                if(letra_figura === 0){     
+                    fondo = `<tr>
+                            <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u> </th>
+                            <th>${material_fondo_letra_figura_nombre}</th>
+                            <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
+                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th>---</th>
+                            <th>---</th>
+                            <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                        </tr>`  
+
+                    letra_figura++;
+                }  
+                dejar_valores_in_true()
+                $("#material_combinacion_figura_5").prop('disabled', true)
+
+                if(letra_figura === 1){
+                    ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_figura,color_fondo_letra_figura)
+                }
+                objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
+                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_5_nombre)                    
+                dejar_campos_vacios(cuello_letra_figura_id)
+                eliminar_combinacion++
+            }
+        }
+    }else{
+        console.log("soy alto figura",alto_figura);
+        if(alto_figura >= 10){
+            validacion_alert_alto()
+        }else{
+            console.log("estoy barro alto", alto_figura);
+            console.log( ancho_figura);
+            validacion_alert()                
+        }
+        
+        
+        $('#aviso_letra_figura_table').html("")  
+        // $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_figura,id)  
+            pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_5_nombre)
+        })   
+    })
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_figura = []
+            letra_figura = 0
+            fondo_cuello_cm = 10
+            vaciar_objeto()
+            dejar_valores_in_false()
+            dejar_valores_in_false_combinacion()
+            $('#agregar_combinacion_figura').text("Agregar figura")  
+            console.log("debo estar vacio ",objeto_cuello)
+
+        })   
+    })
+    array_combinacion1 = objeto_cuello.obj_datos_figura
+    console.log(objeto_cuello)
+})
+
+$('#agregar_combinacion_letra').click(function(){        
+    $('#aviso_letra_figura_alto').html("")
+    $('#aviso_letra_figura_table').html("")
+
+    var cuello_combinacion_id = "letra"
+    
+    var nombre_cuello = $("#nombre_cuello").val()
+    var descripcion_cuello = $("#descripcion_cuello").val()
+    var imagen_diseno = $("#imagen_diseno").val()
+    var material_fondo_letra_figura = parseInt($( "#material_fondo_letra_figura option:selected" ).val())     
+    var material_fondo_letra_figura_nombre = $( "#material_fondo_letra_figura option:selected" ).text()      
+    var color_fondo_letra_figura = $( "#color_fondo_letra_figura" ).val()      
+    
+    id_color = $("#color_combinacion_letra_5").attr('id')
+    id_alto = $("#alto_letra").attr('id')
+    id_ancho = $("#ancho_letra").attr('id')
+    aviso_alto = $('#aviso_letra_alto').attr('id')
+    aviso_table = $('#aviso_letra_table').attr('id')
+    aviso = $('#aviso_letra').attr('id')
+
+    //letra
+    var material_letra = parseInt($( "#material_combinacion_letra_5 option:selected" ).val())     
+    var material_combinacion_letra_5_nombre = $( "#material_combinacion_letra_5 option:selected" ).text() 
+    var tipo_fuente__letra = $( "#tipo_fuente_combinacion_letra_5 option:selected" ).text() 
+    var contenido_letra = $("#contenido_texto_combinacion_letra_5").val()
+    var color_letra = $("#color_combinacion_letra_5").val()
+    var alto_letra = $("#alto_combinacion_letra_5").val()
+    
+    if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
+        $('#aviso_letra_alto').html("")
+        $('#aviso_letra_figura_table').html("") 
+
+        if(!validar_alto_cm(alto_letra)){
+            $('#aviso_letra_figura').html("")  
+            validacion_alert_alto()
+            // $('#aviso_letra_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+        }else{
+            var objeto_cuello_combinacion_letra_data = {    
+                //letra
+                eliminar_combinacion,
+                cuello_combinacion_id, 
+                cuello_letra_figura_id,
+                material_letra,
+                tipo_fuente__letra,
+                contenido_letra,
+                color_letra,
+                alto_letra,
             }
             
-            $('#aviso_letra_figura_table').html("")  
-            // $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
-        }
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_figura', function(){
-                let id = parseInt($(this).attr('data-id'))
-                eliminar(objeto_cuello.obj_datos_letra,id)  
+            if(isNaN(material_fondo_letra_figura) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente" || contenido_letra === "" || alto_letra === ""){
+                validacion_alert()
+                // validar_aviso(letra_figura,cuello_letra_figura_id)
+            }else{
+                $('#agregar_combinacion_letra').text("Agregar más texto")  
+                precio_cuello(cuello_letra_figura_id,material_fondo_letra_figura,"precio_letra_figura")
+
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
+
+                if(letra_figura === 0){  
+                    fondo = `<tr>
+                            <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
+                            <th>${material_fondo_letra_figura_nombre}</th>
+                            <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
+                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th>---</th>
+                            <th>---</th>
+                            <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                        </tr>`  
+
+                    letra_figura++;
+                }  
+                dejar_valores_in_true()
+
+                $("#alto_combinacion_letra_5").val("")
+                $("#material_combinacion_letra_5").prop('disabled', true)
+
+                if(letra_figura === 1){
+                    ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_figura,color_fondo_letra_figura)
+                }
+                objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
                 pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_5_nombre)
-            })   
-        })
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_fondo', function(){
-                objeto_cuello.obj_material_fondo = ""
-                objeto_cuello.obj_color_fondo = ""
-                objeto_cuello.obj_datos_letra = []
-                letra_figura = 0
-                fondo_cuello_cm = 10
-                dejar_valores_in_false()
-                vaciar_objeto()
-                dejar_valores_in_false_combinacion()
-
-                $('#agregar_combinacion_letra').text("Agregar texto")  
-                $("#tipo_fuente_combinacion_letra_5").val("")
-            })   
-        })
-        console.log(objeto_cuello)
+                dejar_campos_vacios(cuello_letra_figura_id)
+                eliminar_combinacion++
+            }
+        }           
+    }else{
+        if(alto_letra >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
+        
+        $('#aviso_letra_figura_table').html("")  
+        // $('#aviso_letra_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_letra,id)  
+            pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_5_nombre)
+        })   
     })
-    $("#" + button).click(function(){
-        validar_arrays_combinacion(objeto_cuello.obj_datos_figura,objeto_cuello.obj_datos_letra,button)  
-    })
-   
-}
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_letra = []
+            letra_figura = 0
+            fondo_cuello_cm = 10
+            dejar_valores_in_false()
+            vaciar_objeto()
+            dejar_valores_in_false_combinacion()
 
+            $('#agregar_combinacion_letra').text("Agregar texto")  
+            $("#tipo_fuente_combinacion_letra_5").val("")
+        })   
+    })
+    console.log(objeto_cuello)
+    array_combinacion2 = objeto_cuello.obj_datos_letra
+})
+
+
+
+
+
+// cuello figura linea
 function cuello_figura_linea(){
     var cuello_linea_figura_id = 5
-    button = $('#modal_button_figura_linea').attr('id')
     
-    $("#" + button).click(function(){
-        validar_arrays_combinacion(objeto_cuello.obj_datos_figura,objeto_cuello.obj_datos_linea,button)
-    })
-
     id_tbody = $('#tbody_linea_figura').attr('id')
     id_table = $('#tabla_diseno_linea_figura').attr('id')
     id_material_fondo = $( "#material_fondo_figura_linea").attr('id')      
@@ -1655,248 +1667,250 @@ function cuello_figura_linea(){
     id_material_letra = $( "#material_combinacion_letra_83" ).attr('id')
     id_material_linea = $( "#material_combinacion_linea_8" ).attr('id')
     id_color_fondo = $("#color_fondo_linea_figura").attr('id')
-    id_crear_diseno =  $("#crear_diseno_figura_linea").attr('id')
-
-    $('#agregar_combinacion_figura_2').click(function(){
-
-        $('#aviso_linea_figura_alto').html("")
-        $('#aviso_linea_figura_table').html("")  
-        var cuello_combinacion_id = "figura"
-
-        var nombre_cuello = $("#nombre_cuello").val()
-        var descripcion_cuello = $("#descripcion_cuello").val()
-        var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_linea_figura_id = 8
-        var material_fondo_linea_figura = parseInt($( "#material_fondo_figura_linea option:selected" ).val())     
-        var material_fondo_linea_figura_nombre = $( "#material_fondo_figura_linea option:selected" ).text()      
-        var color_fondo_linea_figura = $( "#color_fondo_linea_figura" ).val()      
+    id_crear_diseno =  $("#crear_diseno_figura_linea").attr('id')    
     
-        id_color = $("#color_combinacion_figura_8").attr('id')
-        id_alto = $("#alto_combinacion_figura_8").attr('id')
-        id_ancho = $("#ancho_combinacion_figura_8").attr('id')
-        aviso_alto = $('#aviso_linea_figura_alto').attr('id')
-        aviso_table = $('#aviso_linea_figura_table').attr('id')
-        aviso = $('#aviso_linea_figura').attr('id')
+} 
 
-        //figura
-        var material_combinacion_figura_8 = parseInt($( "#material_combinacion_figura_8 option:selected" ).val())     
-        var material_combinacion_figura_8_nombre = $( "#material_combinacion_figura_8 option:selected" ).text() 
-        var alto_figura = $("#alto_combinacion_figura_8").val()
-        var ancho_figura = $("#ancho_combinacion_figura_8").val()
-        var color_figura = $("#color_combinacion_figura_8").val()
-        
-        if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
-            $('#aviso_linea_figura_alto').html("")
-            $('#aviso_linea_figura_table').html("")
-            if(!validar_alto_cm(alto_figura)){
-                $('#aviso_linea_figura').html("")  
-                validacion_alert_alto()
-                // $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
-            }else{
-                var objeto_cuello_combinacion_figura_data = {
-                    //figura
-                    eliminar_combinacion,
-                    cuello_combinacion_id,
-                    material_combinacion_figura_8,
-                    alto_figura,
-                    color_figura,
-                    ancho_figura,
-                }
-                if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_figura === "" || ancho_figura === ""){
-                    validacion_alert()
-                    // validar_aviso(linea_figura,cuello_linea_figura_id)   
-                }else{
-                    $('#agregar_combinacion_figura_2').text("Agregar más figura")  
-                    precio_cuello(cuello_linea_figura_id,material_fondo_linea_figura,"precio_figuras_lineas")
+$('#agregar_combinacion_figura_2').click(function(){
 
-                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
-                    if(linea_figura === 0){  
-                        fondo = `<tr>
-                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
-                                <th>${material_fondo_linea_figura_nombre}</th>
-                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
-                                <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                            </tr>` 
-                        
-                        
-                        linea_figura++;
-                    }   
-                    dejar_valores_in_true()
-                    $("#material_combinacion_figura_8").prop('disabled', true)
 
-                    if(linea_figura === 1){
-                        ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
-                    }
-                    objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
-                    pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)                  
+    $('#aviso_linea_figura_alto').html("")
+    $('#aviso_linea_figura_table').html("")  
+    var cuello_combinacion_id = "figura"
 
-                    dejar_campos_vacios(cuello_linea_figura_id)
-                    eliminar_combinacion++
-                }
-            }
+    var nombre_cuello = $("#nombre_cuello").val()
+    var descripcion_cuello = $("#descripcion_cuello").val()
+    var imagen_diseno = $("#imagen_diseno").val()
+    var cuello_linea_figura_id = 8
+    var material_fondo_linea_figura = parseInt($( "#material_fondo_figura_linea option:selected" ).val())     
+    var material_fondo_linea_figura_nombre = $( "#material_fondo_figura_linea option:selected" ).text()      
+    var color_fondo_linea_figura = $( "#color_fondo_linea_figura" ).val()      
+
+    id_color = $("#color_combinacion_figura_8").attr('id')
+    id_alto = $("#alto_combinacion_figura_8").attr('id')
+    id_ancho = $("#ancho_combinacion_figura_8").attr('id')
+    aviso_alto = $('#aviso_linea_figura_alto').attr('id')
+    aviso_table = $('#aviso_linea_figura_table').attr('id')
+    aviso = $('#aviso_linea_figura').attr('id')
+
+    //figura
+    var material_combinacion_figura_8 = parseInt($( "#material_combinacion_figura_8 option:selected" ).val())     
+    var material_combinacion_figura_8_nombre = $( "#material_combinacion_figura_8 option:selected" ).text() 
+    var alto_figura = $("#alto_combinacion_figura_8").val()
+    var ancho_figura = $("#ancho_combinacion_figura_8").val()
+    var color_figura = $("#color_combinacion_figura_8").val()
+    
+    if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
+        $('#aviso_linea_figura_alto').html("")
+        $('#aviso_linea_figura_table').html("")
+        if(!validar_alto_cm(alto_figura)){
+            $('#aviso_linea_figura').html("")  
+            validacion_alert_alto()
+            // $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
         }else{
-            if(alto_figura >= 10){
-                validacion_alert_alto()
-            }else{
-                validacion_alert()
+            var objeto_cuello_combinacion_figura_data = {
+                //figura
+                eliminar_combinacion,
+                cuello_combinacion_id,
+                material_combinacion_figura_8,
+                alto_figura,
+                color_figura,
+                ancho_figura,
             }
-            $('#aviso_linea_figura_table').html("")  
-            // $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
-        }
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_figura', function(){
-                let id = parseInt($(this).attr('data-id'))
-                eliminar(objeto_cuello.obj_datos_figura,id)  
+            if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_figura === "" || ancho_figura === ""){
+                validacion_alert()
+                // validar_aviso(linea_figura,cuello_linea_figura_id)   
+            }else{
+                $('#agregar_combinacion_figura_2').text("Agregar más figura")  
+                precio_cuello(cuello_linea_figura_id,material_fondo_linea_figura,"precio_figuras_lineas")
+
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
+                if(linea_figura === 0){  
+                    fondo = `<tr>
+                            <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
+                            <th>${material_fondo_linea_figura_nombre}</th>
+                            <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
+                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th>---</th>
+                            <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                        </tr>` 
+                    
+                    
+                    linea_figura++;
+                }   
+                dejar_valores_in_true()
+                $("#material_combinacion_figura_8").prop('disabled', true)
+
+                if(linea_figura === 1){
+                    ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+                }
+                objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
                 pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)                  
 
-            })   
-        })
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_fondo', function(){
-                objeto_cuello.obj_material_fondo = ""
-                objeto_cuello.obj_color_fondo = ""
-                objeto_cuello.obj_datos_figura = []
-                linea_figura = 0
-                fondo_cuello_cm = 10
-                vaciar_objeto()
-                dejar_valores_in_false()
-                dejar_valores_in_false_combinacion()
-                $('#agregar_combinacion_figura_2').text("Agregar figura")  
-            })   
-        })  
-        
-        console.log(objeto_cuello)
-    })
-
-    $('#agregar_combinacion_linea_2').click(function(){
-        $('#aviso_linea_figura_alto').html("")
-        $('#aviso_linea_figura_table').html("")  
-
-        var cuello_combinacion_id = "linea"
-
-        var nombre_cuello = $("#nombre_cuello").val()
-        var descripcion_cuello = $("#descripcion_cuello").val()
-        var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_linea_figura_id = 8
-        var material_fondo_linea_figura = parseInt($( "#material_fondo_figura_linea option:selected" ).val())     
-        var material_fondo_linea_figura_nombre = $( "#material_fondo_figura_linea option:selected" ).text()      
-        var color_fondo_linea_figura = $( "#color_fondo_linea_figura" ).val()      
-     
-        
-        id_color = $("#color_combinacion_linea_8").attr('id')
-        id_alto = $("#alto_combinacion_linea_8").attr('id')
-        aviso_alto = $('#aviso_linea_figura_alto').attr('id')
-        aviso_table = $('#aviso_linea_figura_table').attr('id')
-        aviso = $('#aviso_linea_figura').attr('id')
-
-
-        //linea
-        var material_linea = parseInt($( "#material_combinacion_linea_8 option:selected" ).val())     
-        var material_combinacion_linea_8_nombre = $( "#material_combinacion_linea_8 option:selected" ).text() 
-        var color_linea = $("#color_combinacion_linea_8").val()
-        var alto_linea = $("#alto_combinacion_linea_8").val()
-
-       
-        if(alto_linea <= 10 && alto_linea >0){
-            $('#aviso_linea_figura_alto').html("")
-            $('#aviso_linea_figura_table').html("")
-
-            if(!validar_alto_cm(alto_linea)){
-                $('#aviso_linea_figura').html("")  
-                validacion_alert_alto()
-                // $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
-            }else{
-                var objeto_cuello_combinacion_linea_data = {
-                    //linea
-                    eliminar_combinacion,
-                    cuello_combinacion_id,
-                    material_linea,
-                    color_linea,
-                    alto_linea,
-                }
-
-                if(isNaN(material_fondo_linea_figura) || isNaN(material_linea) ||  alto_linea === ""){
-                    validacion_alert()
-                    // validar_aviso(linea_figura,cuello_linea_figura_id)   
-                }else{
-                    $('#agregar_combinacion_linea_2').text("Agregar más linea")  
-                    precio_cuello(cuello_linea_figura_id,material_fondo_linea_figura,"precio_figuras_lineas")
-
-                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
-
-                    if(linea_figura === 0){   
-                        fondo = `<tr>
-                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
-                                <th>${material_fondo_linea_figura_nombre}</th>
-                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
-                                <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                            </tr>`
-                        
-                        linea_figura++;
-                    }  
-                    dejar_valores_in_true()
-                    $("#material_combinacion_linea_8").prop('disabled', true)
-                    $("#alto_combinacion_linea_8").val("")
-                    if(linea_figura === 1){
-                        ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
-                    }
-                    objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
-                    pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_8_nombre)
-                    dejar_campos_vacioss() 
-                    eliminar_combinacion++
-                }
+                dejar_campos_vacios(cuello_linea_figura_id)
+                eliminar_combinacion++
             }
-        }else{
-
-            if(alto_linea >= 10){
-                validacion_alert_alto()
-            }
-            else{
-                validacion_alert()
-            }
-            $('#aviso_linea_figura_table').html("")  
-            // $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
         }
+    }else{
+        if(alto_figura >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
+        $('#aviso_linea_figura_table').html("")  
+        // $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_figura,id)  
+            pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)                  
 
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_figura', function(){
-                let id = parseInt($(this).attr('data-id'))
-                eliminar(objeto_cuello.obj_datos_linea,id)  
-                pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_8_nombre)
-
-            } )   
-        })
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_fondo', function(){
-                objeto_cuello.obj_material_fondo = ""
-                objeto_cuello.obj_color_fondo = ""
-                objeto_cuello.obj_datos_linea = []
-                linea_figura = 0
-                fondo_cuello_cm = 10
-                vaciar_objeto()
-                dejar_valores_in_false()
-                dejar_valores_in_false_combinacion()
-                $('#agregar_combinacion_linea_2').text("Agregar linea")  
-            })   
-        })
-    
-       
-        console.log(objeto_cuello)
+        })   
     })
-}          
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_figura = []
+            linea_figura = 0
+            fondo_cuello_cm = 10
+            vaciar_objeto()
+            dejar_valores_in_false()
+            dejar_valores_in_false_combinacion()
+            $('#agregar_combinacion_figura_2').text("Agregar figura")  
+        })   
+    })  
+    array_combinacion1 = objeto_cuello.obj_datos_figura
+    
+    console.log(objeto_cuello)
+})
+
+$('#agregar_combinacion_linea_2').click(function(){
+    $('#aviso_linea_figura_alto').html("")
+    $('#aviso_linea_figura_table').html("")  
+
+    var cuello_combinacion_id = "linea"
+
+    var nombre_cuello = $("#nombre_cuello").val()
+    var descripcion_cuello = $("#descripcion_cuello").val()
+    var imagen_diseno = $("#imagen_diseno").val()
+    var cuello_linea_figura_id = 8
+    var material_fondo_linea_figura = parseInt($( "#material_fondo_figura_linea option:selected" ).val())     
+    var material_fondo_linea_figura_nombre = $( "#material_fondo_figura_linea option:selected" ).text()      
+    var color_fondo_linea_figura = $( "#color_fondo_linea_figura" ).val()      
+ 
+    
+    id_color = $("#color_combinacion_linea_8").attr('id')
+    id_alto = $("#alto_combinacion_linea_8").attr('id')
+    aviso_alto = $('#aviso_linea_figura_alto').attr('id')
+    aviso_table = $('#aviso_linea_figura_table').attr('id')
+    aviso = $('#aviso_linea_figura').attr('id')
+
+
+    //linea
+    var material_linea = parseInt($( "#material_combinacion_linea_8 option:selected" ).val())     
+    var material_combinacion_linea_8_nombre = $( "#material_combinacion_linea_8 option:selected" ).text() 
+    var color_linea = $("#color_combinacion_linea_8").val()
+    var alto_linea = $("#alto_combinacion_linea_8").val()
+
+   
+    if(alto_linea <= 10 && alto_linea >0){
+        $('#aviso_linea_figura_alto').html("")
+        $('#aviso_linea_figura_table').html("")
+
+        if(!validar_alto_cm(alto_linea)){
+            $('#aviso_linea_figura').html("")  
+            validacion_alert_alto()
+            // $('#aviso_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+        }else{
+            var objeto_cuello_combinacion_linea_data = {
+                //linea
+                eliminar_combinacion,
+                cuello_combinacion_id,
+                material_linea,
+                color_linea,
+                alto_linea,
+            }
+
+            if(isNaN(material_fondo_linea_figura) || isNaN(material_linea) ||  alto_linea === ""){
+                validacion_alert()
+                // validar_aviso(linea_figura,cuello_linea_figura_id)   
+            }else{
+                $('#agregar_combinacion_linea_2').text("Agregar más linea")  
+                precio_cuello(cuello_linea_figura_id,material_fondo_linea_figura,"precio_figuras_lineas")
+
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
+
+                if(linea_figura === 0){   
+                    fondo = `<tr>
+                            <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
+                            <th>${material_fondo_linea_figura_nombre}</th>
+                            <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
+                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th>---</th>
+                            <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                        </tr>`
+                    
+                    linea_figura++;
+                }  
+                dejar_valores_in_true()
+                $("#material_combinacion_linea_8").prop('disabled', true)
+                $("#alto_combinacion_linea_8").val("")
+                if(linea_figura === 1){
+                    ingresar_datos_objeto_principal(cuello_linea_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+                }
+                objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
+                pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_8_nombre)
+                dejar_campos_vacioss() 
+                eliminar_combinacion++
+            }
+        }
+    }else{
+
+        if(alto_linea >= 10){
+            validacion_alert_alto()
+        }
+        else{
+            validacion_alert()
+        }
+        $('#aviso_linea_figura_table').html("")  
+        // $('#aviso_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_linea,id)  
+            pintar_tr_combinacion( objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_8_nombre)
+
+        } )   
+    })
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_linea = []
+            linea_figura = 0
+            fondo_cuello_cm = 10
+            vaciar_objeto()
+            dejar_valores_in_false()
+            dejar_valores_in_false_combinacion()
+            $('#agregar_combinacion_linea_2').text("Agregar linea")  
+        })   
+    })
+    array_combinacion2 = objeto_cuello.obj_datos_linea   
+    console.log(objeto_cuello)
+})
+
+
+// letra linea
+let cuello_letra_linea_id = 6   
+
+
 
 function cuello_letra_linea(){
-
-    var cuello_letra_linea_id = 6
-    button = $('#modal_button_letra_linea').attr('id')
-    $("#" + button).click(function(){
-        validar_arrays_combinacion(objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,button)
-    })
-    
+        
     id_table = $('#tabla_diseno_letra_linea').attr('id')
     id_material_fondo = $( "#material_fondo_letra_linea").attr('id')      
     id_material = $( "#material_combinacion_letra_63" ).attr('id')
@@ -1906,250 +1920,250 @@ function cuello_letra_linea(){
 
     id_material_figura = $( "#material_combinacion_figura_83" ).attr('id')
     id_material_letra = $( "#material_combinacion_letra_6" ).attr('id')
-    id_material_linea = $( "#material_combinacion_linea_6" ).attr('id')
-
-    $('#agregar_combinacion_letra_2').click(function(){
-        
-
-        $('#aviso_letra_linea_alto').html("")
-        $('#aviso_letra_linea_table').html("")   
-        var cuello_combinacion_id = "letra"
-
-        var nombre_cuello = $("#nombre_cuello").val()
-        var descripcion_cuello = $("#descripcion_cuello").val()
-        var imagen_diseno = $("#imagen_diseno").val()
-        // var cuello_letra_linea_id = 6
-        var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea option:selected" ).val())     
-        var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea option:selected" ).text()      
-        var color_fondo_letra_linea = $( "#color_fondo_letra_linea" ).val()      
-        
-        id_color = $("#color_combinacion_letra_6").attr('id')
-        id_alto = $("#alto_combinacion_letra_6").attr('id')
-        aviso_alto = $('#aviso_letra_alto').attr('id')
-        aviso_table = $('#aviso_letra_linea_table').attr('id')
-        aviso = $('#aviso_letra_linea').attr('id')
-
-        //letra
-        var material_letra = parseInt($( "#material_combinacion_letra_6 option:selected" ).val())     
-        var material_combinacion_letra_6_nombre = $( "#material_combinacion_letra_6 option:selected" ).text() 
-        var tipo_fuente__letra = $( "#tipo_fuente_combinacion_letra_6 option:selected" ).text() 
-        var contenido_letra = $("#contenido_texto_combinacion_letra_6").val()
-        var color_letra = $("#color_combinacion_letra_6").val()
-        var alto_letra = $("#alto_combinacion_letra_6").val()
-               
-        if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
-            $('#aviso_letra_alto').html("")
-            $('#aviso_letra_linea_table').html("") 
-
-            if(!validar_alto_cm(alto_letra)){
-                $('#aviso_letra_linea').html("")  
-                validacion_alert_alto()
-                // $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
-            }else{
-                var objeto_cuello_combinacion_letra_data = {    
-                    //letra
-                    eliminar_combinacion,
-                    cuello_combinacion_id, 
-                    cuello_letra_linea_id,
-                    material_letra,
-                    tipo_fuente__letra,
-                    contenido_letra,
-                    color_letra,
-                    alto_letra,
-                }
-
-                if(isNaN(material_fondo_letra_linea) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente" || contenido_letra === "" || alto_letra === ""){
-                    validacion_alert()
-                    // validar_aviso(letra_linea,cuello_letra_linea_id)
-                }else{
-                    precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea")
-
-                    $('#agregar_combinacion_letra_2').text("Agregar más texto")  
-
-                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
-
-                    if(letra_linea === 0){   
-                        fondo = `<tr>
-                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
-                                <th>${material_fondo_letra_linea_nombre}</th>
-                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
-                                <th>---</th>
-                                <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                            </tr>`
-                        letra_linea++;
-                        
-                    }      
-                    dejar_valores_in_true()
-                    $("#alto_combinacion_letra_6").val("")
-                    $("#contenido_texto_combinacion_letra_6").val("")
-                    $("#material_combinacion_letra_6").prop('disabled', true)
-
-                     
-                    if(letra_linea === 1){
-                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
-                    }
-                    objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
-                    pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_letra_6_nombre)
-                    dejar_campos_vacios(cuello_letra_linea_id)
-                    eliminar_combinacion++
-                }
-            }        
-        }else{
-            if(alto_letra >= 10){
-                validacion_alert_alto()
-            }else{
-                validacion_alert()
-            }
-            $('#aviso_letra_linea_table').html("")  
-            // $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
-        }
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_figura', function(){
-                let id = parseInt($(this).attr('data-id'))
-                eliminar(objeto_cuello.obj_datos_letra,id)  
-                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_letra_6_nombre)
-            })   
-        })
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_fondo', function(){
-                objeto_cuello.obj_material_fondo = ""
-                objeto_cuello.obj_color_fondo = ""
-                objeto_cuello.obj_datos_letra = []
-                letra_linea = 0
-                fondo_cuello_cm = 10
-                vaciar_objeto()
-                dejar_valores_in_false()
-                dejar_valores_in_false_combinacion()
-                $('#agregar_combinacion_letra_2').text("Agregar texto")  
-                $("#tipo_fuente_combinacion_letra_6" ).val("")
-            })   
-        })       
-        console.log(objeto_cuello)
-    })
-
-    $('#agregar_combinacion_linea_3').click(function(){
-        $('#aviso_letra_linea_alto').html("")
-        $('#aviso_letra_linea_table').html("")  
-
-        var cuello_combinacion_id = "linea2"
-
-
-        var nombre_cuello = $("#nombre_cuello").val()
-        var descripcion_cuello = $("#descripcion_cuello").val()
-        var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_letra_linea_id = 6
-        var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea option:selected" ).val())     
-        var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea option:selected" ).text()      
-        var color_fondo_letra_linea = $( "#color_fondo_letra_linea" ).val()    
-     
-        id_color = $("#color_combinacion_linea_6").attr('id')
-        id_alto = $("#alto_combinacion_linea_6").attr('id')
-        aviso_alto = $('#aviso_letra_linea_alto').attr('id')
-        aviso_table = $('#aviso_letra_linea_table').attr('id')
-        aviso = $('#aviso_letra_linea').attr('id')
-
-        //linea
-        var material_linea = parseInt($( "#material_combinacion_linea_6 option:selected" ).val())     
-        var material_combinacion_linea_6_nombre = $( "#material_combinacion_linea_6 option:selected" ).text() 
-        var color_linea = $("#color_combinacion_linea_6").val()
-        var alto_linea = $("#alto_combinacion_linea_6").val()
-
-        if(alto_linea <= 10 && alto_linea >0){
-            $('#aviso_letra_linea_alto').html("")
-            $('#aviso_letra_linea_table').html("")
-
-            if(!validar_alto_cm(alto_linea)){
-                $('#aviso_letra_linea').html("")  
-                validacion_alert_alto()
-                // $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
-            }else{
-                var objeto_cuello_combinacion_linea_data = {
-                    //linea
-                    eliminar_combinacion,
-                    cuello_combinacion_id,
-                    material_linea,
-                    color_linea,
-                    alto_linea,
-                }
-
-                if(isNaN(material_fondo_letra_linea) || isNaN(material_linea) ||  alto_linea === ""){
-                    validacion_alert()
-                    // validar_aviso(letra_linea,cuello_letra_linea_id)   
-                }else{
-                    precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea")
-
-                    $('#agregar_combinacion_linea_3').text("Agregar más linea")  
-
-                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
-
-                    if(letra_linea === 0){                 
-                        fondo = `<tr>
-                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
-                                <th>${material_fondo_letra_linea_nombre}</th>
-                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
-                                <th>---</th>
-                                <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                            </tr>`
-                        letra_linea++;
-                    } 
-                    dejar_valores_in_true()
-                    $("#material_combinacion_linea_6").prop('disabled', true)
-                    $("#alto_combinacion_linea_6").val("")     
-                    if(letra_linea === 1){
-                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
-                    }
-                    objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
-                    pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_linea_6_nombre)
-                    dejar_campos_vacioss()
-                    eliminar_combinacion++
-                }
-            }        
-        }else{            
-            if(alto_linea >= 10){
-                validacion_alert_alto()
-            }else{
-                validacion_alert()
-            }
-            $('#aviso_letra_linea_table').html("")  
-            // $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
-        }
-
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_figura', function(){
-                let id = parseInt($(this).attr('data-id'))
-                eliminar(objeto_cuello.obj_datos_linea,id)  
-                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_linea_6_nombre)
-            } )   
-        })
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_fondo', function(){
-                objeto_cuello.obj_material_fondo = ""
-                objeto_cuello.obj_color_fondo = ""
-                objeto_cuello.obj_datos_linea = []
-                letra_linea = 0
-                fondo_cuello_cm = 10
-                vaciar_objeto()
-                dejar_valores_in_false()
-                dejar_valores_in_false_combinacion()
-                $('#agregar_combinacion_linea_3').text("Agregar linea")  
-
-            })   
-        })       
-        console.log(objeto_cuello)
-    })
+    id_material_linea = $( "#material_combinacion_linea_6" ).attr('id')   
 
 }
 
-function cuello_letra_linea_figura(){
-    button = $('#modal_button_letra_linea_figura').attr('id')
-    $("#" + button).click(function(){
-        validar_arrays_combinacion_3(objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,button)
-    })
+$('#agregar_combinacion_letra_2').click(function(){
+        
+    $('#aviso_letra_linea_alto').html("")
+    $('#aviso_letra_linea_table').html("")   
+    var cuello_combinacion_id = "letra"
+
+    var nombre_cuello = $("#nombre_cuello").val()
+    var descripcion_cuello = $("#descripcion_cuello").val()
+    var imagen_diseno = $("#imagen_diseno").val()
+    // var cuello_letra_linea_id = 6
+    var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea option:selected" ).val())     
+    var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea option:selected" ).text()      
+    var color_fondo_letra_linea = $( "#color_fondo_letra_linea" ).val()      
     
+    id_color = $("#color_combinacion_letra_6").attr('id')
+    id_alto = $("#alto_combinacion_letra_6").attr('id')
+    aviso_alto = $('#aviso_letra_alto').attr('id')
+    aviso_table = $('#aviso_letra_linea_table').attr('id')
+    aviso = $('#aviso_letra_linea').attr('id')
+
+    //letra
+    var material_letra = parseInt($( "#material_combinacion_letra_6 option:selected" ).val())     
+    var material_combinacion_letra_6_nombre = $( "#material_combinacion_letra_6 option:selected" ).text() 
+    var tipo_fuente__letra = $( "#tipo_fuente_combinacion_letra_6 option:selected" ).text() 
+    var contenido_letra = $("#contenido_texto_combinacion_letra_6").val()
+    var color_letra = $("#color_combinacion_letra_6").val()
+    var alto_letra = $("#alto_combinacion_letra_6").val()
+           
+    if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
+        $('#aviso_letra_alto').html("")
+        $('#aviso_letra_linea_table').html("") 
+
+        if(!validar_alto_cm(alto_letra)){
+            $('#aviso_letra_linea').html("")  
+            validacion_alert_alto()
+            // $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+        }else{
+            var objeto_cuello_combinacion_letra_data = {    
+                //letra
+                eliminar_combinacion,
+                cuello_combinacion_id, 
+                cuello_letra_linea_id,
+                material_letra,
+                tipo_fuente__letra,
+                contenido_letra,
+                color_letra,
+                alto_letra,
+            }
+
+            if(isNaN(material_fondo_letra_linea) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente" || contenido_letra === "" || alto_letra === ""){
+                validacion_alert()
+                // validar_aviso(letra_linea,cuello_letra_linea_id)
+            }else{
+                precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea")
+
+                $('#agregar_combinacion_letra_2').text("Agregar más texto")  
+
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
+
+                if(letra_linea === 0){   
+                    fondo = `<tr>
+                            <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
+                            <th>${material_fondo_letra_linea_nombre}</th>
+                            <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
+                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th>---</th>
+                            <th>---</th>
+                            <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                        </tr>`
+                    letra_linea++;
+                    
+                }      
+                dejar_valores_in_true()
+                $("#alto_combinacion_letra_6").val("")
+                $("#contenido_texto_combinacion_letra_6").val("")
+                $("#material_combinacion_letra_6").prop('disabled', true)
+
+                 
+                if(letra_linea === 1){
+                    ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+                }
+                objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
+                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_letra_6_nombre)
+                dejar_campos_vacios(cuello_letra_linea_id)
+                eliminar_combinacion++
+            }
+        }        
+    }else{
+        if(alto_letra >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
+        $('#aviso_letra_linea_table').html("")  
+        // $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_letra,id)  
+            pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_letra_6_nombre)
+        })   
+    })
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_letra = []
+            letra_linea = 0
+            fondo_cuello_cm = 10
+            vaciar_objeto()
+            dejar_valores_in_false()
+            dejar_valores_in_false_combinacion()
+            $('#agregar_combinacion_letra_2').text("Agregar texto")  
+            $("#tipo_fuente_combinacion_letra_6" ).val("")
+        })   
+    })       
+    console.log(objeto_cuello)
+    array_combinacion1 = objeto_cuello.obj_datos_letra   
+
+})
+
+$('#agregar_combinacion_linea_3').click(function(){
+    $('#aviso_letra_linea_alto').html("")
+    $('#aviso_letra_linea_table').html("")  
+
+    var cuello_combinacion_id = "linea2"
+
+
+    var nombre_cuello = $("#nombre_cuello").val()
+    var descripcion_cuello = $("#descripcion_cuello").val()
+    var imagen_diseno = $("#imagen_diseno").val()
+    var cuello_letra_linea_id = 6
+    var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea option:selected" ).val())     
+    var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea option:selected" ).text()      
+    var color_fondo_letra_linea = $( "#color_fondo_letra_linea" ).val()    
+ 
+    id_color = $("#color_combinacion_linea_6").attr('id')
+    id_alto = $("#alto_combinacion_linea_6").attr('id')
+    aviso_alto = $('#aviso_letra_linea_alto').attr('id')
+    aviso_table = $('#aviso_letra_linea_table').attr('id')
+    aviso = $('#aviso_letra_linea').attr('id')
+
+    //linea
+    var material_linea = parseInt($( "#material_combinacion_linea_6 option:selected" ).val())     
+    var material_combinacion_linea_6_nombre = $( "#material_combinacion_linea_6 option:selected" ).text() 
+    var color_linea = $("#color_combinacion_linea_6").val()
+    var alto_linea = $("#alto_combinacion_linea_6").val()
+
+    if(alto_linea <= 10 && alto_linea >0){
+        $('#aviso_letra_linea_alto').html("")
+        $('#aviso_letra_linea_table').html("")
+
+        if(!validar_alto_cm(alto_linea)){
+            $('#aviso_letra_linea').html("")  
+            validacion_alert_alto()
+            // $('#aviso_letra_linea_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+        }else{
+            var objeto_cuello_combinacion_linea_data = {
+                //linea
+                eliminar_combinacion,
+                cuello_combinacion_id,
+                material_linea,
+                color_linea,
+                alto_linea,
+            }
+
+            if(isNaN(material_fondo_letra_linea) || isNaN(material_linea) ||  alto_linea === ""){
+                validacion_alert()
+                // validar_aviso(letra_linea,cuello_letra_linea_id)   
+            }else{
+                precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea")
+
+                $('#agregar_combinacion_linea_3').text("Agregar más linea")  
+
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
+
+                if(letra_linea === 0){                 
+                    fondo = `<tr>
+                            <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
+                            <th>${material_fondo_letra_linea_nombre}</th>
+                            <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
+                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th>---</th>
+                            <th>---</th>
+                            <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                        </tr>`
+                    letra_linea++;
+                } 
+                dejar_valores_in_true()
+                $("#material_combinacion_linea_6").prop('disabled', true)
+                $("#alto_combinacion_linea_6").val("")     
+                if(letra_linea === 1){
+                    ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+                }
+                objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
+                pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_linea_6_nombre)
+                dejar_campos_vacioss()
+                eliminar_combinacion++
+            }
+        }        
+    }else{            
+        if(alto_linea >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
+        $('#aviso_letra_linea_table').html("")  
+        // $('#aviso_letra_linea_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_linea,id)  
+            pintar_tr_combinacion( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,id_tbody,material_combinacion_linea_6_nombre)
+        } )   
+    })
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_linea = []
+            letra_linea = 0
+            fondo_cuello_cm = 10
+            vaciar_objeto()
+            dejar_valores_in_false()
+            dejar_valores_in_false_combinacion()
+            $('#agregar_combinacion_linea_3').text("Agregar linea")  
+
+        })   
+    })       
+    console.log(objeto_cuello)
+    array_combinacion2 = objeto_cuello.obj_datos_linea
+})
+
+
+// cuello letra_linea_figura
+function cuello_letra_linea_figura(){
+        
     id_table = $('#tabla_diseno_letra_linea_figura').attr('id')
     id_material_fondo = $( "#material_fondo_letra_linea_figura").attr('id')      
     id_material = $( "#material_combinacion_letra_63" ).attr('id')
@@ -2163,350 +2177,358 @@ function cuello_letra_linea_figura(){
 
     aviso_alto = $('#aviso_letra_linea_figura_alto').attr('id')
     aviso_table = $('#aviso_letra_linea_figura_table').attr('id')
-    aviso = $('#aviso_letra_linea_figura').attr('id')
-   
-
-    $('#agregar_combinacion_letra_3').click(function(){
-        
-        $('#aviso_letra_linea_figura_alto').html("")
-        $('#aviso_letra_linea_table').html("")  
-        var cuello_combinacion_id = "letra"
-
-        var nombre_cuello = $("#nombre_cuello").val()
-        var descripcion_cuello = $("#descripcion_cuello").val()
-        var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_letra_linea_id = 7
-        var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea_figura option:selected" ).val())     
-        var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
-        var color_fondo_letra_linea = $( "#color_fondo_letra_linea_figura" ).val()      
-        
-        id_color = $("#color_combinacion_letra_7").attr('id')
-        id_alto = $("#alto_combinacion_letra_7").attr('id')
-       
-        //letra
-        var material_letra = parseInt($( "#material_combinacion_letra_7 option:selected" ).val())     
-        var material_combinacion_letra_7_nombre = $( "#material_combinacion_letra_7 option:selected" ).text() 
-        var tipo_fuente__letra = $( "#tipo_fuente_combinacion_letra_7 option:selected" ).text() 
-        var contenido_letra = $("#contenido_texto_combinacion_letra_7").val()
-        var color_letra = $("#color_combinacion_letra_7").val()
-        var alto_letra = $("#alto_combinacion_letra_7").val()
-        
-        if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
-            $('#aviso_letra_linea_figura_alto').html("")
-            $('#aviso_letra_linea_figura_table').html("") 
-
-            if(!validar_alto_cm(alto_letra)){
-                $('#aviso_letra_linea_figura').html("")  
-                validacion_alert_alto()
-                // $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
-            
-            }else{
-                var objeto_cuello_combinacion_letra_data = {    
-                    //letra
-                    eliminar_combinacion,
-                    cuello_combinacion_id, 
-                    cuello_letra_linea_id,
-                    material_letra,
-                    tipo_fuente__letra,
-                    contenido_letra,
-                    color_letra,
-                    alto_letra,
-                }
-                if(isNaN(material_fondo_letra_linea) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente " || contenido_letra === "" || alto_letra === ""){
-                    validacion_alert()
-                    // validar_aviso(letra_linea,cuello_letra_linea_id)
-                }else{
-                    precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea_figura")
-
-                    $('#agregar_combinacion_letra_3').text("Agregar más texto")  
-
-                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
-
-                    if(letra_linea_figura === 0){                        
-                        fondo = `<tr>
-                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
-                                <th>${material_fondo_letra_linea_nombre}</th>
-                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
-                                <th>---</th>
-                                <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                            </tr>`
-                        letra_linea_figura++;
-                    }      
-                    dejar_valores_in_true()
-                    $("#alto_combinacion_letra_7").val("")
-                    $("#contenido_texto_combinacion_letra_7").val("")
-                    $("#material_combinacion_letra_7").prop('disabled', true)
-
-                    if(letra_linea_figura === 1){
-                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
-                    }
-                    objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
-                    pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_7_nombre)
-                    dejar_campos_vacios(cuello_letra_linea_id)                   
-                    eliminar_combinacion++
-                }
-            }
-        }else{            
-            if(alto_letra >= 10){
-                validacion_alert_alto()
-            }else{
-                validacion_alert()
-            }
-            $('#aviso_letra_linea_figura_table').html("")  
-            // $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
-        }
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_figura', function(){
-                let id = parseInt($(this).attr('data-id'))
-                eliminar(objeto_cuello.obj_datos_letra,id)  
-                pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_7_nombre)
-            })   
-        })
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_fondo', function(){
-                objeto_cuello.obj_material_fondo = ""
-                objeto_cuello.obj_color_fondo = ""
-                objeto_cuello.obj_datos_letra = []
-                letra_linea_figura = 0
-                fondo_cuello_cm = 10
-                vaciar_objeto()
-                dejar_valores_in_false()
-                dejar_valores_in_false_combinacion()
-                $('#agregar_combinacion_letra_3').text("Agregar texto")  
-                $("#tipo_fuente_combinacion_letra_7").val("") 
-            })   
-        })  
-        console.log(objeto_cuello)
-    })
-
-    $('#agregar_combinacion_linea_4').click(function(){
-        $('#aviso_letra_linea_figura_alto').html("")
-        $('#aviso_letra_linea_figura_table').html("")
-
-        var cuello_combinacion_id = "linea2"
-
-        var nombre_cuello = $("#nombre_cuello").val()
-        var descripcion_cuello = $("#descripcion_cuello").val()
-        var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_letra_linea_id = 7
-        var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea_figura option:selected" ).val())     
-        var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
-        var color_fondo_letra_linea = $( "#color_fondo_letra_linea_figura" ).val()    
-     
-
-        id_color = $("#color_combinacion_linea_7").attr('id')
-        id_alto = $("#alto_combinacion_linea_7").attr('id')
-        
-
-        //linea
-        var material_linea = parseInt($( "#material_combinacion_linea_7 option:selected" ).val())     
-        var material_combinacion_linea_6_nombre = $( "#material_combinacion_linea_7 option:selected" ).text() 
-        var color_linea = $("#color_combinacion_linea_7").val()
-        var alto_linea = $("#alto_combinacion_linea_7").val()
-
-        
-
-        if(alto_linea <= 10 && alto_linea >0){
-            $('#aviso_letra_linea_figura_alto').html("")
-            $('#aviso_letra_linea_figura_table').html("")
-
-            if(!validar_alto_cm(alto_linea)){
-                $('#aviso_letra_linea_figura').html("")  
-                validacion_alert_alto()
-                // $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
-            }else{
-                var objeto_cuello_combinacion_linea_data = {
-                    //linea
-                    eliminar_combinacion,
-                    cuello_combinacion_id,
-                    material_linea,
-                    color_linea,
-                    alto_linea,
-                }
-                if(isNaN(material_fondo_letra_linea) || isNaN(material_linea) ||  alto_linea === ""){
-                    validacion_alert()
-                    // validar_aviso(letra_linea_figura,cuello_letra_linea_id)   
-                }else{
-                    precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea_figura")
-
-                    $('#agregar_combinacion_linea_4').text("Agregar más linea")  
-
-                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
-
-                    if(letra_linea_figura === 0){  
-                        fondo = `<tr>
-                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
-                                <th>${material_fondo_letra_linea_nombre}</th>
-                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
-                                <th>---</th>
-                                <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                            </tr>`         
-                        
-                        letra_linea_figura++;
-                    } 
-                    dejar_valores_in_true()
-                    $("#material_combinacion_linea_7").prop('disabled', true)
-                    $("#alto_combinacion_linea_7").val("")   
-                    if(letra_linea_figura === 1){
-                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
-                    }
-                    objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
-                    pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_6_nombre)
-                    dejar_campos_vacioss()
-                    eliminar_combinacion++
-                }
-            }
-        }else{            
-            if(alto_linea >= 10){
-                validacion_alert_alto()
-            }else{
-                validacion_alert()
-            }
-            $('#aviso_letra_linea_figura_table').html("")  
-            // $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
-        }
-
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_figura', function(){
-                let id = parseInt($(this).attr('data-id'))
-                eliminar(objeto_cuello.obj_datos_linea,id)  
-                pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_6_nombre)
-
-            } )   
-        })
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_fondo', function(){
-                objeto_cuello.obj_material_fondo = ""
-                objeto_cuello.obj_color_fondo = ""
-                objeto_cuello.obj_datos_linea = []
-                letra_linea_figura = 0
-                fondo_cuello_cm = 10
-                vaciar_objeto()
-                dejar_valores_in_false()
-                dejar_valores_in_false_combinacion()
-                $('#agregar_combinacion_linea_4').text("Agregar linea")  
-
-            })   
-        })     
-
-        
-        console.log(objeto_cuello)
-    })
+    aviso = $('#aviso_letra_linea_figura').attr('id')       
     
-    $('#agregar_combinacion_figura_3').click(function(){
+}
+
+$('#agregar_combinacion_letra_3').click(function(){
+        
+    console.log("soy letra, figuras y lineas",letra_linea_figura);
+    
+    $('#aviso_letra_linea_figura_alto').html("")
+    $('#aviso_letra_linea_table').html("")  
+    var cuello_combinacion_id = "letra"
+
+    var nombre_cuello = $("#nombre_cuello").val()
+    var descripcion_cuello = $("#descripcion_cuello").val()
+    var imagen_diseno = $("#imagen_diseno").val()
+    var cuello_letra_linea_id = 7
+    var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea_figura option:selected" ).val())     
+    var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
+    var color_fondo_letra_linea = $( "#color_fondo_letra_linea_figura" ).val()      
+    
+    id_color = $("#color_combinacion_letra_7").attr('id')
+    id_alto = $("#alto_combinacion_letra_7").attr('id')
+   
+    //letra
+    var material_letra = parseInt($( "#material_combinacion_letra_7 option:selected" ).val())     
+    var material_combinacion_letra_7_nombre = $( "#material_combinacion_letra_7 option:selected" ).text() 
+    var tipo_fuente__letra = $( "#tipo_fuente_combinacion_letra_7 option:selected" ).text() 
+    var contenido_letra = $("#contenido_texto_combinacion_letra_7").val()
+    var color_letra = $("#color_combinacion_letra_7").val()
+    var alto_letra = $("#alto_combinacion_letra_7").val()
+    
+    if(alto_letra <= 10 && alto_letra >0 && tipo_fuente__letra !== "Escoge una fuente " ){
+        $('#aviso_letra_linea_figura_alto').html("")
+        $('#aviso_letra_linea_figura_table').html("") 
+
+        if(!validar_alto_cm(alto_letra)){
+            $('#aviso_letra_linea_figura').html("")  
+            validacion_alert_alto()
+            // $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+        
+        }else{
+            var objeto_cuello_combinacion_letra_data = {    
+                //letra
+                eliminar_combinacion,
+                cuello_combinacion_id, 
+                cuello_letra_linea_id,
+                material_letra,
+                tipo_fuente__letra,
+                contenido_letra,
+                color_letra,
+                alto_letra,
+            }
+            if(isNaN(material_fondo_letra_linea) || isNaN(material_letra) || tipo_fuente__letra === "Escoger tipo de fuente " || contenido_letra === "" || alto_letra === ""){
+                validacion_alert()
+                // validar_aviso(letra_linea,cuello_letra_linea_id)
+            }else{
+                precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea_figura")
+
+                $('#agregar_combinacion_letra_3').text("Agregar más texto")  
+
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_letra)
+
+                if(letra_linea_figura === 0){                        
+                    fondo = `<tr>
+                            <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
+                            <th>${material_fondo_letra_linea_nombre}</th>
+                            <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
+                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th>---</th>
+                            <th>---</th>
+                            <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                        </tr>`
+                    letra_linea_figura++;
+                }      
+                dejar_valores_in_true()
+                $("#alto_combinacion_letra_7").val("")
+                $("#contenido_texto_combinacion_letra_7").val("")
+                $("#material_combinacion_letra_7").prop('disabled', true)
+
+                if(letra_linea_figura === 1){
+                    ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+                }
+                objeto_cuello.obj_datos_letra.push(objeto_cuello_combinacion_letra_data)
+                pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_7_nombre)
+                dejar_campos_vacios(cuello_letra_linea_id)                   
+                eliminar_combinacion++
+            }
+        }
+    }else{            
+        if(alto_letra >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
+        $('#aviso_letra_linea_figura_table').html("")  
+        // $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_letra,id)  
+            pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_letra_7_nombre)
+        })   
+    })
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_letra = []
+            letra_linea_figura = 0
+            fondo_cuello_cm = 10
+            vaciar_objeto()
+            dejar_valores_in_false()
+            dejar_valores_in_false_combinacion()
+            $('#agregar_combinacion_letra_3').text("Agregar texto")  
+            $("#tipo_fuente_combinacion_letra_7").val("") 
+        })   
+    })  
+    array_combinacion1 = objeto_cuello.obj_datos_letra
+    console.log(objeto_cuello)
+})
+
+
+$('#agregar_combinacion_linea_4').click(function(){
+    $('#aviso_letra_linea_figura_alto').html("")
+    $('#aviso_letra_linea_figura_table').html("")
+
+    var cuello_combinacion_id = "linea2"
+
+    var nombre_cuello = $("#nombre_cuello").val()
+    var descripcion_cuello = $("#descripcion_cuello").val()
+    var imagen_diseno = $("#imagen_diseno").val()
+    var cuello_letra_linea_id = 7
+    var material_fondo_letra_linea = parseInt($( "#material_fondo_letra_linea_figura option:selected" ).val())     
+    var material_fondo_letra_linea_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
+    var color_fondo_letra_linea = $( "#color_fondo_letra_linea_figura" ).val()    
+ 
+
+    id_color = $("#color_combinacion_linea_7").attr('id')
+    id_alto = $("#alto_combinacion_linea_7").attr('id')
+    
+
+    //linea
+    var material_linea = parseInt($( "#material_combinacion_linea_7 option:selected" ).val())     
+    var material_combinacion_linea_6_nombre = $( "#material_combinacion_linea_7 option:selected" ).text() 
+    var color_linea = $("#color_combinacion_linea_7").val()
+    var alto_linea = $("#alto_combinacion_linea_7").val()
+
+    
+
+    if(alto_linea <= 10 && alto_linea >0){
         $('#aviso_letra_linea_figura_alto').html("")
         $('#aviso_letra_linea_figura_table').html("")
 
-        var cuello_combinacion_id = "5"
-
-        var nombre_cuello = $("#nombre_cuello").val()
-        var descripcion_cuello = $("#descripcion_cuello").val()
-        var imagen_diseno = $("#imagen_diseno").val()
-        var cuello_letra_linea_id = 7
-        var material_fondo_linea_figura = parseInt($( "#material_fondo_letra_linea_figura option:selected" ).val())     
-        var material_fondo_linea_figura_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
-        var color_fondo_linea_figura = $( "#color_fondo_letra_linea_figura" ).val()      
-        
-        id_color = $("#color_combinacion_figura_7").attr('id')
-        id_alto = $("#alto_combinacion_figura_7").attr('id')
-        id_ancho = $("#ancho_combinacion_figura_7").attr('id')
-
-        //figura
-        var material_combinacion_figura_8 = parseInt($( "#material_combinacion_figura_7 option:selected" ).val())     
-        var material_combinacion_figura_8_nombre = $( "#material_combinacion_figura_7 option:selected" ).text() 
-        var alto_figura = $("#alto_combinacion_figura_7").val()
-        var ancho_figura = $("#ancho_combinacion_figura_7").val()
-        var color_figura = $("#color_combinacion_figura_7").val()
-
-        if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
-            $('#aviso_letra_linea_figura_alto').html("")
-            $('#aviso_letra_linea_figura_table').html("") 
-            if(!validar_alto_cm(alto_figura)){
-                $('#aviso_letra_linea_figura').html("")  
-                validacion_alert_alto()
-                // $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
-            }else{
-                var objeto_cuello_combinacion_figura_data = {
-                    //figura
-                    eliminar_combinacion,
-                    cuello_combinacion_id,
-                    material_combinacion_figura_8,
-                    alto_figura,
-                    color_figura,
-                    ancho_figura,
-                }
-                if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_figura === "" ||  ancho_figura === ""){
-                    validacion_alert()
-                    // validar_aviso(linea_figura,cuello_linea_figura_id)   
-                }else{
-                    precio_cuello(cuello_letra_linea_id,material_fondo_linea_figura,"precio_letra_linea_figura")
-
-                    $('#agregar_combinacion_figura_3').text("Agregar más figura")  
-
-                    fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
-
-                    if(letra_linea_figura === 0){                           
-                        fondo = `<tr>
-                                <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
-                                <th>${material_fondo_linea_figura_nombre}</th>
-                                <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
-                                <th>---</th>
-                                <th>---</th>
-                                <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                            </tr>`  
-                        
-                        letra_linea_figura++;
-                    }    
-                    dejar_valores_in_true()
-                    $("#material_combinacion_figura_7").prop('disabled', true)
-   
-                    if(letra_linea_figura === 1){
-                        ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
-                    }
-                    objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
-                    pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)
-                    dejar_campos_vacioss()
-                    eliminar_combinacion++
-                }
-            }
+        if(!validar_alto_cm(alto_linea)){
+            $('#aviso_letra_linea_figura').html("")  
+            validacion_alert_alto()
+            // $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
         }else{
-            if(alto_figura >= 10){
-                validacion_alert_alto()
-            }else{
-                validacion_alert()
+            var objeto_cuello_combinacion_linea_data = {
+                //linea
+                eliminar_combinacion,
+                cuello_combinacion_id,
+                material_linea,
+                color_linea,
+                alto_linea,
             }
-            $('#aviso_letra_linea_figura_table').html("")  
-            // $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
-        }
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_figura', function(){
-                let id = parseInt($(this).attr('data-id'))
-                eliminar(objeto_cuello.obj_datos_figura,id)  
-                pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)
-            })   
-        })
-        $(document).ready(function(){
-            $('body').on('click','.eliminar_fondo', function(){
-                objeto_cuello.obj_material_fondo = ""
-                objeto_cuello.obj_color_fondo = ""
-                objeto_cuello.obj_datos_figura = []
-                letra_linea_figura = 0
-                fondo_cuello_cm = 10
-                vaciar_objeto()
-                dejar_valores_in_false()
-                dejar_valores_in_false_combinacion()
-                $('#agregar_combinacion_figura_3').text("Agregar figura")  
+            if(isNaN(material_fondo_letra_linea) || isNaN(material_linea) ||  alto_linea === ""){
+                validacion_alert()
+                // validar_aviso(letra_linea_figura,cuello_letra_linea_id)   
+            }else{
+                precio_cuello(cuello_letra_linea_id,material_fondo_letra_linea,"precio_letra_linea_figura")
 
-            })   
-        })       
-        console.log(objeto_cuello)
+                $('#agregar_combinacion_linea_4').text("Agregar más linea")  
+
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
+
+                if(letra_linea_figura === 0){  
+                    fondo = `<tr>
+                            <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
+                            <th>${material_fondo_letra_linea_nombre}</th>
+                            <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
+                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th>---</th>
+                            <th>---</th>
+                            <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                        </tr>`         
+                    
+                    letra_linea_figura++;
+                } 
+                dejar_valores_in_true()
+                $("#material_combinacion_linea_7").prop('disabled', true)
+                $("#alto_combinacion_linea_7").val("")   
+                if(letra_linea_figura === 1){
+                    ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
+                }
+                objeto_cuello.obj_datos_linea.push(objeto_cuello_combinacion_linea_data)
+                pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_6_nombre)
+                dejar_campos_vacioss()
+                eliminar_combinacion++
+            }
+        }
+    }else{            
+        if(alto_linea >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
+        $('#aviso_letra_linea_figura_table').html("")  
+        // $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_linea,id)  
+            pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_linea_6_nombre)
+
+        } )   
     })
-}
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_linea = []
+            letra_linea_figura = 0
+            fondo_cuello_cm = 10
+            vaciar_objeto()
+            dejar_valores_in_false()
+            dejar_valores_in_false_combinacion()
+            $('#agregar_combinacion_linea_4').text("Agregar linea")  
+
+        })   
+    })     
+
+    array_combinacion2 = objeto_cuello.obj_datos_linea
+    
+    console.log(objeto_cuello)
+})
+
+$('#agregar_combinacion_figura_3').click(function(){
+    $('#aviso_letra_linea_figura_alto').html("")
+    $('#aviso_letra_linea_figura_table').html("")
+
+    var cuello_combinacion_id = "5"
+
+    var nombre_cuello = $("#nombre_cuello").val()
+    var descripcion_cuello = $("#descripcion_cuello").val()
+    var imagen_diseno = $("#imagen_diseno").val()
+    var cuello_letra_linea_id = 7
+    var material_fondo_linea_figura = parseInt($( "#material_fondo_letra_linea_figura option:selected" ).val())     
+    var material_fondo_linea_figura_nombre = $( "#material_fondo_letra_linea_figura option:selected" ).text()      
+    var color_fondo_linea_figura = $( "#color_fondo_letra_linea_figura" ).val()      
+    
+    id_color = $("#color_combinacion_figura_7").attr('id')
+    id_alto = $("#alto_combinacion_figura_7").attr('id')
+    id_ancho = $("#ancho_combinacion_figura_7").attr('id')
+
+    //figura
+    var material_combinacion_figura_8 = parseInt($( "#material_combinacion_figura_7 option:selected" ).val())     
+    var material_combinacion_figura_8_nombre = $( "#material_combinacion_figura_7 option:selected" ).text() 
+    var alto_figura = $("#alto_combinacion_figura_7").val()
+    var ancho_figura = $("#ancho_combinacion_figura_7").val()
+    var color_figura = $("#color_combinacion_figura_7").val()
+
+    if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
+        $('#aviso_letra_linea_figura_alto').html("")
+        $('#aviso_letra_linea_figura_table').html("") 
+        if(!validar_alto_cm(alto_figura)){
+            $('#aviso_letra_linea_figura').html("")  
+            validacion_alert_alto()
+            // $('#aviso_letra_linea_figura_table').html("<strong  class='text-danger animacion'>se excedio el numero maximo de alto</strong>")
+        }else{
+            var objeto_cuello_combinacion_figura_data = {
+                //figura
+                eliminar_combinacion,
+                cuello_combinacion_id,
+                material_combinacion_figura_8,
+                alto_figura,
+                color_figura,
+                ancho_figura,
+            }
+            if(isNaN(material_fondo_linea_figura) || isNaN(material_combinacion_figura_8) || alto_figura === "" ||  ancho_figura === ""){
+                validacion_alert()
+                // validar_aviso(linea_figura,cuello_linea_figura_id)   
+            }else{
+                precio_cuello(cuello_letra_linea_id,material_fondo_linea_figura,"precio_letra_linea_figura")
+
+                $('#agregar_combinacion_figura_3').text("Agregar más figura")  
+
+                fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
+
+                if(letra_linea_figura === 0){                           
+                    fondo = `<tr>
+                            <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
+                            <th>${material_fondo_linea_figura_nombre}</th>
+                            <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
+                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th>---</th>
+                            <th>---</th>
+                            <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
+                        </tr>`  
+                    
+                    letra_linea_figura++;
+                }    
+                dejar_valores_in_true()
+                $("#material_combinacion_figura_7").prop('disabled', true)
+
+                if(letra_linea_figura === 1){
+                    ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_linea_figura,color_fondo_linea_figura)
+                }
+                objeto_cuello.obj_datos_figura.push(objeto_cuello_combinacion_figura_data)
+                pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)
+                dejar_campos_vacioss()
+                eliminar_combinacion++
+            }
+        }
+    }else{
+        if(alto_figura >= 10){
+            validacion_alert_alto()
+        }else{
+            validacion_alert()
+        }
+        $('#aviso_letra_linea_figura_table').html("")  
+        // $('#aviso_letra_linea_figura_alto').html("<strong  class='text-danger animacion'> Estás intentado ingresar un dato mayor a 10 cm o un dato negativo o Algunos campos estan vacios</strong>")
+    }
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_figura', function(){
+            let id = parseInt($(this).attr('data-id'))
+            eliminar(objeto_cuello.obj_datos_figura,id)  
+            pintar_tr_combinacion_letra_figura_linea( objeto_cuello.obj_datos_letra,objeto_cuello.obj_datos_linea,objeto_cuello.obj_datos_figura,id_tbody,material_combinacion_figura_8_nombre)
+        })   
+    })
+    $(document).ready(function(){
+        $('body').on('click','.eliminar_fondo', function(){
+            objeto_cuello.obj_material_fondo = ""
+            objeto_cuello.obj_color_fondo = ""
+            objeto_cuello.obj_datos_figura = []
+            letra_linea_figura = 0
+            fondo_cuello_cm = 10
+            vaciar_objeto()
+            dejar_valores_in_false()
+            dejar_valores_in_false_combinacion()
+            $('#agregar_combinacion_figura_3').text("Agregar figura")  
+
+        })   
+    })       
+    console.log(objeto_cuello)
+    array_combinacion3 = objeto_cuello.obj_datos_figura
+})
+
+
 function validar_aviso(variable,cuello_combinacion_id){
     switch (cuello_combinacion_id) {
         case 5:
@@ -2731,4 +2753,12 @@ function validacion_alert_tipo_cuello(){
         icon: "warning",
         button: "Cerrar!",
     })
-}
+}   
+
+// validar arrays
+// $("#" + button).click(function(){
+//     console.log(array_combinacion1);
+//     console.log(array_combinacion2);
+//     console.log(button);
+//     validar_arrays_combinacion(array_combinacion1,array_combinacion2,button)  
+// })
