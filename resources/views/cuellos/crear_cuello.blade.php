@@ -41,7 +41,7 @@
     <div class="solicitud w-100 d-flex justify-content-end p-2">
         <nav class="nav_solicitud d-flex justify-content-around mr-3">
             <li><a href="" class="text-white text-uppercase">solicitud</a></li>
-            <li><a href="" class="text-white text-uppercase">solicitud de pedido</a></li>
+            <li><a href="" class="text-white text-uppercase">mis pedidos</a></li>
             <li><a href="" class="text-white text-uppercase">generar</a></li>
         </nav>
     </div>
@@ -97,7 +97,7 @@
                 
             </div>
             <div class="row my-4">
-                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary  imagen continuar vaciar_talla" >Continuar</button>
+                <button id="mostrar_formulario" data-toggle="modal" data-target="#modal_mostrar_formulario" class="btn btn-primary  imagen continuar vaciar_talla quitar_target_liso" >Continuar</button>
             </div>
         </div>
 

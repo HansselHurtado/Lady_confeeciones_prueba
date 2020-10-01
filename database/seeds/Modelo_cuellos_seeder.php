@@ -39,7 +39,7 @@ class Modelo_cuellos_seeder extends Seeder
 
         $modelo_cuello = new Modelo_cuello();
         $modelo_cuello->id_modelo_cuello = 6;
-        $modelo_cuello->nombre_modelo = "Letras, Lienas";
+        $modelo_cuello->nombre_modelo = "Letras, Lineas";
         $modelo_cuello->save();
 
         $modelo_cuello = new Modelo_cuello();

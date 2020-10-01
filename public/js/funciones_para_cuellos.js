@@ -24,11 +24,10 @@ $('.combinacion').click(function(){
 // mostrar formularios
 $('#mostrar_formulario').click(function(){
 
-    console.log("estoy dentro de continuar ");
-
     let nameForm = ''
     var nombre_cuello = $("#nombre_cuello").val()
     var imagen = $("#imagen_diseno").val()
+    var extensiones = imagen.substring(imagen.lastIndexOf("."));
     $('input:checkbox').each(function(){
         let name = $(this).attr('name')
 
@@ -42,19 +41,17 @@ $('#mostrar_formulario').click(function(){
         }
     })
     if(nameForm.length === 0 && nombre_cuello === ""){
-        // $('#aviso').html("<strong  class='text-danger animacion'> Por favor llene todos los campos </strong>") 
         validacion_alert() 
     }else if(nameForm.length === 0 ) {
         validacion_alert_tipo_cuello()
-        // $('#aviso').html("<strong  class='text-danger animacion'> Debe escoger un tipo de cuello</strong>")  
     }else if(nombre_cuello === ""){
         validacion_alert_tipo_cuello_nombre()
-        // $('#aviso').html("<strong  class='text-danger animacion'> Debe introducir un nombre </strong>")  
-    }else if(imagen === ""){
+    }else if(imagen === ""){        
         validacion_alert_tipo_cuello_img()
+    }else if(tipo_img(extensiones)){
+        validacion_alert_tipo_img()
     }else {
         console.log(nameForm)
-        // $(".modal_aviso").attr('id','modal_mostrar_formulario')
         $('#aviso').html("")  
         $(`#formulario_${nameForm}`).removeClass('hiden');
         $(`#formulario_${nameForm}`).addClass('show');
@@ -66,17 +63,15 @@ $('#mostrar_formulario').click(function(){
         $(`#formulario_${nameForm} tbody`).html("")
         $(`#formulario_${nameForm} .tabla_diseno`).removeClass('show')
         $(`#formulario_${nameForm} .tabla_diseno`).addClass('hiden')
+        $(`#formulario_${nameForm} .agregar`).text("Agregar")
+        $(`#formulario_${nameForm} .agregar_figura`).text("Agregar figura")
+        $(`#formulario_${nameForm} .agregar_linea`).text("Agregar linea")
+        $(`#formulario_${nameForm} .agregar_texto`).text("Agregar texto")
         
-        // $(`#formulario_${nameForm} .button_crear_diseno`).removeClass('show')
-        // $(`#formulario_${nameForm} .button_crear_diseno`).addClass('hiden')
-
-        // dejar_valores_in_false_combinacion()
         $(`#formulario_${nameForm}`)[0].reset();
         
     }
     $( "#material_fondo_liso" ).prop('disabled', false)    
-    // $( "#material_fondo_liso" ).val("")    
-    // $( "#color_fondo_liso" ).val("")    
 
     combinacion(nameForm)
 })
@@ -229,7 +224,7 @@ function agregar_tallas(){
             talla_eliminar_id++
             sma_cantidades = sma_cantidades + parseInt(cantidad_tallas)
             $("#cantidad_tallas").val("") 
-            $("#suma_cantidades").text(sma_cantidades+ ' und') 
+            $("#suma_cantidades").text(sma_cantidades) 
             $("#suma_valor_total").text('$'+total) 
             talla_nombre = talla_seleccionada_nombre
         }else{
@@ -259,7 +254,6 @@ function agregar_tallas_crear_diseno(){
             cantidad_tallas,
             id_diseno,
         }    
-        console.log("estoy dentro");
 
         if(talla_seleccionada !== "" && cantidad_tallas > 0 ){
             $('#tabla_tallas_diseno').removeClass('hiden')
@@ -269,7 +263,7 @@ function agregar_tallas_crear_diseno(){
             talla_eliminar_id++
             sma_cantidades = sma_cantidades + parseInt(cantidad_tallas)
             $("#cantidad_tallas_diseno").val("") 
-            $("#suma_cantidades_diseno").text(sma_cantidades+ ' und') 
+            $("#suma_cantidades_diseno").text(sma_cantidades) 
             $("#suma_valor_total_disno").text('$'+total) 
         }else{
             if(cantidad_tallas < 0){
@@ -281,21 +275,40 @@ function agregar_tallas_crear_diseno(){
     }else{
         validacion_alert_talla()
     }
-
-    $('.tallas').click(function(){
-        if($(this).val() === "1"){
-            $('#imagen_punos_puno').removeClass('hiden')
-            $('#imagen_punos_puno').addClass('show')
-        }else if($(this).val() === "2"){
-            $('#imagen_punos_puno').addClass('hiden')
-        }else if($(this).val() === "3"){
-            $('#imagen_punos_fajas').removeClass('hiden')
-            $('#imagen_punos_fajas').addClass('show')
-        }else if($(this).val() === "4"){
-            $('#imagen_punos_fajas').addClass('hiden')
-        }
-    })
     console.log(objeto_cuello);  
+}
+
+// seleccionar la imagen del puño y faja
+$('.tallas').click(function(){
+    var imagen_faja = $("#faja_img").val()
+    var imagen_puno = $("#puno_img").val()
+    var extensiones_faja = imagen_faja.substring(imagen_faja.lastIndexOf("."));
+    var extensiones_puno = imagen_puno.substring(imagen_puno.lastIndexOf("."));
+    
+    // if(!tipo_img(extensiones_faja)){
+    //     validacion_alert_tipo_img()
+    // }
+    // if(!tipo_img(extensiones_puno)){
+    //     validacion_alert_tipo_img()
+    // }
+    if($(this).val() === "1"){
+        $('#imagen_punos_puno').removeClass('hiden')
+        $('#imagen_punos_puno').addClass('show')
+    }else if($(this).val() === "2"){
+        $('#imagen_punos_puno').addClass('hiden')
+    }else if($(this).val() === "3"){
+        $('#imagen_punos_fajas').removeClass('hiden')
+        $('#imagen_punos_fajas').addClass('show')
+    }else if($(this).val() === "4"){
+        $('#imagen_punos_fajas').addClass('hiden')
+    }
+})
+
+function tipo_img(extension){
+    if(extension != ".jpg" && extension != ".jpeg" && extension != ".png"){
+        return true
+    }
+    return false
 }
 
 function precio_cuello(id_modelo, id_material, id_precio){
@@ -314,107 +327,117 @@ function precio_cuello(id_modelo, id_material, id_precio){
 }
 
 
-//  vaciar los formularios
-// $(document).ready(function(){
-//     $('body').on('click','.continuar', function(){
-//         objeto_cuello.obj_material_fondo = ""
-//         objeto_cuello.obj_color_fondo = ""
-//         objeto_cuello.obj_datos_linea = []
-//         objeto_cuello.obj_datos_figura = []
-//         objeto_cuello.obj_datos_letra = []
-//         objeto_cuello.tallas = []
-//         linea = 0
-//         figura = 0
-//         fondo_cuello_cm = 10
-//         vaciar_objeto()
-//         dejar_valores_in_false()
-//     })   
-// })
 
 // validar si escogio una talla, para guardar el pedido
 $(document).ready(function(){
-    validar_datos()  
-    vaciar_tallas()
     eliminar_talla_class()
-    crear_diseno()    
 })
 
-function crear_diseno(){
-    $('body').on('click','.crear_diseno', function(){
-        if(objeto_cuello.obj_material_fondo !== ""){
-            tabla_cuello_mandar_datos()    
-        }
-    })
+function validacion_cuello(){
+    if(objeto_cuello.obj_nombre_cuello !== "" ){
+        return true
+    }
+    return false
 }
 
-function validar_datos(){
-    $('body').on('click','.mandar_datos', function(){ 
-        console.log( objeto_cuello);    
-
-        let numero_producto = localStorage.getItem("numProducts")
-        
-        if (numero_producto === null) {
-            localStorage.setItem("numProducts",objeto_cuello.tallas.length)
-        }else{
-            let auxiliar = parseInt(numero_producto) + objeto_cuello.tallas.length
-            localStorage.setItem("numProducts",auxiliar)
-        }
-
-        if(sma_cantidades > 0){
-            $.ajax({
-                url: `${ip}/api/anadir-carrito`,
-                data: objeto_cuello,
-                dataType: "json",
-                method: "POST",
-                success: function (response) {
-                    console.log("data recibida",response)
-                    if(response){                
-                        swal({
-                            title: "Añadido al carrito",
-                            text: "se añadio al carrito correctamente",
-                            icon: "success",
-                            button: "Aceptar!",
-                          })
-                          .then((value) => {
-                            window.location.href = `${ip}/ladys-confecciones/carrito_compras`;
- 
-                        });
-                    }
-                },
-                statusCode: {
-                    404: function() {
-                       alert('Error, no funciona');
-                    }
-                },
-                error:function(x,xs,xt){
-                    window.open(JSON.stringify(x));
-                }
-            });
-
-            // window.location.href = `http://${ip}/ladys-confecciones/carrito_compras`;
+$('body').on('click','.mandar_datos', function(){ 
+    console.log( objeto_cuello);
+    if(validacion_cuello()) {
+        if(validar_cantidades()){
+            sumar_carrito()
+            tabla_cuello_mandar_datos() 
         }else{
             validacion_alert_mandar_carrito()
         }
-    }) 
+    }else{
+        validacion_alert()
+    }    
+}) 
+
+function sumar_carrito(){
+    let numero_producto = localStorage.getItem("numProducts")
+    
+    if (numero_producto === null) {
+        localStorage.setItem("numProducts",objeto_cuello.tallas.length)
+    }else{
+        let auxiliar = parseInt(numero_producto) + objeto_cuello.tallas.length
+        localStorage.setItem("numProducts",auxiliar)
+    }
 }
 
-function vaciar_tallas(){
-    $('body').on('click','.vaciar_talla', function(){            
-        console.log("hola soy vaciar");
-        objeto_cuello.tallas = []  
-        sma_cantidades = 0
-        $("#cantidad_tallas").val("") 
-        $("#fajas").val("") 
-        $("#punos").val("") 
-        $("#talla_seleccionada").val("")
-        $("#talla_seleccionada_diseno").val("")
-        $('#tabla_tallas').removeClass('show')
-        $('#tabla_tallas').addClass('hiden')
-        $('#tabla_tallas_diseno').removeClass('show')
-        $('#tabla_tallas_diseno').addClass('hiden')  
-        $(".liso").removeAttr('data-target')
-    }) 
+function validar_cantidades() {
+    if(sma_cantidades > 0){
+        return true
+    }
+    return false
 }
+
+
+function anadir_carrito() {
+    if(validar_cantidades()){
+        sumar_carrito()
+        peticion_carrito()
+    }else{
+        validacion_alert_mandar_carrito()
+    }    
+}
+
+function peticion_carrito() {
+    console.log("no tengo id",objeto_cuello.tallas);
+
+    for(let talla of objeto_cuello.tallas){
+        talla.id_diseno = id_diseno
+    }
+    console.log(objeto_cuello.tallas);
+    $.ajax({
+        url: `${ip}/api/anadir-carrito`,
+        data: objeto_cuello,
+        dataType: "json",
+        method: "POST",
+        success: function (response) {
+            if(response){                
+                swal({
+                    title: "Añadido al carrito",
+                    text: "se añadio al carrito correctamente",
+                    icon: "success",
+                    button: "Aceptar!",
+                    })
+                    .then((value) => {
+                    window.location.href = `${ip}/ladys-confecciones/carrito_compras`;
+
+                });
+            }
+        },
+        statusCode: {
+            404: function() {
+                alert('Error, no funciona');
+            }
+        },
+        error:function(x,xs,xt){
+            window.open(JSON.stringify(x));
+        }
+    });
+}
+
+$('body').on('click','.vaciar_talla', function(){            
+    console.log("hola soy vaciar");
+    objeto_cuello.tallas = []  
+    sma_cantidades = 0
+    $("#cantidad_tallas").val("") 
+    $("#fajas").val("") 
+    $("#punos").val("") 
+    $("#talla_seleccionada").val("")
+    $("#talla_seleccionada_diseno").val("")
+    $('#tabla_tallas').removeClass('show')
+    $('#tabla_tallas').addClass('hiden')
+    $('#tabla_tallas_diseno').removeClass('show')
+    $('#tabla_tallas_diseno').addClass('hiden')
+    $('#Modal_mostrar_diseno_hecho')[0].reset();  
+}) 
+
+$('body').on('click','.quitar_target_liso', function(){            
+    $(".liso").removeAttr('data-target')  
+}) 
 
 function eliminar_talla_class(){
     $('body').on('click','.eliminar_talla', function(){
@@ -485,7 +508,7 @@ function showimagefigura(img){
 // validar para que escoja más de un elemento a fabricar
 function validar_arrays_combinacion(){
     if(array_combinacion1.length !== 0  && array_combinacion2.length !==0  ){
-        tabla_cuello_mandar_datos()  
+        // tabla_cuello_mandar_datos()  
         $("#Modal_mostrar_diseno_hecho").modal("show");
     }else{
         validacion_alert_combinacion()
@@ -493,7 +516,7 @@ function validar_arrays_combinacion(){
 }
 function validar_arrays_combinacion_3(){
     if(array_combinacion1.length !== 0  && array_combinacion2.length !==0 && array_combinacion3.length !==0 ){
-        tabla_cuello_mandar_datos()  
+        // tabla_cuello_mandar_datos()  
         $("#Modal_mostrar_diseno_hecho").modal("show");
     }else{
         validacion_alert_combinacion()
@@ -504,16 +527,14 @@ function validar_arrays(){
     console.log('estoy en modl');    
     if(array_tabla.length !== 0){
         console.log("mando mas");
-        tabla_cuello_mandar_datos()  
+        // tabla_cuello_mandar_datos()  
         $("#Modal_mostrar_diseno_hecho").modal("show");
     }else{
         validacion_alert_tipo_cuello()
     }
 }
 
-
 // *************************** cuello figura ***********************************************************
-
 
 // agregar tabla cuello figura
 function tabla_cuello_figura(){
@@ -635,7 +656,7 @@ function tabla_cuello_figura(){
             fondo_cuello_cm = 10
             dejar_valores_in_false()
             $("#gregar_figura").text("Agregar")
-
+            $('#formulario_cuello_figuras')[0].reset();
         }) 
           
     })
@@ -726,7 +747,7 @@ function eliminar_talla(array, id){
                 console.log(fondo_cuello_cm)
                 sma_cantidades = sma_cantidades - parseInt(talla.cantidad_tallas)
                 total = total - precio * parseInt(talla.cantidad_tallas)
-                $("#suma_cantidades").text(sma_cantidades+ ' und') 
+                $("#suma_cantidades").text(sma_cantidades) 
                 $("#suma_valor_total").text('$'+total) 
                 array.splice(index,1)
            }
@@ -744,7 +765,7 @@ function eliminar_talla_diseno(array, id){
                 console.log(fondo_cuello_cm)
                 sma_cantidades = sma_cantidades - parseInt(talla.cantidad_tallas)
                 total = total - precio_diseno * parseInt(talla.cantidad_tallas)
-                $("#suma_cantidades_diseno").text(sma_cantidades+ ' und') 
+                $("#suma_cantidades_diseno").text(sma_cantidades) 
                 $("#suma_valor_total_disno").text('$'+total) 
                 array.splice(index,1)
            }
@@ -1085,6 +1106,7 @@ function cuello_liso(){
         objeto_cuello.obj_imagen_diseno = imagen_diseno
         objeto_cuello.obj_material_fondo = material_fondo_liso
         objeto_cuello.obj_color_fondo = color_fondo_liso
+        // tabla_cuello_mandar_datos()  
     }
     console.log(objeto_cuello); 
 }
@@ -1220,6 +1242,8 @@ function tabla_cuello_letra(){
             $("#agregar_letra").text("Agregar")
             $("#tipo_fuente__letra" ).val("")
             $("#contenido_letra" ).val("")
+            $('#formulario_cuello_letras')[0].reset();
+
         })   
     })
 
@@ -1349,6 +1373,7 @@ function tabla_cuello_linea(){
             fondo_cuello_cm = 10
             dejar_valores_in_false()
             $("#agregar_linea").text("Agregar")
+            $('#formulario_cuello_lineas')[0].reset();
         })   
     })
     array_tabla = objeto_cuello.obj_datos_linea
@@ -1522,8 +1547,7 @@ $('#agregar_combinacion_figura').click(function(){
             dejar_valores_in_false()
             dejar_valores_in_false_combinacion()
             $('#agregar_combinacion_figura').text("Agregar figura")  
-            console.log("debo estar vacio ",objeto_cuello)
-
+            $('#formulario_cuello_letrascuello_figuras')[0].reset();
         })   
     })
     array_combinacion1 = objeto_cuello.obj_datos_figura
@@ -1645,6 +1669,7 @@ $('#agregar_combinacion_letra').click(function(){
 
             $('#agregar_combinacion_letra').text("Agregar texto")  
             $("#tipo_fuente_combinacion_letra_5").val("")
+            $('#formulario_cuello_letrascuello_figuras')[0].reset();
         })   
     })
     console.log(objeto_cuello)
@@ -1779,6 +1804,7 @@ $('#agregar_combinacion_figura_2').click(function(){
             dejar_valores_in_false()
             dejar_valores_in_false_combinacion()
             $('#agregar_combinacion_figura_2').text("Agregar figura")  
+            $('#formulario_cuello_figurascuello_lineas')[0].reset();
         })   
     })  
     array_combinacion1 = objeto_cuello.obj_datos_figura
@@ -1897,6 +1923,7 @@ $('#agregar_combinacion_linea_2').click(function(){
             dejar_valores_in_false()
             dejar_valores_in_false_combinacion()
             $('#agregar_combinacion_linea_2').text("Agregar linea")  
+            $('#formulario_cuello_figurascuello_lineas')[0].reset();
         })   
     })
     array_combinacion2 = objeto_cuello.obj_datos_linea   
@@ -2039,6 +2066,7 @@ $('#agregar_combinacion_letra_2').click(function(){
             dejar_valores_in_false_combinacion()
             $('#agregar_combinacion_letra_2').text("Agregar texto")  
             $("#tipo_fuente_combinacion_letra_6" ).val("")
+            $('#formulario_cuello_letrascuello_lineas')[0].reset();
         })   
     })       
     console.log(objeto_cuello)
@@ -2153,7 +2181,7 @@ $('#agregar_combinacion_linea_3').click(function(){
             dejar_valores_in_false()
             dejar_valores_in_false_combinacion()
             $('#agregar_combinacion_linea_3').text("Agregar linea")  
-
+            $('#formulario_cuello_letrascuello_lineas')[0].reset();
         })   
     })       
     console.log(objeto_cuello)
@@ -2293,6 +2321,7 @@ $('#agregar_combinacion_letra_3').click(function(){
             dejar_valores_in_false_combinacion()
             $('#agregar_combinacion_letra_3').text("Agregar texto")  
             $("#tipo_fuente_combinacion_letra_7").val("") 
+            $('#formulario_cuello_letrascuello_figurascuello_lineas')[0].reset();
         })   
     })  
     array_combinacion1 = objeto_cuello.obj_datos_letra
@@ -2408,7 +2437,7 @@ $('#agregar_combinacion_linea_4').click(function(){
             dejar_valores_in_false()
             dejar_valores_in_false_combinacion()
             $('#agregar_combinacion_linea_4').text("Agregar linea")  
-
+            $('#formulario_cuello_letrascuello_figurascuello_lineas')[0].reset();
         })   
     })     
 
@@ -2521,7 +2550,7 @@ $('#agregar_combinacion_figura_3').click(function(){
             dejar_valores_in_false()
             dejar_valores_in_false_combinacion()
             $('#agregar_combinacion_figura_3').text("Agregar figura")  
-
+            $('#formulario_cuello_letrascuello_figurascuello_lineas')[0].reset();
         })   
     })       
     console.log(objeto_cuello)
@@ -2647,16 +2676,7 @@ function tabla_cuello_mandar_datos(){
             id_diseno = response
             console.log(id_diseno);
             if(response){  
-
-                // swal({
-                //     title: "Añadido al carrito",
-                //     text: "se añadio al carrito correctamente",
-                //     icon: "success",
-                //     button: "Aceptar!",
-                //   })
-                //   .then((value) => {
-                //     window.location.href = `http://${ip}/crear-cuello/diseno-cuellos`;
-                // });
+                peticion_carrito()
             }
         },
         statusCode: {
@@ -2753,12 +2773,42 @@ function validacion_alert_tipo_cuello(){
         icon: "warning",
         button: "Cerrar!",
     })
-}   
+}
 
-// validar arrays
-// $("#" + button).click(function(){
-//     console.log(array_combinacion1);
-//     console.log(array_combinacion2);
-//     console.log(button);
-//     validar_arrays_combinacion(array_combinacion1,array_combinacion2,button)  
-// })
+function validacion_alert_tipo_img(){
+    swal({
+        title: "El tipo de archivo no es valido",
+        text: "Solo tipos de imagenes, PNG, JPG",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}  
+
+ 
+
+
+// validar si quiere cerrar el modal
+// $('body').on('click','.button_cerrar_modal', function(){ 
+    
+//     if(validar_cantidades()){
+//         swal({
+//             title: "Quiere abandorar su Pedido?",
+//             text: "Si abandona el pedido, se perdera todo lo que ha seleccionado",
+//             icon: "warning",
+//             buttons: true,
+//             dangerMode: true,
+//           })
+//           .then((willDelete) => {
+//             if (willDelete) {
+//                 $("#Modal_mostrar_diseno_hecho").modal('hide');
+//                 $('.modal-backdrop').hide();           
+//             }
+//         });
+//     }else{
+//         $("#Modal_mostrar_diseno_hecho").modal('hide');
+//         $('.modal-backdrop').hide();   
+//     }
+//     $("#Modal_mostrar_diseno_hecho").modal('show');
+//     $('.modal-backdrop').hide();   
+
+// }) 

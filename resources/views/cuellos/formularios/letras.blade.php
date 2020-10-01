@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="">Material de fondo</label>
                     <select class="form-control" name="" id="material_fondo_letra">
-                        <option value="" selected disabled>Escoger Material</option>
+                        <option value="" selected disabled>Seleccionar</option>
                         @foreach ($materiales as $material)                            
                             <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                         @endforeach
@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <label for="material_letra">Material de letra</label>
                     <select class="form-control" name="" id="material_letra">
-                        <option value="" selected disabled>Escoger Material</option>
+                        <option value="" selected disabled>Seleccionar</option>
                         @foreach ($materiales as $material)                            
                             <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                         @endforeach
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class=" row my-3 mx-4">
-                <a class="btn btn-primary color_a"  href="#tabla_diseno_letra" id="agregar_letra" onclick="tabla_cuello_letra();"> Agregar</a>
+                <a class="btn btn-primary color_a agregar"  href="#tabla_diseno_letra" id="agregar_letra" onclick="tabla_cuello_letra();"> Agregar</a>
             </div>
         </div>
         <div class="d-flex w-50 flex-column px-3">
@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label for="id_tipo_fuente__letra">Tipo de fuente</label>
                         <select class="form-control" name="" id="tipo_fuente__letra">
-                            <option value="" selected disabled>Escoge una fuente </option>
+                            <option value="" selected disabled>Seleccionar</option>
                             <option value="" >Arial</option>
                             <option value="" >Negrita</option>
                             <option value="" >Cursiva</option>
@@ -62,7 +62,7 @@
                 <div class="row  mx-0">
                     <div class="form-group">
                         <label for="tamano_fuente_letra">Alto de texto (cm)</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_letra" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_letra" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <div class="form-group mx-3">
                         <label for="color_letra">Color de letra</label>
@@ -112,7 +112,7 @@
         </table>
         <div class="animacion" id="crear_diseno_letra">
             <div class=" row my-3 mx-1">                    
-                <button class="btn btn-primary button_crear_diseno" onclick="validar_arrays()"  data-toggle="modal">Crear Diseño</button>
+                <button class="btn btn-primary button_crear_diseno vaciar_talla" onclick="validar_arrays()"  data-toggle="modal">Crear Diseño</button>
             </div>
             <div id="aviso_letra_table" class="row my-2"></div>
         </div>

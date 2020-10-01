@@ -19,8 +19,8 @@
             <div class="p-3">
                 <div class="form-group">
                     <label for="">Material de fondo</label>
-                    <select class="form-control" name="" id="material_fondo_figura" required>
-                        <option value="" selected disabled>Escoger Material</option>
+                    <select class="form-control" name="" id="material_fondo_figura" >
+                        <option value="" selected disabled>Seleccionar</option>
                         @foreach ($materiales as $material)                            
                             <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                         @endforeach
@@ -28,8 +28,8 @@
                 </div>
                 <div class="form-group">
                     <label for="">Material de figura</label>
-                    <select class="form-control" name="" id="material_figura" required>
-                        <option value="" selected disabled>Escoger Material</option>
+                    <select class="form-control" name="" id="material_figura" >
+                        <option value="" selected disabled>Seleccionar</option>
                         @foreach ($materiales as $material)                            
                             <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                         @endforeach
@@ -39,11 +39,11 @@
                 <div class="row  mx-0">
                     <div class="form-group">
                         <label for="imagen_diseño">Alto (cm)</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_figura" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_figura" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
                     </div> 
                     <div class="form-group mx-3">
                         <label for="imagen_diseño">Ancho (cm)</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="ancho_figura" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                        <input class="form-control tamano_input_color" type="number" name="" id="ancho_figura" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
                     </div> 
                     <span id="aviso_figura_alto"></span>                            
 
@@ -55,12 +55,12 @@
             <div class="p-3">
                 <div class="form-group">
                     <label for="imagen_diseño">Color de fondo</label>
-                    <input class="form-control tamano_input_color" type="color" name="" id="color_fondo_figura" required>
+                    <input class="form-control tamano_input_color" type="color" name="" id="color_fondo_figura" >
                 </div> 
                 <div class="row  mx-0">
                     <div class="form-group">
                         <label for="imagen_diseño">Color de figura</label>
-                        <input class="form-control tamano_input_color" type="color" name="" id="color_figura" required>
+                        <input class="form-control tamano_input_color" type="color" name="" id="color_figura" >
                     </div>                        
                 </div>                                     
             </div>
@@ -69,7 +69,7 @@
             </div>
         </div>     
         <div class=" row my-3 mx-4">                    
-            <a class="btn btn-primary color_a" href="#tabla_diseno_figura" id="gregar_figura" onclick="tabla_cuello_figura();"> Agregar</a>
+            <a class="btn btn-primary color_a agregar" href="#tabla_diseno_figura" id="gregar_figura" onclick="tabla_cuello_figura();"> Agregar</a>
         </div>      
         
     </div>
@@ -105,7 +105,7 @@
         </table>
         <div class="animacion" id="crear_diseno_figura">
             <div class=" row my-3 mx-1">                    
-                <button class="btn btn-primary button_crear_diseno" id="button_figura" onclick="validar_arrays()" data-toggle="modal" >Crear Diseño</button>
+                <button class="btn btn-primary button_crear_diseno vaciar_talla" id="button_figura" onclick="validar_arrays()" data-toggle="modal" >Crear Diseño</button>
             </div>
             <div id="aviso_figura_table" class="row my-2"></div>
         </div>

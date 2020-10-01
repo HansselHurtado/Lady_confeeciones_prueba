@@ -9,17 +9,17 @@
                     <div class="form-group">
                         <label for="material_fondo_figura_linea">Material de fondo</label>
                         <select class="form-control" name="" id="material_fondo_figura_linea">
-                            <option value="" selected disabled>Escoger Material</option>
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($materiales as $material)                            
                                 <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                             @endforeach
-                        </select>
+                        </select> 
                     </div>
                     
                     <div class="form-group">
                         <label for="material_combinacion_figura_8">Material de figura</label>
                         <select class="form-control" name="material_linea" id="material_combinacion_figura_8">
-                            <option value="" selected disabled>Escoger Material</option>
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($materiales as $material)                            
                                 <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                             @endforeach
@@ -28,16 +28,16 @@
                     <div class="row mx-0 justify-content-between w-100">
                         <div class="form-group">
                             <label for="alto_combinacion_figura_8">Alto de figura (cm)</label>
-                            <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_figura_8" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                            <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_figura_8" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div> 
                         <div class="form-group">
                             <label for="ancho_combinacion_figura_8">Ancho de figura (cm)</label>
-                            <input class="form-control tamano_input_color" type="number" name="" id="ancho_combinacion_figura_8" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                            <input class="form-control tamano_input_color" type="number" name="" id="ancho_combinacion_figura_8" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div>  
                         <span id="aviso_linea_figura_alto"></span>                            
 
                         <div class=" row my-3 mx-2">
-                            <a class="btn btn-primary color_a" href="#tabla_diseno_linea_figura" id="agregar_combinacion_figura_2"> Agregar figura</a>
+                            <a class="btn btn-primary color_a agregar_figura" href="#tabla_diseno_linea_figura" id="agregar_combinacion_figura_2"> Agregar figura</a>
                         </div> 
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     <div class="form-group">
                         <label for="material_combinacion_linea_8">Material de lineas</label>
                         <select class="form-control" name="material_fondo" id="material_combinacion_linea_8">
-                            <option value="" selected disabled>Escoger Material</option>
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($materiales as $material)                            
                                 <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                             @endforeach
@@ -83,14 +83,14 @@
                     </div>    
                     <div class="form-group ">
                         <label for="alto_combinacion_linea_8">Alto de linea (cm)</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_8" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_8" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>  
                     <div id="aviso_linea_figura" class="row my-2"></div>                   
                 </div>                                     
             </div>
             
             <div class=" row my-3 mx-4">
-                <a class="btn btn-primary color_a" href="#tabla_diseno_linea_figura" id="agregar_combinacion_linea_2"> Agregar linea</a>
+                <a class="btn btn-primary color_a agregar_linea" href="#tabla_diseno_linea_figura" id="agregar_combinacion_linea_2"> Agregar linea</a>
             </div> 
         </div>            
     </div> 
@@ -126,7 +126,7 @@
         </table>
         <div class="animacion" id="crear_diseno_figura_linea">
             <div class=" row my-3 mx-1">                    
-                <button class="btn btn-primary button_crear_diseno"  id="modal_button_figura_linea" onclick="validar_arrays_combinacion()" data-toggle="modal">Crear Diseño</button>
+                <button class="btn btn-primary button_crear_diseno vaciar_talla"  id="modal_button_figura_linea" onclick="validar_arrays_combinacion()" data-toggle="modal">Crear Diseño</button>
             </div>
         </div>
      </div>

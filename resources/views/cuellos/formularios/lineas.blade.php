@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="material_fondo_linea">Material de fondo</label>
                     <select class="form-control " name="material_fondo" id="material_fondo_linea">
-                        <option value="" selected disabled>Escoger Material</option>
+                        <option value="" selected disabled>Seleccionar</option>
                         @foreach ($materiales as $material)                            
                             <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                         @endforeach
@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <label for="material_linea">Material de linea</label>
                     <select class="form-control " name="material_linea" id="material_linea">
-                        <option value="" selected disabled>Escoger Material</option>
+                        <option value="" selected disabled>Seleccionar</option>
                         @foreach ($materiales as $material)                            
                             <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                         @endforeach
@@ -44,7 +44,7 @@
                 <div class="row  mx-0">
                     <div class="form-group">
                         <label for="grosor_linea">Alto de linea (cm)</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_linea" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_linea" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <div class="form-group mx-3">
                         <label for="imagen_diseño">Color de linea</label>
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class=" row my-3 mx-4" >
-            <a class="btn btn-primary color_a" href="#tabla_diseno_linea" id="agregar_linea" onclick="tabla_cuello_linea();"> Agregar</a>                 
+            <a class="btn btn-primary color_a agregar" href="#tabla_diseno_linea" id="agregar_linea" onclick="tabla_cuello_linea();"> Agregar</a>                 
         </div>
     </div>
     
@@ -94,7 +94,7 @@
         </table>
         <div class="animacion" id="crear_diseno_linea">
             <div class=" row my-3 mx-1">                    
-                <button class="btn btn-primary button_crear_diseno" onclick="validar_arrays()"  data-toggle="modal" >Crear Diseño</button>
+                <button class="btn btn-primary button_crear_diseno vaciar_talla" onclick="validar_arrays()"  data-toggle="modal" >Crear Diseño</button>
             </div>
             <div id="aviso_linea_table" class="row my-2"></div>
         </div>

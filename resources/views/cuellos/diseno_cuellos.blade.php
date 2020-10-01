@@ -47,7 +47,7 @@
     <div class="solicitud w-100 d-flex justify-content-end p-2">
         <nav class="nav_solicitud d-flex justify-content-around mr-3">
             <li><a href="" class="text-white text-uppercase">solicitud</a></li>
-            <li><a href="" class="text-white text-uppercase">solicitud de pedido</a></li>
+            <li><a href="" class="text-white text-uppercase">mis pedidos</a></li>
             <li><a href="" class="text-white text-uppercase">generar</a></li>
         </nav>
     </div>
@@ -90,9 +90,9 @@
                                 </div>                                
                             </div>
                             <div class="item_description d-flex flex-column align-items-center vaciar_talla" data-toggle="modal" data-target="#Modal_detalle_cuello" onclick="detalles_cuello('{{$diseno_cuello->nombre_diseno}}','{{$diseno_cuello->id_diseno_cuello}}',' {{$diseno_cuello->nombre_modelo}}','{{$diseno_cuello->material}}')">
-                                <span><strong>{{$diseno_cuello->nombre_diseno}}</strong></span>
+                                <span><strong  class="text-capitalize">{{$diseno_cuello->nombre_diseno}}</strong></span>
                                 <small class="text-primary"><strong>${{$diseno_cuello->valor}}</strong></small>
-                                <button class="btn btn-primary">comprar</button>
+                                <button class="btn btn-primary">Comprar</button>
                             </div>
                         </div>
                     @endforeach                    

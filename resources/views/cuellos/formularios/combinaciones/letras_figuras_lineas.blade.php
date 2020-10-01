@@ -8,7 +8,7 @@
                     <div class="form-group">
                         <label for="">Material de fondo</label>
                         <select class="form-control" name="" id="material_fondo_letra_linea_figura">
-                            <option value="" selected disabled>Escoger Material</option>
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($materiales as $material)                            
                                 <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                             @endforeach
@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="material_combinacion_figura_7">Material de figura</label>
                         <select class="form-control" name="" id="material_combinacion_figura_7">
-                            <option value="" selected disabled>Escoger Material</option>
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($materiales as $material)                            
                                 <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                             @endforeach
@@ -27,14 +27,14 @@
                     <div class="row mx-0 justify-content-between w-100">
                         <div class="form-group">
                             <label for="alto_combinacion_figura_7">Alto de figura (cm)</label>
-                            <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_figura_7" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                            <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_figura_7" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div> 
                         <div class="form-group">
                             <label for="    ">Ancho de figura (cm)</label>
-                            <input class="form-control tamano_input_color" type="number" name="" id="ancho_combinacion_figura_7" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                            <input class="form-control tamano_input_color" type="number" name="" id="ancho_combinacion_figura_7" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div>
                         <div class=" row my-3 mx-2">
-                            <a class="btn btn-primary color_a" href="#tabla_diseno_letra_linea_figura" id="agregar_combinacion_figura_3"> Agregar figura</a>
+                            <a class="btn btn-primary color_a agregar_figura" href="#tabla_diseno_letra_linea_figura" id="agregar_combinacion_figura_3"> Agregar figura</a>
                         </div>   
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     <div class="form-group">
                         <label for="material_combinacion_letra_7">Material de letra</label>
                         <select class="form-control" name="" id="material_combinacion_letra_7">
-                            <option value="" selected disabled>Escoger Material</option>
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($materiales as $material)                            
                                 <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                             @endforeach
@@ -70,7 +70,7 @@
                     </div>
                     <div class="form-group">
                         <label for="contenido_texto_combinacion_letra_7">Contenido del texto</label>
-                        <input class="form-control" type="text" name="" id="contenido_texto_combinacion_letra_7" maxlength="50" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        <input class="form-control" type="text" name="" id="contenido_texto_combinacion_letra_7" maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>                    
                 </div>
             </div>
@@ -79,7 +79,7 @@
                 <div class="form-group">
                     <label for="tipo_fuente_combinacion_letra_7">Tipo de fuente</label>
                     <select class="form-control" name="" id="tipo_fuente_combinacion_letra_7">
-                        <option value="" selected disabled>Escoger tipo de fuente</option>
+                        <option value="" selected disabled>Seleccionar</option>
                         <option value="" >Arial</option>
                         <option value="" >Negrita</option>
                         <option value="" >Cursiva</option>
@@ -92,7 +92,7 @@
                     </div>    
                     <div class="form-group ">
                         <label for="tamano_combinacion_letra_7">Alto de texto (cm)</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_letra_7" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_letra_7" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <div id="aviso_letra_linea_figura_alto" class="row my-2"></div>                     
                     <div id="aviso_letra_linea_figura" class="row my-2"></div>                     
@@ -100,7 +100,7 @@
                 </div>                                     
             </div>
             <div class=" row my-3 mx-4">
-                <a class="btn btn-primary color_a"  href="#tabla_diseno_letra_linea_figura" id="agregar_combinacion_letra_3"> Agregar texto</a>
+                <a class="btn btn-primary color_a agregar_texto"  href="#tabla_diseno_letra_linea_figura" id="agregar_combinacion_letra_3"> Agregar texto</a>
             </div> 
         </div>
 
@@ -110,7 +110,7 @@
                     <div class="form-group">
                         <label for="material_combinacion_linea_7">Material de lineas</label>
                         <select class="form-control" name="" id="material_combinacion_linea_7">
-                            <option value="" selected disabled>Escoger Material</option>
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($materiales as $material)                            
                                 <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
                             @endforeach
@@ -127,13 +127,13 @@
                     </div>    
                     <div class="form-group ">
                         <label for="alto_combinacion_linea_7">Alto de linea (cm)</label>
-                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_7" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        <input class="form-control tamano_input_color" type="number" name="" id="alto_combinacion_linea_7" min="1" onkeypress="return event.keyCode!=45" pattern="^[0-9]+" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div> 
                     <div id="aviso_letra_linea_figura" class="row my-2"></div>                   
                 </div>                                     
             </div>
             <div class=" row my-3 mx-4">
-                <a class="btn btn-primary color_a" href="#tabla_diseno_letra_linea_figura" id="agregar_combinacion_linea_4"> Agregar linea</a>
+                <a class="btn btn-primary color_a agregar_linea" href="#tabla_diseno_letra_linea_figura" id="agregar_combinacion_linea_4"> Agregar linea</a>
             </div> 
         </div>            
     </div>
@@ -172,7 +172,7 @@
         </table>
         <div class="animacion" id="crear_diseno_letra_figura_linea">
             <div class=" row my-3 mx-1">                    
-                <button class="btn btn-primary button_crear_diseno" id="modal_button_letra_linea_figura" onclick="validar_arrays_combinacion_3()" data-toggle="modal">Crear Diseño</button>
+                <button class="btn btn-primary button_crear_diseno vaciar_talla" id="modal_button_letra_linea_figura" onclick="validar_arrays_combinacion_3()" data-toggle="modal">Crear Diseño</button>
             </div>        
         </div>
      </div>

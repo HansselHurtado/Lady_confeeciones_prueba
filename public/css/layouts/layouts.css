@@ -96,7 +96,10 @@ h4 {
     color: #2727B8 !important;
     
 }
-
+.swal-button--cancel {
+    color: #ffffff !important;
+    background-color: #efefef;
+}
 .carrito {
     margin-left: 540px;
 }

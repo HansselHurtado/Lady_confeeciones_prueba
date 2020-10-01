@@ -17,6 +17,8 @@ function detalles_cuello(nombre,id_diseno_cuello,modelo,material) {
             document.getElementById('precio_cuello_detalle').innerHTML= `$${data.valor}`
             precio = data.valor
             id_diseno = data.id_diseno_cuello
+
+            console.log(id_diseno);
         },
         error:function(error){
             console.log(error)
