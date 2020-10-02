@@ -562,7 +562,7 @@ function peticion_carrito() {
         method: "POST",
         success: function (response) {
             console.log("soy res",response);
-            if(response){                
+            if(response.success){                
                 swal({
                     title: "Añadido al carrito",
                     text: "se añadio al carrito correctamente",
