@@ -111,7 +111,6 @@ class carrito_comprasController extends Controller
     public function add_to_car(Request $request){
         $order_number = str_pad(mt_rand(1, 99), 1, '0', STR_PAD_LEFT) . date("i") . str_pad(mt_rand(1, 99), 2, '0', STR_PAD_LEFT) . date("hsd");
 
-
         if($request->ajax()){
             if (isset($request->tallas)) {
                 for($i=0; $i<count($request->tallas); $i++) { 

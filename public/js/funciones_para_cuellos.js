@@ -554,7 +554,8 @@ function peticion_carrito() {
             puno_faja.id_diseno = id_diseno
         }  
     }
-    console.log(objeto_cuello);
+    console.log("hola");
+    console.log("dfffsss", objeto_cuello);
     $.ajax({
         url: `${ip}/api/anadir-carrito`,
         data: objeto_cuello,
@@ -563,16 +564,16 @@ function peticion_carrito() {
         success: function (response) {
             console.log("soy res",response);
             if(response.success){                
-                swal({
-                    title: "Añadido al carrito",
-                    text: "se añadio al carrito correctamente",
-                    icon: "success",
-                    button: "Aceptar!",
-                    })
-                    .then((value) => {
-                    window.location.href = `${ip}/ladys-confecciones/carrito_compras`;
+                // swal({
+                //     title: "Añadido al carrito",
+                //     text: "se añadio al carrito correctamente",
+                //     icon: "success",
+                //     button: "Aceptar!",
+                //     })
+                //     .then((value) => {
+                //     window.location.href = `${ip}/ladys-confecciones/carrito_compras`;
 
-                });
+                // });
             }
         },
         statusCode: {
