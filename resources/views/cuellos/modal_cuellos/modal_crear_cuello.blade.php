@@ -117,11 +117,11 @@
                                     <div class="d-flex">
                                         <div class="d-flex align-items-center mx-2">
                                             <label for="id_tallas_si" class="m-0" >Sí</label>
-                                            <input  class="ml-1 tallas" type="radio" name="tallas" value="2" >
+                                            <input  class="ml-1 tallas" type="radio" id="si_puno" name="tallas_puno" value="2" checked >
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <label for="id_tallas_no" class="m-0">No</label>
-                                            <input class="ml-1 tallas" type="radio" name="tallas" value="1" >
+                                            <input class="ml-1 tallas" type="radio" id="no_puno" name="tallas_puno" value="1" >
                                         </div>  
                                     </div> 
                                     <div id="imagen_punos_puno" class="my-3 hiden animacion text-left">
@@ -145,11 +145,11 @@
                                     <div class="d-flex">
                                         <div class="d-flex align-items-center mx-2">
                                             <label for="id_tallas_si" class="m-0" >Sí</label>
-                                            <input  class="ml-1 tallas" type="radio" name="tallas_faja" value="4" >
+                                            <input  class="ml-1 tallas" type="radio" id="si_faja" name="tallas_faja" value="4" checked>
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <label for="id_tallas_no" class="m-0">No</label>
-                                            <input class="ml-1 tallas" type="radio" name="tallas_faja" value="3" >
+                                            <input class="ml-1 tallas" type="radio" id="no_faja" name="tallas_faja" value="3">
                                         </div>  
                                     </div>
                                     <div id="imagen_punos_fajas" class="my-3 hiden animacion text-left">

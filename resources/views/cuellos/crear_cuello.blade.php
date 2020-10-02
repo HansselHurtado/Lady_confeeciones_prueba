@@ -41,7 +41,7 @@
     <div class="solicitud w-100 d-flex justify-content-end p-2">
         <nav class="nav_solicitud d-flex justify-content-around mr-3">
             <li><a href="" class="text-white text-uppercase">solicitud</a></li>
-            <li><a href="" class="text-white text-uppercase">mis pedidos</a></li>
+            <li><a href="{{route('pedidos')}}" class="text-white text-uppercase">mis pedidos</a></li>
             <li><a href="" class="text-white text-uppercase">generar</a></li>
         </nav>
     </div>

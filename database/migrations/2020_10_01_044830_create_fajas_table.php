@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCarritosTable extends Migration
+class CreateFajasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,17 @@ class CreateCarritosTable extends Migration
      */
     public function up()
     {
-        Schema::create('carritos', function (Blueprint $table) {
-            $table->increments('id_carrito');
-
+        Schema::create('fajas', function (Blueprint $table) {
+            $table->increments('id_faja');
+            $table->string('cantidad_faja')->nullable();
+            $table->string('name')->nullable();
+            $table->string('orden_number')->nullable();
             $table->string('id_usuario')->nullable();
 
             $table->unsignedInteger('id_diseno_cuello');
             $table->foreign('id_diseno_cuello')->references('id_diseno_cuello')->on('diseno_cuellos')->onDelete('cascade');
 
-            $table->unsignedInteger('id_talla_cuello');
-            $table->foreign('id_talla_cuello')->references('id_talla_cuello')->on('talla_cuellos')->onDelete('cascade');          
-            
-            $table->string('cantidad')->nullable();
-            $table->string('orden_number')->nullable();
-            
+
             $table->timestamps();
         });
     }
@@ -38,6 +35,6 @@ class CreateCarritosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carritos');
+        Schema::dropIfExists('fajas');
     }
 }

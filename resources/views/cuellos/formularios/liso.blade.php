@@ -21,7 +21,7 @@
                     <select class="form-control" name="material_fondo_liso" id="material_fondo_liso">
                         <option value="" selected disabled>Seleccionar</option>
                         @foreach ($materiales as $material)                            
-                            <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                
+                            <option value="{{$material->id_material_cuello}}">{{$material->nombre_material}}</option>                                   
                         @endforeach
                     </select>
                 </div>

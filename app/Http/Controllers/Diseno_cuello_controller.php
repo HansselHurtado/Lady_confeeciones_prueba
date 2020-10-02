@@ -9,6 +9,9 @@ use App\Lineas;
 use App\Material_cuello;
 use App\Modelo_cuello;
 use App\Valor_modelo;
+use App\Carrito;
+use App\Puno;
+use App\Faja;
 use Illuminate\Http\Request;
 
 class Diseno_cuello_controller extends Controller
@@ -193,5 +196,60 @@ class Diseno_cuello_controller extends Controller
 
     public function precio_modelo($id_modelo, $id_material){
         return Valor_modelo::where('id_modelo_cuello',$id_modelo)->where('id_material_cuello', $id_material)->first();
+    }
+
+    public function pedidos(){
+
+        $data[] = [];
+        $data['products'] = Carrito::get_products();
+        $data['punos'] = Puno::get_puno();
+        $data['faja'] = Faja::get_faja();
+
+
+        $dataFormatter = [];
+
+        foreach($data as $item){
+            foreach($item as $hijo) {
+                array_push($dataFormatter, $hijo);
+            }
+        }
+
+        $aux = 0;
+        $aux2 = []; 
+        $arrayData = [];
+        $numped = 1;
+
+
+        usort($dataFormatter, function ($a, $b) {
+            return strcmp($a["created_at"], $b["created_at"]);
+        });
+
+
+        for($i = 0; $i < count($dataFormatter); $i++){
+            $aux = $dataFormatter[$i];
+            $sw = 0;
+            foreach($aux2 as $itemaux){
+                if($itemaux->orden_number == $aux->orden_number && $sw == 0){
+                   $sw = 1;
+                    break;
+                }
+            }
+
+            if($sw == 0){
+                $pedido = [];
+                array_push($pedido, $aux);
+                for($j = 1; $j < count($dataFormatter); $j++){
+                    if($aux->orden_number == $dataFormatter[$j]->orden_number && $i != $j){
+                        array_push($pedido, $dataFormatter[$j]);
+                    }
+                }
+
+                $arrayData['pedido'.$numped] = $pedido;
+                array_push($aux2, $aux);
+                $numped++;
+            }
+        }
+        
+        return view('cuellos.pedidos_cuello', compact('arrayData'));
     }
 }

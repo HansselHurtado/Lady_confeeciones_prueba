@@ -89,6 +89,7 @@ var objeto_cuello = {
     obj_datos_letra:[],
     obj_datos_linea:[],
     tallas:[],
+    punos_fajas:[],
 }
 
 let figura = 0
@@ -123,6 +124,7 @@ let button_crear = 'hola'
 let array_tabla = []
 let button = 'hola'
 let button_combinacion_3 = 'hola'
+let form_active = ''
 
 function vaciar_variables(){
     figura_eliminar_id = 1
@@ -214,7 +216,7 @@ function agregar_tallas(){
             cantidad_tallas,   
             id_diseno, 
         }   
-         
+        
         console.log(precio);
         if(talla_seleccionada !== "" && cantidad_tallas > 0 ){
             $('#tabla_tallas').removeClass('hiden')
@@ -305,7 +307,8 @@ $('.tallas').click(function(){
 })
 
 function tipo_img(extension){
-    if(extension != ".jpg" && extension != ".jpeg" && extension != ".png"){
+    console.log(extension)
+    if(extension.toUpperCase() !== ".JPG" && extension.toUpperCase() !== ".JPEG" && extension.toUpperCase() !== ".PNG"){
         return true
     }
     return false
@@ -342,45 +345,203 @@ function validacion_cuello(){
 
 $('body').on('click','.mandar_datos', function(){ 
     console.log( objeto_cuello);
+    punos_fajas()
     if(validacion_cuello()) {
-        if(validar_cantidades()){
-            sumar_carrito()
-            tabla_cuello_mandar_datos() 
-        }else{
-            validacion_alert_mandar_carrito()
+        if(validar_cantidades_form()){
+            if(validar_checked_puno() && validar_checked_faja()){
+                sumar_carrito()
+                tabla_cuello_mandar_datos()
+            }else{
+                console.log(validar_img_puno_faja())
+                if(validar_img_puno_faja()){
+                    if(validar_extension_puno_faja()){
+                        sumar_carrito()
+                        tabla_cuello_mandar_datos()
+                    }else{
+                        validacion_alert_tipo_img()
+                    }
+                }else{
+                    validacion_alert_tipo_cuello_img()
+                }
+            }           
         }
     }else{
         validacion_alert()
     }    
 }) 
 
+function validar_checked_puno(){
+
+    if($("#si_puno").prop('checked')) return true
+    return false
+}
+
+function validar_checked_faja(){
+
+    if($("#si_faja").prop('checked')) return true
+    return false
+}
+
+function validar_extension_puno_faja(){
+    var imagen_faja = $("#faja_img").val()
+    var imagen_puno = $("#puno_img").val()
+
+    bool_puno = false
+    bool_faja = false
+
+    if(imagen_faja !== ""){
+        var extensiones_faja = imagen_faja.substring(imagen_faja.lastIndexOf("."));
+        console.log("faja", extensiones_faja)
+        if(!tipo_img(extensiones_faja)){
+            bool_faja = true
+        }
+    }else{
+        bool_faja = true
+    }
+
+    if(imagen_puno !== ""){
+        var extensiones_puno = imagen_puno.substring(imagen_puno.lastIndexOf("."));
+        console.log("puno", extensiones_puno)
+        
+        if(!tipo_img(extensiones_puno)){
+            bool_puno = true
+        }
+    }else{
+        bool_puno = true
+    }
+
+    if(bool_puno && bool_faja) return true
+
+    return false
+}
+
+function validar_img_puno_faja(){
+    var imagen_faja = $("#faja_img").val()
+    var imagen_puno = $("#puno_img").val()
+
+    console.log(imagen_puno)
+
+    if($("#no_puno").prop('checked')){
+        if(imagen_puno === "") return false
+    }else{
+        return true
+    }
+
+    if($("#no_faja").prop("checked")){
+        if(imagen_faja === "") return false
+    }else{
+        return true
+    }
+
+    return true
+}
+
+function validar_cantidades_form(){
+    console.log(form_active);
+
+    if(form_active === 'lineas' || form_active === 'liso'){
+        if(cantidades_total()){
+            return true
+        }
+        validacion_alert_carrito_diseno()
+        return false
+    }
+    if(form_active === 'combinacion'){
+        console.log(form_active);
+        if(cantidades_total_combinacion()){
+            return true
+        }
+        validacion_alert_carrito_diseno_combinacion()
+        return false
+    }
+}
+
 function sumar_carrito(){
     let numero_producto = localStorage.getItem("numProducts")
-    
+    let sum_puno = 0
+    let sum_faja = 0 
+    if(objeto_cuello.punos_fajas.length > 0){
+        sum_puno =  objeto_cuello.punos_fajas[0].punos !== "" ? 1 : 0;
+        sum_faja =  objeto_cuello.punos_fajas[0].fajas !== "" ? 1 : 0;
+    }
+
     if (numero_producto === null) {
-        localStorage.setItem("numProducts",objeto_cuello.tallas.length)
+        localStorage.setItem("numProducts",(objeto_cuello.tallas.length + objeto_cuello.punos_fajas.length))
     }else{
-        let auxiliar = parseInt(numero_producto) + objeto_cuello.tallas.length
+        let auxiliar = parseInt(numero_producto) + (objeto_cuello.tallas.length + sum_puno + sum_faja)
+        
         localStorage.setItem("numProducts",auxiliar)
     }
 }
 
 function validar_cantidades() {
-    if(sma_cantidades > 0){
+    if(sma_cantidades === 0 && objeto_cuello.punos_fajas.length > 0 ){
+        return true
+    }else if(sma_cantidades >= 6 && objeto_cuello.punos_fajas.length === 0){
+        return true
+    }else if(sma_cantidades >= 6 && objeto_cuello.punos_fajas.length > 0 ){
+        return true
+    }else if(sma_cantidades > 0 && sma_cantidades < 6 && objeto_cuello.punos_fajas.length > 0){
+        validacion_alert_carrito_cantidad()
+        return false
+    }else if(sma_cantidades > 0 && sma_cantidades < 6 && objeto_cuello.punos_fajas.length === 0){
+        validacion_alert_carrito_cantidad()
+        return false
+    } 
+    validacion_alert_carrito()
+    return false
+}
+
+
+function cantidades_total(){
+    let fajas = $('#fajas').val() === "" ? 0 : parseInt($('#fajas').val()) 
+    let punos = $('#punos').val() === "" ? 0 : parseInt($('#punos').val())
+   
+    if((fajas + punos + sma_cantidades) >= 6){
         return true
     }
     return false
 }
 
+function cantidades_total_combinacion(){
+    let fajas = $('#fajas').val() === "" ? 0 : parseInt($('#fajas').val()) 
+    let punos = $('#punos').val() === "" ? 0 : parseInt($('#punos').val())
+   
+    if((fajas + punos + sma_cantidades) >= 12){
+        return true
+    }
+    return false
+}
+
+function punos_fajas(){    
+    let fajas = $('#fajas').val() 
+    let punos = $('#punos').val() 
+    if (punos > 0 || fajas > 0) {
+        var objeto_cuello_punos_fajas_data = {
+            punos,   
+            fajas,
+            id_diseno, 
+        }  
+        objeto_cuello.punos_fajas.push(objeto_cuello_punos_fajas_data)
+    }
+    console.log(objeto_cuello);
+}
 
 function anadir_carrito() {
-    if(validar_cantidades()){
+    punos_fajas()
+    if(cantidades_total()){
         sumar_carrito()
         peticion_carrito()
     }else{
-        validacion_alert_mandar_carrito()
-    }    
+        console.log("estoy dentri");
+        validacion_alert_carrito_cantidad()
+    }
 }
+
+// if(validar_cantidades()){
+//     sumar_carrito()
+//     peticion_carrito()
+// } 
 
 function peticion_carrito() {
     console.log("no tengo id",objeto_cuello.tallas);
@@ -388,13 +549,19 @@ function peticion_carrito() {
     for(let talla of objeto_cuello.tallas){
         talla.id_diseno = id_diseno
     }
-    console.log(objeto_cuello.tallas);
+    if(objeto_cuello.punos_fajas.length > 0){
+        for(let puno_faja of objeto_cuello.punos_fajas){
+            puno_faja.id_diseno = id_diseno
+        }  
+    }
+    console.log(objeto_cuello);
     $.ajax({
         url: `${ip}/api/anadir-carrito`,
         data: objeto_cuello,
         dataType: "json",
         method: "POST",
         success: function (response) {
+            console.log("soy res",response);
             if(response){                
                 swal({
                     title: "Añadido al carrito",
@@ -538,6 +705,8 @@ function validar_arrays(){
 
 // agregar tabla cuello figura
 function tabla_cuello_figura(){
+    form_active = 'combinacion'
+
     id_tbody = $('#tbody_figura').attr('id')
     id_table = $('#tabla_diseno_figura').attr('id')
     id_material_fondo = $( "#material_fondo_figura").attr('id')      
@@ -840,9 +1009,11 @@ function eliminar(array, id){
 function pintar_tr(array,id_tbody,material_noombre){
     $("#" + id_tbody).html('')
     $("#" + id_tbody).append(fondo)
-    $(document).ready(function(){
-        $('#fondo_cuello_cm').text(fondo_cuello_cm + ' cm')
-    })
+    // $(document).ready(function(){
+    //     console.log("entre a pegar");
+    //     $('#fondo_cuello_cm').text(fondo_cuello_cm + ' cm')
+    // })
+
     if(array.length > 0){
         array.forEach(element =>{
             if(element.cuello_linea_id === "2"){
@@ -922,9 +1093,9 @@ function pintar_tr_combinacion(array,array2,id_tbody,material_noombre){
         
     $("#" + id_tbody).html('')
     $("#" + id_tbody).append(fondo)
-    $(document).ready(function(){
-        $('#fondo_cuello_cm').text(fondo_cuello_cm + ' cm')
-    })
+    // $(document).ready(function(){
+    //     $('#fondo_cuello_cm').text(fondo_cuello_cm + ' cm')
+    // })
     if(array.length > 0){
         array.forEach(element =>{
             if(element.cuello_combinacion_id === "linea"){
@@ -1008,9 +1179,9 @@ function pintar_tr_combinacion_letra_figura_linea(array,array2,array3,id_tbody,m
     console.log(id_tbody);
     $("#" + id_tbody).html('')
     $("#" + id_tbody).append(fondo)
-    $(document).ready(function(){
-        $('#fondo_cuello_cm').text(fondo_cuello_cm + ' cm')
-    })
+    // $(document).ready(function(){
+    //     $('#fondo_cuello_cm').text(fondo_cuello_cm + ' cm')
+    // })
     if(array.length > 0){
         array.forEach(element =>{             
             if(element.cuello_combinacion_id === "letra"){
@@ -1081,6 +1252,7 @@ function vaciar_objeto(){
 
 function cuello_liso(){
     vaciar_objeto()
+    form_active = 'liso'
 
     var nombre_cuello = $("#nombre_cuello").val()
     var descripcion_cuello = $("#descripcion_cuello").val()
@@ -1106,7 +1278,6 @@ function cuello_liso(){
         objeto_cuello.obj_imagen_diseno = imagen_diseno
         objeto_cuello.obj_material_fondo = material_fondo_liso
         objeto_cuello.obj_color_fondo = color_fondo_liso
-        // tabla_cuello_mandar_datos()  
     }
     console.log(objeto_cuello); 
 }
@@ -1116,6 +1287,8 @@ function cuello_liso(){
 let letra = 0;
 
 function tabla_cuello_letra(){
+
+    form_active = 'combinacion'
 
     id_tbody = $('#tbody_letra').attr('id')
     id_table = $('#tabla_diseno_letra').attr('id')
@@ -1189,7 +1362,7 @@ function tabla_cuello_letra(){
                     fondo = `<tr>
                                 <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u> </th>
                                 <th>${material_fondo_letra_noombre}</th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th id="fondo_cuello_cm">Max 10 cm</th>  
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra}" class="rounded-circle mx-auto"> </div></th>
                                 <th>---</th>
                                 <th>---</th>
@@ -1261,6 +1434,8 @@ let contador_linea = 1;
 
 function tabla_cuello_linea(){
 
+    form_active = 'lineas'
+
     id_tbody = $('#tbody_linea').attr('id')
     id_table = $('#tabla_diseno_linea').attr('id')
     id_material_fondo = $( "#material_fondo_linea").attr('id')      
@@ -1290,6 +1465,9 @@ function tabla_cuello_linea(){
     var color_linea = $("#color_linea").val()   
    
     if(alto_linea <= 10 && alto_linea >0){
+
+        console.log("entré linea");
+
         $('#aviso_linea_alto').html("")
         $('#aviso_linea_table').html("")
 
@@ -1316,7 +1494,10 @@ function tabla_cuello_linea(){
             }else{
                 $("#agregar_linea").text("Agregar más linea")
                 precio_cuello(cuello_linea_id,material_fondo_linea,"precio_linea")
-
+                
+                console.log("soy fondo cm ",fondo_cuello_cm);
+                console.log("soy alto",alto_linea);
+                
                 fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_linea)
                 
                 if(linea === 0){   
@@ -1324,10 +1505,11 @@ function tabla_cuello_linea(){
                     fondo = `<tr>
                                 <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u> </th>
                                 <th>${material_fondo_linea_noombre}</th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                                <th id="fondo_cuello_cm">Max 10 cm</th>  
                                 <th> <div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea}" class="rounded-circle mx-auto"> </div></th>             
                                 <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt="" title="eliminar fondo"></th>            
                             </tr>` 
+
                     linea++;
                     dejar_valores_in_true()
                 }       
@@ -1395,6 +1577,8 @@ let contador_letra_linea_figura = 1
 
 
 function combinacion(Noombre_combinacion){
+    form_active = 'combinacion'
+
     switch (Noombre_combinacion) {
         case 'cuello_letrascuello_figuras':
                 cuello_letra_figura() 
@@ -1465,7 +1649,6 @@ $('#agregar_combinacion_figura').click(function(){
     if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
         console.log("soy alto figura",alto_figura);
         
-        
         $('#aviso_letra_figura_alto').html("")
         $('#aviso_letra_figura_table').html("")  
         if(!validar_alto_cm(alto_figura)){
@@ -1495,11 +1678,11 @@ $('#agregar_combinacion_figura').click(function(){
                             <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u> </th>
                             <th>${material_fondo_letra_figura_nombre}</th>
                             <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
-                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th id="fondo_cuello_cm">Max 10 cm</th>  
                             <th>---</th>
                             <th>---</th>
                             <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
-                        </tr>`  
+                        </tr>` 
 
                     letra_figura++;
                 }  
@@ -1617,7 +1800,7 @@ $('#agregar_combinacion_letra').click(function(){
                             <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                             <th>${material_fondo_letra_figura_nombre}</th>
                             <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_figura}" class="rounded-circle mx-auto"> </div></th>
-                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th id="fondo_cuello_cm">Max 10 cm</th>  
                             <th>---</th>
                             <th>---</th>
                             <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
@@ -1726,6 +1909,7 @@ $('#agregar_combinacion_figura_2').click(function(){
     var color_figura = $("#color_combinacion_figura_8").val()
     
     if(alto_figura <= 10 && alto_figura >0 && ancho_figura >0 && ancho_figura <= 50){
+        console.log("entré");
         $('#aviso_linea_figura_alto').html("")
         $('#aviso_linea_figura_table').html("")
         if(!validar_alto_cm(alto_figura)){
@@ -1750,12 +1934,13 @@ $('#agregar_combinacion_figura_2').click(function(){
                 precio_cuello(cuello_linea_figura_id,material_fondo_linea_figura,"precio_figuras_lineas")
 
                 fondo_cuello_cm = fondo_cuello_cm - parseFloat(alto_figura)
+                console.log("todo mal",fondo_cuello_cm);
                 if(linea_figura === 0){  
                     fondo = `<tr>
                             <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                             <th>${material_fondo_linea_figura_nombre}</th>
                             <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
-                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th id="fondo_cuello_cm">Max 10 cm</th>  
                             <th>---</th>
                             <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
                         </tr>` 
@@ -1873,7 +2058,7 @@ $('#agregar_combinacion_linea_2').click(function(){
                             <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                             <th>${material_fondo_linea_figura_nombre}</th>
                             <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
-                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th id="fondo_cuello_cm">Max 10 cm</th>  
                             <th>---</th>
                             <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
                         </tr>`
@@ -2015,7 +2200,7 @@ $('#agregar_combinacion_letra_2').click(function(){
                             <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                             <th>${material_fondo_letra_linea_nombre}</th>
                             <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
-                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th id="fondo_cuello_cm">Max 10 cm</th>  
                             <th>---</th>
                             <th>---</th>
                             <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
@@ -2134,7 +2319,7 @@ $('#agregar_combinacion_linea_3').click(function(){
                             <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                             <th>${material_fondo_letra_linea_nombre}</th>
                             <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
-                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th id="fondo_cuello_cm">Max 10 cm</th>  
                             <th>---</th>
                             <th>---</th>
                             <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
@@ -2272,7 +2457,7 @@ $('#agregar_combinacion_letra_3').click(function(){
                             <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                             <th>${material_fondo_letra_linea_nombre}</th>
                             <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
-                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th id="fondo_cuello_cm">Max 10 cm</th>  
                             <th>---</th>
                             <th>---</th>
                             <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
@@ -2388,7 +2573,7 @@ $('#agregar_combinacion_linea_4').click(function(){
                             <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                             <th>${material_fondo_letra_linea_nombre}</th>
                             <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_letra_linea}" class="rounded-circle mx-auto"> </div></th>
-                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th id="fondo_cuello_cm">Max 10 cm</th>  
                             <th>---</th>
                             <th>---</th>
                             <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
@@ -2503,7 +2688,7 @@ $('#agregar_combinacion_figura_3').click(function(){
                             <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                             <th>${material_fondo_linea_figura_nombre}</th>
                             <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_linea_figura}" class="rounded-circle mx-auto"> </div></th>
-                            <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>  
+                            <th id="fondo_cuello_cm">Max 10 cm</th>  
                             <th>---</th>
                             <th>---</th>
                             <th class="text-center "  ><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt=""></th>            
@@ -2757,6 +2942,42 @@ function validacion_alert_mandar_carrito(){
     })
 }
 
+function validacion_alert_carrito(){
+    swal({
+        title: "No hay nada que añadir",
+        text: "Por favor seleccione las cantidades del producto",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+
+function validacion_alert_carrito_cantidad(){
+    swal({
+        title: "Pedido incorrecto!",
+        text: "Por favor selecciona minimo una cantiad de 6",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+
+function validacion_alert_carrito_diseno(){
+    swal({
+        title: "Error en el Pedido!",
+        text: "Este tipo de diseño tiene un pedido minimo de 6 unidades",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+
+function validacion_alert_carrito_diseno_combinacion(){
+    swal({
+        title: "Error en el Pedido!",
+        text: "Este tipo de diseño tiene un pedido minimo de 12 unidades",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
+
 function validacion_alert_combinacion(){
     swal({
         title: "Debe añadir por lo menos uno de cada uno",
@@ -2784,7 +3005,16 @@ function validacion_alert_tipo_img(){
     })
 }  
 
+function validacion_alert_checked_puno_faja(){
+    swal({
+        title: "Chequear valores!",
+        text: "Por favor elija si el puño o la faja conserva el diseño",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}
  
+
 
 
 // validar si quiere cerrar el modal

@@ -23,7 +23,10 @@ Route::get('/ladys-confecciones/carrito_compras','carrito_comprasController@inde
 // diseño de cuello
 Route::get('/crear-cuello','Diseno_cuello_controller@cuello')->name('crear_cuello');
 Route::get('/crear-cuello/diseno-cuellos','Diseno_cuello_controller@diseno_cuello')->name('diseno_cuello'); 
+Route::get('/pedidos','Diseno_cuello_controller@pedidos')->name('pedidos'); 
 
 //eliminar carrito
 Route::delete('/ladys-confecciones/carrito_compras/eliminar/{id}','carrito_comprasController@delete')->name('delete_carrito'); 
+Route::delete('/ladys-confecciones/puno/eliminar/{id}','carrito_comprasController@delete_puno')->name('delete_puno'); 
+Route::delete('/ladys-confecciones/faja/eliminar/{id}','carrito_comprasController@delete_faja')->name('delete_faja'); 
 Route::delete('/ladys-confecciones/carrito_compras/vaciar','carrito_comprasController@empty_cart')->name('vaciar_carrito'); 
