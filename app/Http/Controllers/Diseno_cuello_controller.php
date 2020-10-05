@@ -38,12 +38,7 @@ class Diseno_cuello_controller extends Controller
             $cuello->color_fondo_diseno = $request->obj_color_fondo;
             $valor = Valor_modelo::where('id_modelo_cuello', $request->obj_cuello_id)->where('id_material_cuello',$request->obj_material_fondo)->first();
             $cuello->id_valor_modelo = $valor->id_valor_modelo;
-            if($request->hasFile('obj_imagen_diseno')){                
-                $file = $request->file('obj_imagen_diseno');               
-                $name = time().$file->getClientOriginalName();
-                $cuello->imagen_inicial = $name;
-                $file->move(public_path().'/img/fondo_cuello', $name);                
-            } 
+            $cuello->estado_view = 0;
             $cuello->save();
             switch ($request->obj_cuello_id) {
                 case 2:
@@ -174,21 +169,22 @@ class Diseno_cuello_controller extends Controller
         }
     }
     public function diseno_cuello(){      
-        $diseno_cuellos = Diseno_cuello::join('modelo_cuellos','diseno_cuellos.id_modelo_cuello','modelo_cuellos.id_modelo_cuello')
-                                        ->join('valor_modelos','diseno_cuellos.id_valor_modelo','valor_modelos.id_valor_modelo')
-                                        ->join('material_cuellos','diseno_cuellos.id_material_cuello','material_cuellos.id_material_cuello')
-                                        ->select('diseno_cuellos.id_diseno_cuello','diseno_cuellos.nombre_diseno','diseno_cuellos.id_modelo_cuello',
-                                                'modelo_cuellos.id_modelo_cuello','modelo_cuellos.nombre_modelo as nombre_modelo','valor_modelos.id_valor_modelo','valor_modelos.valor_modelo as valor',
-                                                'material_cuellos.nombre_material as material')
-                                        ->orderBy('id_diseno_cuello','desc')->get();
+        $view = 1;
+        $diseno_cuellos = Diseno_cuello::get_diseno($view);
         return view('cuellos.diseno_cuellos',compact('diseno_cuellos'));
+    }
+
+    public function mis_diseno_cuello(){
+        $view = 0;
+        $diseno_cuellos = Diseno_cuello::get_diseno($view);
+        return view('cuellos.mis_diseno_cuello',compact('diseno_cuellos'));
     }
 
     public function detalle_cuello($diseno_cuello){
         return Diseno_cuello::join('modelo_cuellos','diseno_cuellos.id_modelo_cuello','modelo_cuellos.id_modelo_cuello')
                             ->join('valor_modelos','diseno_cuellos.id_valor_modelo','valor_modelos.id_valor_modelo')
                             ->join('material_cuellos','diseno_cuellos.id_material_cuello','material_cuellos.id_material_cuello')
-                            ->select('diseno_cuellos.id_diseno_cuello','diseno_cuellos.nombre_diseno',
+                            ->select('diseno_cuellos.id_diseno_cuello', 'diseno_cuellos.imagen_inicial', 'diseno_cuellos.nombre_diseno',
                                     'modelo_cuellos.nombre_modelo as nombre_modelo','valor_modelos.valor_modelo as valor',
                                     'material_cuellos.nombre_material as material')
                             ->where('id_diseno_cuello',$diseno_cuello)->first();
@@ -251,5 +247,30 @@ class Diseno_cuello_controller extends Controller
         }
         
         return view('cuellos.pedidos_cuello', compact('arrayData'));
+    }
+
+    public function validar_nombre_diseno($nombre_diseno = null){
+        if($nombre_diseno){
+            $nombre = Diseno_cuello::where('nombre_diseno',$nombre_diseno)->first();
+
+            if($nombre != null) return response()->json(["success" => true]);        
+            return response()->json(["success" => false]);
+        }    
+        return response()->json(["success" => false]);   
+    }
+
+    public function subir_imagen(Request $request, $id_diseno){
+        if($request->ajax()){
+            $cuello = Diseno_cuello::findOrFail($id_diseno);
+            if($request->hasFile('file')){                
+                $file = $request->file('file');               
+                $name = time().$file->getClientOriginalName();
+                $cuello->imagen_inicial = $name;
+                $cuello->save();
+                $file->move(public_path().'/img/fondo_cuello', $name );                
+            }
+        }
+        
+        return response()->json(["success" => true]);
     }
 }

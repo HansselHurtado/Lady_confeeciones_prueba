@@ -36,18 +36,27 @@
     .color {
         background-color: #27326d;
     }
+    .text-color{
+        color: #27326d;
+    }
+    .border-formulario{
+        border: 1px solid #27326d;
+        background: #FCFCFC !important;
+
+    }
+
 </style>
 @section('content_solicitud')
     <div class="solicitud w-100 d-flex justify-content-end p-2">
         <nav class="nav_solicitud d-flex justify-content-around mr-3">
-            <li><a href="" class="text-white text-uppercase">solicitud</a></li>
-            <li><a href="{{route('pedidos')}}" class="text-white text-uppercase">mis pedidos</a></li>
-            <li><a href="" class="text-white text-uppercase">generar</a></li>
+            <li><a href="" class="text-color text-uppercase">solicitud</a></li>
+            <li><a href="{{route('pedidos')}}" class="text-color text-uppercase">mis pedidos</a></li>
+            <li><a href="{{route('mis_diseno_cuello')}}"" class="text-color text-uppercase">Mis diseños</a></li>
         </nav>
     </div>
 @endsection
 @section('content')
-    <div id="formulario_completo" class="container bg-white container_principal">
+    <div id="formulario_completo" class="container  container_principal border-formulario">
         <div class="w-65 mb-4">
             <div class="row">
                   <h4 class="my-5">Nuevo diseño</h4>
@@ -58,13 +67,15 @@
                         <div class="form-group">
                             <label for="nombre_cuello">Nombre de Diseño</label>
                             <input class="form-control" type="text" name="nombre" id="nombre_cuello" maxlength="80" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                            <span class="text-danger" id="nombre_error"></span>
                         </div>
                         <div class="form-group">
                             <label for="descripcion_cuello">Descripción</label>
-                            <input class="form-control" type="text" name="descripcion" id="descripcion_cuello" maxlength="150" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                            <textarea class="form-control" type="text" name="descripcion" id="descripcion_cuello" maxlength="150" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"></textarea>
                         </div>
                     </div>
                 </div>
+
                 <div class="d-flex w-50 flex-column p-3 w-md-80">
                     <div>
                         <label for="imagen_diseño">Imagen del diseño</label>

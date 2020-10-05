@@ -23,6 +23,7 @@ Route::get('/ladys-confecciones/carrito_compras','carrito_comprasController@inde
 // diseño de cuello
 Route::get('/crear-cuello','Diseno_cuello_controller@cuello')->name('crear_cuello');
 Route::get('/crear-cuello/diseno-cuellos','Diseno_cuello_controller@diseno_cuello')->name('diseno_cuello'); 
+Route::get('/crear-cuello/mis-diseno-cuellos','Diseno_cuello_controller@mis_diseno_cuello')->name('mis_diseno_cuello'); 
 Route::get('/pedidos','Diseno_cuello_controller@pedidos')->name('pedidos'); 
 
 //eliminar carrito

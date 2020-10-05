@@ -20,6 +20,7 @@ class CreateDisenoCuellosTable extends Migration
             $table->string('imagen_inicial')->nullable();
             $table->string('imagen_final_diseno')->nullable();
             $table->string('color_fondo_diseno')->nullable();
+            $table->string('estado_view')->nullable();
 
             $table->unsignedInteger('id_modelo_cuello');
             $table->foreign('id_modelo_cuello')->references('id_modelo_cuello')->on('modelo_cuellos')->onDelete('cascade');

@@ -68,6 +68,7 @@ class carrito_comprasController extends Controller
         // foreach ( $data['products'] as $products) {
             
         // }
+        //return $arrayData;
         return view('carrito.carrito_de_compra',compact('arrayData'));
     }
 
@@ -127,10 +128,10 @@ class carrito_comprasController extends Controller
 
             if (isset($request->punos_fajas)) {
                 if (count($request->punos_fajas) > 0) {
-                    if ($request->punos_fajas[0]["punos"] != "") {
+                    if ($request->punos_fajas[0]["punos"] != "" && $request->punos_fajas[0]["punos"] != "0") {
                         $puno = new Puno();
                         $puno->cantidad_puno =  $request->punos_fajas[0]["punos"];      
-                        $puno->name = "puno";
+                        $puno->name = "puño";
                         $puno->orden_number = $order_number;
                         $puno->id_usuario = 1;
                         $puno->id_diseno_cuello = $request->punos_fajas[0]["id_diseno"];          
@@ -138,7 +139,7 @@ class carrito_comprasController extends Controller
                     }
 
                     
-                    if ($request->punos_fajas[0]["fajas"] != "") {
+                    if ($request->punos_fajas[0]["fajas"] != "" && $request->punos_fajas[0]["fajas"] != "0") {
                         $faja = new Faja();
                         $faja->cantidad_faja =  $request->punos_fajas[0]["fajas"];  
                         $faja->name = "faja";
@@ -151,5 +152,5 @@ class carrito_comprasController extends Controller
             }        
             return response()->json(["success" => true]);
         }
-    }    
+    }   
 }

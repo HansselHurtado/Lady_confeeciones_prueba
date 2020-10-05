@@ -42,13 +42,16 @@
         background: #27326d;
         color: white;
     }
+    .text-color{
+        color: #27326d;
+    }
 </style>
 @section('content_solicitud')
     <div class="solicitud w-100 d-flex justify-content-end p-2">
         <nav class="nav_solicitud d-flex justify-content-around mr-3">
-            <li><a href="" class="text-white text-uppercase">solicitud</a></li>
-            <li><a href="{{route('pedidos')}}" class="text-white text-uppercase">mis pedidos</a></li>
-            <li><a href="" class="text-white text-uppercase">generar</a></li>
+            <li><a href="" class="text-color text-uppercase">solicitud</a></li>
+            <li><a href="{{route('pedidos')}}" class="text-color text-uppercase">mis pedidos</a></li>
+            <li><a href="{{route('mis_diseno_cuello')}}"" class="text-color text-uppercase">Mis diseños</a></li>
         </nav>
     </div>
 @endsection
@@ -64,6 +67,9 @@
                         $numpedido = 1;
                         $totalpedido = 0;
                     @endphp
+                    <div class="text-center mt-4">
+                        <h3>Mis pedidos</h3>
+                    </div>
                    @foreach($arrayData as $pedido)
                         <div class="card w-100 mt-4" style="width: 18rem;">
                             <div class="card-body">
@@ -86,14 +92,14 @@
                                         <tbody>        
                                             @foreach($pedido as $item) 
                                                 <tr class="text-center bg-white" style="font-size: 18px">
-                                                    <td class="border-0" style="vertical-align: middle!important"><img width="80px;" height="80px;" src="https://www.camionetica.com/wp-content/uploads/2015/05/cuello-bordado-Lylo.jpg" alt=""></td>
+                                                    <td class="border-0" style="vertical-align: middle!important"><img width="80px;" height="80px;" src="{{ asset('/img/fondo_cuello/'.$item->imagen_inicial) }}" alt=""></td>
                                                     <td class="border-0 text-capitalize" style="vertical-align: middle!important">{{$item->nombre_diseno}}</td>
                                                     <td class="border-0" style="vertical-align: middle!important">Modelo de cuello {{$item->nombre_modelo}}</td>
                                                     <td class="border-0 text-capitalize" style="vertical-align: middle!important">{{isset($item->name) ? $item->name : "Cuello"}}</td>
                                                     <td class="border-0" style="vertical-align: middle!important">{{isset($item->nombre_talla) ? $item->nombre_talla : "---"}}</td>
-                                                    <td class="border-0" style="vertical-align: middle!important">{{ isset($item->valor_modelo) ? number_format($item->valor_modelo, 2) : number_format(1200, 2) }}</td>
+                                                    <td class="border-0" style="vertical-align: middle!important">${{ isset($item->valor_modelo) ? number_format($item->valor_modelo, 0) : number_format(1200, 0) }}</td>
                                                     <td class="border-0" style="vertical-align: middle!important">{{$item->cantidad}}</td>
-                                                    <td class="text-center border-0" style="vertical-align: middle!important">${{isset($item->valor_modelo) ? number_format($item->cantidad * $item->valor_modelo, 2): number_format($item->cantidad * 1200, 2) }}</td>
+                                                    <td class="text-center border-0" style="vertical-align: middle!important">${{isset($item->valor_modelo) ? number_format($item->cantidad * $item->valor_modelo, 0): number_format($item->cantidad * 1200, 0) }}</td>
                                                     <td class="text-center border-0" style="vertical-align: middle!important">Pago por confirmar</td>
                                                     <td class="text-center border-0" style="vertical-align: middle!important">
                                                         @if($item->name == "puno")

@@ -65,12 +65,15 @@
             text-align: center;
             font-size: 17px;
         }
+        .border-nav{
+            border-bottom: 20px solid #27326d !important; 
+        }
     </style>
 
 </head>
-<body style="background: url(https://damecoins.com/img/landing/bg/home.png)">
+<body >
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light mb-0 border-0 shadow-sm p-0 nav_details" >
+        <nav class="navbar border-nav navbar-expand-md navbar-light mb-0 border-0 shadow-sm p-0 nav_details" >
             <div class="container ml-0 d-flex align-items-end">
                 <img src="{{ asset('icons/ladys_blue_icon.png') }}" alt="" width="10%">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -97,7 +100,7 @@
                         </li>
                         <li class="item_header_main">
                             <a class="text-light p-2 btn bg_color mr-2" href="#">
-                                {{ 'OUFIT' }}
+                                {{ 'OUTFIT' }}
                             </a>
                         </li>
                         <li class="item_header_main">
@@ -142,6 +145,7 @@
                 </div>
             </div>
         </nav>
+
         <div class="w-100">
             @yield('content_solicitud')
         </div>
@@ -184,7 +188,7 @@
                         <br>
                         Ladys Corporative
                         <br>
-                        Ladys Oufit
+                        Ladys Outfit
                     </p>
                 </div>
                 <div class="col flex-column ml-5 mt-5">

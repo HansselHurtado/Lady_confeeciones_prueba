@@ -23,8 +23,7 @@
                                 <div class="control-group mx-4" id="show_img">
                                     
                                 </div>
-                                
-                                                                   
+                                                               
                                 <div id="success"></div>
                             </div>
                         </div>
@@ -58,7 +57,7 @@
                             <div class=" row my-3 mx-1 d-flex justify-content-around ">             
                                 <label for="">Talla</label>
                                 <select class="form-control w-30" name="" id="talla_seleccionada_diseno" >
-                                    <option value="" selected disabled>Seleccionar</option>
+                                    <option value="" selected>Seleccionar</option>
                                     <option value="1"  id="12">12</option>                                
                                     <option value="2"  id="14">14</option>                                
                                     <option value="3"  id="16">16</option>                                
@@ -160,7 +159,7 @@
                             </div>
 
                             
-                            <div class="border border-medium d-flex p-3 rounded w-50">
+                            {{-- <div class="border border-medium d-flex p-3 rounded w-50">
                                 <div class="mr-3">
                                     <img src="{{ asset('/icons/almohada.svg') }}" alt="" width="30px">
                                 </div>
@@ -168,7 +167,7 @@
                                     <span class="text-success"><strong>Diseño Gratis</strong></span>
                                     <p>Después de 12 unidades</p>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class=" row my-3 mx-1 d-flex justify-content-start">                    
                                 <button class="btn btn-primary mandar_datos " id="mandar_datos" >Añadir al carrito</button>
                             </div>                            

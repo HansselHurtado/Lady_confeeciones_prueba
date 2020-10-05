@@ -42,6 +42,8 @@ $('#mostrar_formulario').click(function(){
     })
     if(nameForm.length === 0 && nombre_cuello === ""){
         validacion_alert() 
+    }else if(!validate_nombre_diseno){
+        validacion_alert_nombre_diseno()
     }else if(nameForm.length === 0 ) {
         validacion_alert_tipo_cuello()
     }else if(nombre_cuello === ""){
@@ -76,6 +78,34 @@ $('#mostrar_formulario').click(function(){
     combinacion(nameForm)
 })
 
+// validar que el nombre
+$("#nombre_cuello").on('keyup',function(){
+    console.log("tecla presionada")
+    var nombre = $(this).val()
+    console.log(nombre);
+    $.ajax({
+        url: `${ip}/api/validar/${nombre}`,
+        success: function (response) {
+            console.log(response);
+           if (response.success){
+               $("#nombre_error").text("Lo sentimos, este nombre ya existe")
+                validate_nombre_diseno = false
+            }else{
+               $("#nombre_error").text("")
+                validate_nombre_diseno = true
+           }
+        },
+        statusCode: {
+            404: function() {
+               alert('Error, no funciona');
+            }
+        },
+        error:function(x,xs,xt){
+            window.open(JSON.stringify(x));
+        }
+    });
+})
+
 
 // creacion de objeto para cuellos
 var objeto_cuello = {
@@ -106,6 +136,7 @@ let id_material_letra = ''
 let id_material_figura = ''
 let id_material_linea = ''
 let id_color_fondo = ''
+let validate_nombre_diseno = false
 
 let id_color = ''
 let id_alto = ''
@@ -165,8 +196,8 @@ function pintar_tabla_tallas(array){
             <tr>
                 <th>${element.talla_seleccionada_nombre}</th>
                 <th>${element.cantidad_tallas}</th>
-                <th>${precio}</th>
-                <th>${total_cantiades}</th>
+                <th>$${precio}</th>
+                <th>$${total_cantiades}</th>
                 <th class="text-center "><img class="eliminar_talla" title="eliminar" src="/icons/basura.svg" id="${element.talla_seleccionada_nombre}" data-id="${element.talla_eliminar_id}" width="20px;" height="20px;" alt=""></th>            
             </tr>
             `
@@ -187,8 +218,8 @@ function pintar_tabla_tallas_diseno(array){
             <tr>
                 <th>${element.talla_seleccionada_nombre}</th>
                 <th>${element.cantidad_tallas}</th>
-                <th>${precio_diseno}</th>
-                <th>${total_cantiades}</th>
+                <th>$${precio_diseno}</th>
+                <th>$${total_cantiades}</th>
                 <th class="text-center "><img class="eliminar_talla_diseno" title="eliminar" src="/icons/basura.svg" id="${element.talla_seleccionada_nombre}" data-id="${element.talla_eliminar_id}" width="20px;" height="20px;" alt=""></th>            
             </tr>
             `
@@ -337,7 +368,9 @@ $(document).ready(function(){
 })
 
 function validacion_cuello(){
-    if(objeto_cuello.obj_nombre_cuello !== "" ){
+    var imagen = $("#imagen_diseno").val()
+    var extensiones = imagen.substring(imagen.lastIndexOf("."));
+    if(objeto_cuello.obj_nombre_cuello !== "" && imagen !=="" && validate_nombre_diseno ){
         return true
     }
     return false
@@ -556,6 +589,8 @@ function peticion_carrito() {
     }
     console.log("hola");
     console.log("dfffsss", objeto_cuello);
+
+    console.log("estoy dentro de petion");
     $.ajax({
         url: `${ip}/api/anadir-carrito`,
         data: objeto_cuello,
@@ -564,16 +599,16 @@ function peticion_carrito() {
         success: function (response) {
             console.log("soy res",response);
             if(response.success){                
-                // swal({
-                //     title: "Añadido al carrito",
-                //     text: "se añadio al carrito correctamente",
-                //     icon: "success",
-                //     button: "Aceptar!",
-                //     })
-                //     .then((value) => {
-                //     window.location.href = `${ip}/ladys-confecciones/carrito_compras`;
+                swal({
+                    title: "Añadido al carrito",
+                    text: "se añadio al carrito correctamente",
+                    icon: "success",
+                    button: "Aceptar!",
+                    })
+                    .then((value) => {
+                    window.location.href = `${ip}/ladys-confecciones/carrito_compras`;
 
-                // });
+                });
             }
         },
         statusCode: {
@@ -640,12 +675,15 @@ function showimagefondo(){
     if(img_diseno.files && img_diseno.files[0]){
         var reader = new FileReader()
         reader.onload = function(e){
+
             $("#show_img").append(`
                 <img width="500px;" height="500px;" src="${e.target.result}"></img>
             `)
         }
+        console.log(img_diseno.files[0]);
+
         reader.readAsDataURL(img_diseno.files[0]);
-        // objeto_cuello.obj_imagen_diseno = img_diseno.files[0]
+        console.log(img_diseno.files[0])
     }else{
         $('#titulo_img').html("No ha subido ninguna imagen")
     }
@@ -774,18 +812,19 @@ function tabla_cuello_figura(){
                                 <th onclick="showimagefondo()" class="cursor-pointer" data-toggle="modal" data-target="#Modal_mostrar_imagen_diseno"> <img src="icons/almohada.svg" alt="" width="30px"><u>fondo</u>  </th>
                                 <th>${material_fondo_figura_noombre}</th>
                                 <th><div style="width:50px; border-style: double; height: 50px; background: ${color_fondo_figura}" class="rounded-circle mx-auto"> </div></th>
-                                <th id="fondo_cuello_cm">${fondo_cuello_cm} cm</th>    
+                                <th id="fondo_cuello_cm">Max 10 cm</th>    
                                 <th>---</th>
                                 <th class="text-center "><img class="eliminar_fondo" src="icons/basura.svg" width="30px;" height="30px;" alt="" title="eliminar fondo"> </th>            
                             </tr>`
                     figura++
                     dejar_valores_in_true()
-                }       
+                } 
+                $("#ancho_figura").val("")   
                 if(figura=== 1){
                     objeto_cuello.obj_cuello_id = cuello_figura_id
                     objeto_cuello.obj_nombre_cuello = nombre_cuello
                     objeto_cuello.obj_descripcion_cuello = descripcion_cuello
-                    objeto_cuello.obj_imagen_diseno = imagen_diseno
+                    // objeto_cuello.obj_imagen_diseno = imagen_diseno
                     objeto_cuello.obj_material_fondo = material_fondo_figura
                     objeto_cuello.obj_color_fondo = color_fondo_figura
                 }
@@ -1371,8 +1410,10 @@ function tabla_cuello_letra(){
                             </tr>`                    
                     letra++;
                     dejar_valores_in_true()
-                    $("#contenido_letra").val("")
-                }       
+                }      
+                $("#contenido_letra").val("")
+                $("#tipo_fuente__letra").val("")
+
                 if(letra === 1){
                     objeto_cuello.obj_cuello_id = cuello_letra_id
                     objeto_cuello.obj_nombre_cuello = nombre_cuello
@@ -1813,7 +1854,7 @@ $('#agregar_combinacion_letra').click(function(){
 
                 $("#alto_combinacion_letra_5").val("")
                 $("#material_combinacion_letra_5").prop('disabled', true)
-
+                $("#tipo_fuente_combinacion_letra_5" ).val("")
                 if(letra_figura === 1){
                     ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_figura,color_fondo_letra_figura)
                 }
@@ -2212,6 +2253,7 @@ $('#agregar_combinacion_letra_2').click(function(){
                 dejar_valores_in_true()
                 $("#alto_combinacion_letra_6").val("")
                 $("#contenido_texto_combinacion_letra_6").val("")
+                $("#tipo_fuente_combinacion_letra_6").val("")
                 $("#material_combinacion_letra_6").prop('disabled', true)
 
                  
@@ -2469,6 +2511,7 @@ $('#agregar_combinacion_letra_3').click(function(){
                 $("#alto_combinacion_letra_7").val("")
                 $("#contenido_texto_combinacion_letra_7").val("")
                 $("#material_combinacion_letra_7").prop('disabled', true)
+                $("#tipo_fuente_combinacion_letra_7").val("")   
 
                 if(letra_linea_figura === 1){
                     ingresar_datos_objeto_principal(cuello_letra_linea_id,nombre_cuello,descripcion_cuello,imagen_diseno,material_fondo_letra_linea,color_fondo_letra_linea)
@@ -2850,8 +2893,66 @@ function ingresar_datos_objeto_principal(cuello_letra_figura_id,nombre_cuello,de
 
 let id_diseno = 0
 
-// funcion ajax mandar datos al controlador 
+// function tabla_cuello_mandar_datos(){
+//     console.log(objeto_cuello)
+
+//     $.ajax({
+//         url: `${ip}/api/crear-cuello/cuello`,
+//         data: objeto_cuello,
+//         dataType: "json",
+//         method: "POST",
+//         success: function (response) {
+//             console.log("data recibida",response)
+//             id_diseno = response
+//             console.log(id_diseno);
+//             if(response){
+//                 //subir_imagen(id_diseno)  
+//                 peticion_carrito()
+//             }
+//         },
+//         statusCode: {
+//             404: function() {
+//                alert('Error, no funciona');
+//             }
+//         },
+//         error:function(x,xs,xt){
+//             window.open(JSON.stringify(x));
+//         }
+//     });
+// }
+
+function subir_imagen(id_diseno){
+    let img_diseno =  document.getElementById('imagen_diseno')
+    var form_file = new FormData()
+    form_file.append('file', img_diseno.files[0])
+    console.log(img_diseno.files[0])
+    $.ajax({
+        url: `${ip}/api/subir_imagen/cuello/${id_diseno}`,
+        data: form_file,
+        method: "POST",
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            console.log("data recibida",response)
+            if(response.success){  
+                peticion_carrito()
+            }
+        },
+        statusCode: {
+            404: function() {
+               alert('Error, no funciona');
+            }
+        },
+        error:function(x,xs,xt){
+            window.open(JSON.stringify(x));
+        }
+    });
+}
+
+//funcion ajax mandar datos al controlador 
 function tabla_cuello_mandar_datos(){
+    console.log(objeto_cuello)
+
     $.ajax({
         url: `${ip}/api/crear-cuello/cuello`,
         data: objeto_cuello,
@@ -2862,7 +2963,7 @@ function tabla_cuello_mandar_datos(){
             id_diseno = response
             console.log(id_diseno);
             if(response){  
-                peticion_carrito()
+                subir_imagen(id_diseno)
             }
         },
         statusCode: {
@@ -3001,6 +3102,15 @@ function validacion_alert_tipo_img(){
     swal({
         title: "El tipo de archivo no es valido",
         text: "Solo tipos de imagenes, PNG, JPG",
+        icon: "warning",
+        button: "Cerrar!",
+    })
+}  
+
+function validacion_alert_nombre_diseno(){
+    swal({
+        title: "Lo sentimos",
+        text: "El nombre que desea crear, ya existe. Por favor escoja otro",
         icon: "warning",
         button: "Cerrar!",
     })
